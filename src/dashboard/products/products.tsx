@@ -9,7 +9,7 @@ import EditIcon from "@mui/icons-material/Edit"
 import AddProduct from "./add";
 import EditProduct from "./edit";
 import Modals from "../../components/modal";
-import api from "../../api/api";
+import product from "../../api/product";
 
 export default function Product() 
 {
@@ -18,14 +18,9 @@ export default function Product()
 
     const [products, setProduct] = useState([] as any)
     useEffect(() => {
-        api.get('products', {credentials: 'include'} )
-            .then(res => res.json())
-            .then(data => {
-                setProduct(data)
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
+        product.getProducts()
+        .then(response => setProduct(response))
+        .catch((error: any) => console.log(error.message))
     }, []);
 
     const handleEditClick = (index: number) => {

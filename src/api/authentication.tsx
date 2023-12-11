@@ -45,7 +45,7 @@ class authentication
             credentials: 'include'
         })
 
-        if (response.status === 200)
+        if (response.status == 200)
         {
             const json = await response.json() as User;
 
