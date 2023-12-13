@@ -18,7 +18,7 @@ export default function Product()
 
     const [products, setProduct] = useState([] as any)
     useEffect(() => {
-        product.getProducts()
+        product.findAll()
         .then(response => setProduct(response))
         .catch((error: any) => console.log(error.message))
     }, []);

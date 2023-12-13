@@ -1,18 +1,18 @@
 import toast from "react-hot-toast";
-import api from "./api"
-import Product from "../interfaces/product.dto";
+import Task from "../interfaces/task.dto";
+import api from "./api";
 
-class product
+class task
 {
-    async findAll(): Promise<Product[] | undefined>
+    async findAll(): Promise<Task[] | undefined>
     {
         try 
         {
-            const response = await api.get('products', {credentials: 'include'});
+            const response = await api.get('activity', { credentials: 'include' });
 
             if (response.status == 200)
             {
-                const json = await response.json() as Product[];
+                const json = await response.json() as Task[];
 
                 return json;
             }
@@ -27,15 +27,15 @@ class product
         return undefined;
     }
 
-    async findOne(id: number): Promise<Product | undefined>
+    async findOne(id: number): Promise<Task | undefined>
     {
         try 
         {
-            const response = await api.get(`products/detail/${id}`, {credentials: 'include'});
+            const response = await api.get(`activity/detail/${id}`, { credentials: 'include' });
 
             if (response.status == 200)
             {
-                const json = await response.json() as Product;
+                const json = await response.json() as Task;
 
                 return json;
             }
@@ -49,6 +49,6 @@ class product
 
         return undefined;
     }
-} 
+}
 
-export default new product()
+export default new task();
