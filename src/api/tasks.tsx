@@ -4,6 +4,27 @@ import api from "./api";
 
 class task
 {
+    async create(task: Task): Promise<any>
+    {
+        try 
+        {
+            const response = await api.post('activity/add', { 
+                credentials: 'include',
+                body: JSON.stringify(task),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            return response.json();
+        } 
+        catch (error: any) 
+        {
+            toast.error(error.message);
+
+            return false;
+        }
+    }
     async findAll(): Promise<Task[] | undefined>
     {
         try 

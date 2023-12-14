@@ -10,16 +10,23 @@ import AddProduct from "./add";
 import EditProduct from "./edit";
 import Modals from "../../components/modal";
 import product from "../../api/product";
+import Loading from "../../components/backdrop";
 
 export default function Product() 
 {
     const [openAdd, setOpenAdd] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
     const [products, setProduct] = useState([] as any)
     useEffect(() => {
+        setLoading(true);
+        
         product.findAll()
-        .then(response => setProduct(response))
+        .then((response) => {
+            setProduct(response);
+            setLoading(false);
+        })
         .catch((error: any) => console.log(error.message))
     }, []);
 
@@ -135,32 +142,50 @@ export default function Product()
 
     return (
         <Box height={70}>
-            <Box sx={{ display: "flex" }}>
-                <Sidenav/>
-                <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-                    <Box m="20px">
-                        <Grid container justifyContent="center">
-                            <Typography variant="h4" component="div">
-                                Products
-                            </Typography>
-                        </Grid>
-                        <Box
-                            m="40px 0 0 0"
-                            height="75vh"
-                            display={'contents'}
-                        >
-                            <Box height={10}/>
-                            <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
-                                Add
-                            </Button>
-                            <Box height={10}/>
-                            <MUIDataTable title={""} data={products} columns={columns} options={options}/>
+            { (() => {
+            if (loading)
+            {
+                return (
+                    <>
+                        <Loading open={loading}/>
+                    </>
+                )
+            }
+            else
+            {
+                return (
+                    <>
+                    <Box sx={{ display: "flex" }}>
+                        <Sidenav/>
+                        <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                            <Box m="20px">
+                                <Grid container justifyContent="center">
+                                    <Typography variant="h4" component="div">
+                                        Products
+                                    </Typography>
+                                </Grid>
+                                <Box
+                                    m="40px 0 0 0"
+                                    height="75vh"
+                                    display={'contents'}
+                                >
+                                    <Box height={10}/>
+                                    <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
+                                        Add
+                                    </Button>
+                                    <Box height={10}/>
+                                    <MUIDataTable title={""} data={products} columns={columns} options={options}/>
+                                </Box>
+                            </Box>
+                            <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct/>}/>
+                            <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct/>}/>
                         </Box>
                     </Box>
-                    <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct/>}/>
-                    <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct/>}/>
-                </Box>
-            </Box>
+                    </>
+                )
+            }
+        })() }
         </Box>
+        
     );
 }

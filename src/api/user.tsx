@@ -1,9 +1,10 @@
 import toast from "react-hot-toast";
 import api from "./api";
+import User from "../interfaces/user.dto";
 
 class user
 {
-    async findAll()
+    async findAll(): Promise<User | undefined>
     {
         try 
         {
@@ -11,7 +12,7 @@ class user
 
             if (response.status == 200)
             {
-                const json = await response.json();
+                const json = await response.json() as User;
 
                 return json;
             }
