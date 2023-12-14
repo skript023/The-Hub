@@ -7,7 +7,7 @@ class user
     {
         try 
         {
-            const response = await api.get('users', { credentials: 'include' });
+            const response = await api.get('user', { credentials: 'include' });
 
             if (response.status == 200)
             {

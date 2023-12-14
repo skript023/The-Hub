@@ -9,7 +9,8 @@ import EditIcon from "@mui/icons-material/Edit"
 import Modals from "../../components/modal";
 import AddTask from "./add";
 import EditTask from "./edit";
-import api from "../../api/api";
+import tasks from "../../api/tasks";
+import toast from "react-hot-toast";
 
 export default function Task() 
 {
@@ -21,15 +22,12 @@ export default function Task()
     useEffect(() => {
         setLoading(true);
 
-        api.get('activity', { credentials: 'include' })
-        .then(res => res.json())
-        .then(data => {
+        tasks.findAll().then((data) =>{
             setProduct(data);
             setLoading(false);
+        }).catch((error) => {
+            toast.error(error.message)
         })
-        .catch((err) => {
-            console.log(err.message);
-        });
     }, []);
 
     const handleEditClick = (index: number) => {
@@ -126,7 +124,7 @@ export default function Task()
                     <Box m="20px">
                         <Grid container justifyContent="center">
                             <Typography variant="h4" component="div">
-                                Products
+                                Tasks
                             </Typography>
                         </Grid>
                         <Box

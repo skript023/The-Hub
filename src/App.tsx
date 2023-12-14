@@ -4,6 +4,7 @@ import Product from './dashboard/products/products'
 import Task from './dashboard/tasks/tasks'
 import Login from './login/login'
 import { Toaster } from 'react-hot-toast'
+import User from './dashboard/users/users'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
                     <Route path='/home' element={<Home/>}/>
                     <Route path='/products' element={< Product />}/>
                     <Route path='/activity' element={< Task />}/>
+                    <Route path='/users' element={< User />}/>
                     {/* <Route path='team' element={< Team title="Team" />}/>
 					<Route path='invoices' element={< Invoices title="Invoices" />}/>
 					<Route path='calendar' element={< Calendar title="Calendar" />}/>
