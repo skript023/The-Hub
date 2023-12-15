@@ -25,7 +25,6 @@ export default function Task()
 
         tasks.findAll().then((data) =>{
             setProduct(data);
-            console.log(data);
             
             setLoading(false);
         }).catch((error) => {
