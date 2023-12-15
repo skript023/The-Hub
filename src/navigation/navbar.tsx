@@ -10,11 +10,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import authentication from '../api/authentication';
+import { Avatar, Divider, ListItemIcon, Typography } from '@mui/material';
+import { Logout, PersonAdd, Settings } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
@@ -101,9 +102,29 @@ export default function Navbar({open, callback} : any)
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>{authentication.data()?.fullname}</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+                <Avatar />
+                <Typography sx={{ ml: 1 }}>{authentication.data()?.fullname}</Typography>
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={handleMenuClose} disabled>
+                <ListItemIcon>
+                    <PersonAdd fontSize="small" />
+                </ListItemIcon>
+                    Add another account
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+                <ListItemIcon>
+                    <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+                <ListItemIcon>
+                    <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+            </MenuItem>
         </Menu>
     );
 
@@ -124,37 +145,30 @@ export default function Navbar({open, callback} : any)
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
+            <MenuItem onClick={handleMenuClose}>
+                <Avatar /><Typography sx={{ ml: 1   }}>Profile</Typography>
             </MenuItem>
-            <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                >
-                    <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
+            <MenuItem onClick={handleMenuClose}>
+                <Avatar /><Typography sx={{ ml: 1   }}>My account</Typography>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
+            <Divider />
+            <MenuItem onClick={handleMenuClose} disabled>
+                <ListItemIcon>
+                    <PersonAdd fontSize="small" />
+                </ListItemIcon>
+                    Add another account
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+                <ListItemIcon>
+                    <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+                <ListItemIcon>
+                    <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
             </MenuItem>
         </Menu>
     );
@@ -232,7 +246,7 @@ export default function Navbar({open, callback} : any)
                           onClick={handleProfileMenuOpen}
                           color="inherit"
                       >
-                          <AccountCircle />
+                          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
                       </IconButton>
                   </Box>
                   <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
