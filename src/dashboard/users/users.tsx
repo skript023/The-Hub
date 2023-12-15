@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Skeleton, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import React, {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
@@ -11,6 +11,7 @@ import user from "../../api/user";
 import toast from "react-hot-toast";
 import AddUser from "./add";
 import EditUser from "./edit";
+import Loading from "../../components/backdrop";
 
 export default function User() 
 {
@@ -118,51 +119,50 @@ export default function User()
 
     return (
         <Box height={70}>
-            <Box sx={{ display: "flex" }}>
-                <Sidenav/>
-                <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-                    <Box m="20px">
-                        <Grid container justifyContent="center">
-                            <Typography variant="h4" component="div">
-                                Users
-                            </Typography>
-                        </Grid>
-                        <Box
-                            m="40px 0 0 0"
-                            height="75vh"
-                            display={'contents'}
-                        >
-                            <Box height={10}/>
-                            <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
-                                Add
-                            </Button>
-                            <Box height={10}/>
-                            { (() => {
-                                if (loading)
-                                {
-                                    return (
-                                        <>
-                                        <Skeleton />
-                                        <Skeleton variant="rectangular" animation="wave" height={500}/>
-                                        </>
-                                    )
-                                }
-                                else
-                                {
-                                    return (
-                                        <>
+            
+            { (() => {
+                if (loading)
+                {
+                    return (
+                        <>
+                        <Loading open={loading}/>
+                        </>
+                    )
+                }
+                else
+                {
+                    return (
+                        <>
+                        <Box sx={{ display: "flex" }}>
+                            <Sidenav/>
+                            <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                                <Box m="20px">
+                                    <Grid container justifyContent="center">
+                                        <Typography variant="h4" component="div">
+                                            Users
+                                        </Typography>
+                                    </Grid>
+                                    <Box
+                                        m="40px 0 0 0"
+                                        height="75vh"
+                                        display={'contents'}
+                                    >
+                                        <Box height={10}/>
+                                        <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
+                                            Add
+                                        </Button>
+                                        <Box height={10}/>
                                         <MUIDataTable title={""} data={users} columns={columns} options={options}/>
-                                        </>
-                                    )
-                                }
-                            })() }
-                            
+                                    </Box>
+                                </Box>
+                                <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddUser/>}/>
+                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditUser/>}/>
+                            </Box>
                         </Box>
-                    </Box>
-                    <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddUser/>}/>
-                    <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditUser/>}/>
-                </Box>
-            </Box>
+                        </>
+                    )
+                }
+            })() }
         </Box>
     );
 }

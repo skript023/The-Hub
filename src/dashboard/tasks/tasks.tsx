@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Skeleton, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import React, {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
@@ -11,6 +11,7 @@ import AddTask from "./add";
 import EditTask from "./edit";
 import tasks from "../../api/tasks";
 import toast from "react-hot-toast";
+import Loading from "../../components/backdrop";
 
 export default function Task() 
 {
@@ -24,6 +25,8 @@ export default function Task()
 
         tasks.findAll().then((data) =>{
             setProduct(data);
+            console.log(data);
+            
             setLoading(false);
         }).catch((error) => {
             toast.error(error.message)
@@ -118,51 +121,50 @@ export default function Task()
 
     return (
         <Box height={70}>
-            <Box sx={{ display: "flex" }}>
-                <Sidenav/>
-                <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-                    <Box m="20px">
-                        <Grid container justifyContent="center">
-                            <Typography variant="h4" component="div">
-                                Tasks
-                            </Typography>
-                        </Grid>
-                        <Box
-                            m="40px 0 0 0"
-                            height="75vh"
-                            display={'contents'}
-                        >
-                            <Box height={10}/>
-                            <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
-                                Add
-                            </Button>
-                            <Box height={10}/>
-                            { (() => {
-                                if (loading)
-                                {
-                                    return (
-                                        <>
-                                        <Skeleton />
-                                        <Skeleton variant="rectangular" animation="wave" height={500}/>
-                                        </>
-                                    )
-                                }
-                                else
-                                {
-                                    return (
-                                        <>
+        { (() => {
+            if (loading)
+            {
+                return (
+                    <>
+                        <Loading open={loading}/>
+                    </>
+                )
+            }
+            else
+            {
+                return (
+                    <>
+                        <Box sx={{ display: "flex" }}>
+                            <Sidenav/>
+                            <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                                <Box m="20px">
+                                    <Grid container justifyContent="center">
+                                        <Typography variant="h4" component="div">
+                                            Tasks
+                                        </Typography>
+                                    </Grid>
+                                    <Box
+                                        m="40px 0 0 0"
+                                        height="75vh"
+                                        display={'contents'}
+                                    >
+                                        <Box height={10}/>
+                                        <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
+                                            Add
+                                        </Button>
+                                        <Box height={10}/>
+                                        
                                         <MUIDataTable title={""} data={products} columns={columns} options={options}/>
-                                        </>
-                                    )
-                                }
-                            })() }
-                            
+                                    </Box>
+                                </Box>
+                                <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask/>}/>
+                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask/>}/>
+                            </Box>
                         </Box>
-                    </Box>
-                    <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask/>}/>
-                    <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask/>}/>
-                </Box>
-            </Box>
+                    </>
+                )
+            }
+        })() }
         </Box>
     );
 }

@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import api from "./api";
 import User from "../interfaces/user.dto";
+import ServerResponse from "../interfaces/response.dto";
 
 class user
 {
@@ -12,9 +13,11 @@ class user
 
             if (response.status == 200)
             {
-                const json = await response.json() as User;
+                const json = await response.json() as ServerResponse<User>;
 
-                return json;
+                toast.success(json.message);
+
+                return json.data;
             }
         } 
         catch (error: any) 

@@ -1,14 +1,15 @@
 import toast from "react-hot-toast";
 import Task from "../interfaces/task.dto";
 import api from "./api";
+import ServerResponse from "../interfaces/response.dto";
 
 class task
 {
-    async create(task: Task): Promise<any>
+    async create(task: Task): Promise<ServerResponse<Task> | undefined>
     {
         try 
         {
-            const response = await api.post('activity/add', { 
+            const response = await api.post('activity', { 
                 credentials: 'include',
                 body: JSON.stringify(task),
                 headers: {
@@ -16,13 +17,18 @@ class task
                 }
             });
 
-            return response.json();
+            if (response.status == 200)
+            {
+                return response.json();
+            }
+
+            return undefined;
         } 
         catch (error: any) 
         {
             toast.error(error.message);
 
-            return false;
+            return undefined;
         }
     }
     async findAll(): Promise<Task[] | undefined>
@@ -33,10 +39,14 @@ class task
 
             if (response.status == 200)
             {
-                const json = await response.json() as Task[];
+                const json = await response.json() as ServerResponse<Task[]>;
 
-                return json;
+                toast.success(json.message);
+
+                return json.data;
             }
+
+            return undefined;
         } 
         catch (error: any) 
         {
@@ -44,22 +54,24 @@ class task
 
             return undefined;
         }
-
-        return undefined;
     }
 
     async findOne(id: number): Promise<Task | undefined>
     {
         try 
         {
-            const response = await api.get(`activity/detail/${id}`, { credentials: 'include' });
+            const response = await api.get(`activity/${id}`, { credentials: 'include' });
 
             if (response.status == 200)
             {
-                const json = await response.json() as Task;
+                const json = await response.json() as ServerResponse<Task>;
 
-                return json;
+                toast.success(json.message);
+
+                return json.data;
             }
+
+            return undefined;
         } 
         catch (error: any) 
         {
@@ -67,8 +79,6 @@ class task
 
             return undefined;
         }
-
-        return undefined;
     }
 }
 

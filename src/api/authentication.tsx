@@ -21,12 +21,14 @@ class authentication
 
             const json = await response.json();
 
-            toast.success(json.message);
-        
             if (response.status === 200)
             {
-                return true
+                toast.success(json.message);
+
+                return true;
             }
+
+            toast.error(json.message);
         } 
         catch (error: any) 
         {
@@ -38,7 +40,7 @@ class authentication
 
     async userProfile(): Promise<boolean>
     {
-        const response = await api.get('user/profile', {
+        const response = await api.get('user/profile/detail', {
             headers: {
                 "Content-Type": "application/json"
             },

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, TextField, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import toast from "react-hot-toast";
 import tasks from "../../api/tasks";
@@ -11,6 +11,7 @@ export default function AddTask()
 {
     const [startDate, setStartDate] = useState<string | undefined>("")
     const [endDate, setEndDate] = useState<string | undefined>("")
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<Task>({
         _id: undefined,
         user_id: authentication.data()?._id,
@@ -22,13 +23,12 @@ export default function AddTask()
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
         const { name, value } = e.target;
-        setFormData({
-          ...formData,
-          [name]: value,
-        });
+        setFormData({ ...formData, [name]: value, });
       };
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        setLoading(true);
+        
         e.preventDefault();
         formData.start_date = startDate;
         formData.end_date = endDate;
@@ -37,13 +37,19 @@ export default function AddTask()
         console.log(formData);
         
         tasks.create(formData as Task).then((response) => {
-            if (response)
+            if (response?.success)
             {
-                toast.success(`${response.message}`);
+                toast.success(`${response?.message}`);
+            }
+            else
+            {
+                toast.error(`${response?.message}`);
             }
         }).catch((error: any) => {
             toast.error(error.message);
         });
+
+        setLoading(false);
     };
 
     return (
@@ -137,10 +143,22 @@ export default function AddTask()
                         />
                     </Grid>
                 </Grid>
-                <Box display="flex" justifyContent="center" mt="20px">
-                    <Button type="submit" color="secondary" variant="contained">
-                    Add
+                <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
+                    <Button type="submit" variant="contained" disabled={loading}>
+                        Add
                     </Button>
+                    {loading && (
+                        <CircularProgress
+                            size={24}
+                            sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            marginTop: '-12px',
+                            marginLeft: '-12px',
+                            }}
+                        />
+                    )}
                 </Box>
             </form>
         </>

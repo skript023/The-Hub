@@ -89,7 +89,7 @@ export default function Navbar({open, callback} : any)
         <Menu
             anchorEl={anchorRef?.current}
             anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right',
             }}
             id={menuId}

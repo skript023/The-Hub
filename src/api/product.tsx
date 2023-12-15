@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import api from "./api"
 import Product from "../interfaces/product.dto";
+import ServerResponse from "../interfaces/response.dto";
 
 class product
 {
@@ -12,9 +13,9 @@ class product
 
             if (response.status == 200)
             {
-                const json = await response.json() as Product[];
+                const json = await response.json() as ServerResponse<Product[]>;
 
-                return json;
+                return json.data;
             }
         } 
         catch (error: any) 
@@ -31,13 +32,13 @@ class product
     {
         try 
         {
-            const response = await api.get(`products/detail/${id}`, {credentials: 'include'});
+            const response = await api.get(`products/${id}`, {credentials: 'include'});
 
             if (response.status == 200)
             {
-                const json = await response.json() as Product;
+                const json = await response.json() as ServerResponse<Product>;
 
-                return json;
+                return json.data;
             }
         } 
         catch (error: any) 
