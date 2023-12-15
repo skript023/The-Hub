@@ -103,8 +103,7 @@ export default function Navbar({open, callback} : any)
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>
-                <Avatar />
-                <Typography sx={{ ml: 1 }}>{authentication.data()?.fullname}</Typography>
+                <Avatar /><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleMenuClose} disabled>
@@ -146,10 +145,7 @@ export default function Navbar({open, callback} : any)
             onClose={handleMobileMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>
-                <Avatar /><Typography sx={{ ml: 1   }}>Profile</Typography>
-            </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
-                <Avatar /><Typography sx={{ ml: 1   }}>My account</Typography>
+                <Avatar /><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleMenuClose} disabled>
