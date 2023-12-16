@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import MUIDataTable from "mui-datatables";
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
@@ -15,14 +15,13 @@ import Loading from "../../components/backdrop";
 
 export default function Task() 
 {
-    const [openAdd, setOpenAdd] = React.useState(false);
-    const [openEdit, setOpenEdit] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
+    const [openAdd, setOpenAdd] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [id, setId] = useState<string>("");
+    const [products, setProduct] = useState([] as any);
 
-    const [products, setProduct] = useState([] as any)
-    useEffect(() => {
-        setLoading(true);
-
+    const loadTask = () => {
         tasks.findAll().then((data) =>{
             setProduct(data);
             
@@ -30,15 +29,23 @@ export default function Task()
         }).catch((error) => {
             toast.error(error.message)
         })
+    }
+
+    useEffect(() => {
+        setLoading(true);
+
+        loadTask()
     }, []);
 
-    const handleEditClick = (index: number) => {
+    const handleEditClick = (index: string) => {
         console.log("Edit clicked for column index:", index);
+        setId(index);
         // Add your edit logic here using the index
     };
       
-    const handleDeleteClick = (index: number) => {
+    const handleDeleteClick = (index: string) => {
         console.log("Delete clicked for column index:", index);
+        setId(index);
         // Add your delete logic here using the index
     };
     
@@ -156,8 +163,8 @@ export default function Task()
                                         <MUIDataTable title={""} data={products} columns={columns} options={options}/>
                                     </Box>
                                 </Box>
-                                <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask/>}/>
-                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask/>}/>
+                                <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask callback={loadTask}/>}/>
+                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask id={id} callback={loadTask}/>}/>
                             </Box>
                         </Box>
                     </>

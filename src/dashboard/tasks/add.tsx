@@ -8,7 +8,7 @@ import { FormEvent, useState } from "react";
 import authentication from "../../api/authentication";
 import dayjs, { Dayjs } from "dayjs";
 
-export default function AddTask()
+export default function AddTask({callback}: any)
 {
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
@@ -36,7 +36,6 @@ export default function AddTask()
         formData.end_date = endDate.toDate().toLocaleDateString();
         
         setFormData(formData);
-        console.log(formData);
 
         tasks.create(formData as Task).then((response) => {
             if (response?.success)
@@ -47,11 +46,11 @@ export default function AddTask()
             {
                 toast.error(`${response?.message}`);
             }
+            setLoading(false);
+            callback();
         }).catch((error: any) => {
             toast.error(error.message);
         });
-
-        setLoading(false);
     };
 
     return (

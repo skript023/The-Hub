@@ -19,9 +19,7 @@ class task
 
             if (response.status == 201)
             {
-                const json = await response.json() as ServerResponse<Task>;
-
-                return json;
+                return response.json();
             }
 
             return undefined;
@@ -43,6 +41,29 @@ class task
             {
                 const json = await response.json() as ServerResponse<Task[]>;
 
+                return json.data;
+            }
+
+            return undefined;
+        } 
+        catch (error: any) 
+        {
+            toast.error(error.message);
+
+            return undefined;
+        }
+    }
+
+    async findOne(id: string): Promise<Task | undefined>
+    {
+        try 
+        {
+            const response = await api.get(`activity/${id}`, { credentials: 'include' });
+
+            if (response.status == 200)
+            {
+                const json = await response.json() as ServerResponse<Task>;
+
                 toast.success(json.message);
 
                 return json.data;
@@ -57,20 +78,22 @@ class task
             return undefined;
         }
     }
-
-    async findOne(id: number): Promise<Task | undefined>
+    async update(id: string, task: Task): Promise<ServerResponse<Task> | undefined>
     {
         try 
         {
-            const response = await api.get(`activity/${id}`, { credentials: 'include' });
+            const response = await api.patch(`activity/${id}`, 
+            { 
+                credentials: 'include',
+                body: JSON.stringify(task),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
 
             if (response.status == 200)
             {
-                const json = await response.json() as ServerResponse<Task>;
-
-                toast.success(json.message);
-
-                return json.data;
+                return response.json();
             }
 
             return undefined;
