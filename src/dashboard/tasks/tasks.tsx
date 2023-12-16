@@ -176,7 +176,7 @@ export default function Task()
                                     </Box>
                                 </Box>
                                 <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask callback={loadTask}/>}/>
-                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask id={id} data={task}/>}/>
+                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask id={id} callback={loadTask}/>}/>
                             </Box>
                         </Box>
                     </>

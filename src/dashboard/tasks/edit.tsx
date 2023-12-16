@@ -10,11 +10,11 @@ import dayjs, { Dayjs } from "dayjs";
 
 interface Edit
 {
-    id: string;
-    data: Task[]
+    id: string
+    callback: () => void;
 }
 
-export default function EditTask({id, data}: Edit)
+export default function EditTask({id, callback}: Edit)
 {
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
@@ -33,16 +33,6 @@ export default function EditTask({id, data}: Edit)
         setFormData({ ...formData, [name]: value, });
     };
 
-    const updateById = (items: Task[], idToUpdate: string, updatedProps: Task) => {
-        let itemToUpdate = items.find((item) => item._id === idToUpdate);
-
-        // Check if the item is found
-        if (itemToUpdate) {
-            // Update the properties of the found item
-            itemToUpdate = updatedProps;
-        }
-    };
-
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         setLoading(true);
 
@@ -57,8 +47,6 @@ export default function EditTask({id, data}: Edit)
             if (response?.success)
             {
                 toast.success(`${response?.message}`);
-
-                updateById(data, id, formData);
             }
             else
             {
@@ -66,6 +54,8 @@ export default function EditTask({id, data}: Edit)
             }
 
             setLoading(false);
+
+            callback();
         }).catch((error: any) => {
             toast.error(error.message);
         });
