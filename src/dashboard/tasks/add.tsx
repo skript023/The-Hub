@@ -6,11 +6,12 @@ import Task from "../../interfaces/task.dto";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormEvent, useState } from "react";
 import authentication from "../../api/authentication";
+import dayjs, { Dayjs } from "dayjs";
 
 export default function AddTask()
 {
-    const [startDate, setStartDate] = useState<string | undefined>("")
-    const [endDate, setEndDate] = useState<string | undefined>("")
+    const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
+    const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<Task>({
         _id: undefined,
@@ -28,14 +29,15 @@ export default function AddTask()
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         setLoading(true);
-        
+
         e.preventDefault();
-        formData.start_date = startDate;
-        formData.end_date = endDate;
+
+        formData.start_date = startDate.toDate().toLocaleDateString();
+        formData.end_date = endDate.toDate().toLocaleDateString();
         
-        setFormData(formData)
+        setFormData(formData);
         console.log(formData);
-        
+
         tasks.create(formData as Task).then((response) => {
             if (response?.success)
             {
@@ -79,17 +81,14 @@ export default function AddTask()
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="Start Date"
-                                value={formData.start_date}
-                                onChange={value => setStartDate(value?.toString())}
-                                slotProps={{
-                                    textField: {
-                                    helperText: 'MM/DD/YYYY'
-                                    },
-                                }}
+                                value={startDate}
+                                onChange={value => setStartDate(value as Dayjs)}
+                                defaultValue={startDate}
                             />
                         </LocalizationProvider>
                         <div hidden>
                             <TextField
+                                disabled={true}
                                 hidden={true}
                                 variant="filled"
                                 type="text"
@@ -106,17 +105,14 @@ export default function AddTask()
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="End Date"
-                                value={formData.end_date}
-                                onChange={value => setEndDate(value?.toString())}
-                                slotProps={{
-                                    textField: {
-                                    helperText: 'MM/DD/YYYY'
-                                    },
-                                }}
+                                value={endDate}
+                                onChange={value => setEndDate(value as Dayjs)}
+                                defaultValue={endDate}
                             />
                         </LocalizationProvider>
                         <div hidden>
                             <TextField
+                                disabled={true}
                                 hidden={true}
                                 variant="filled"
                                 type="text"

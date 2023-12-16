@@ -17,9 +17,11 @@ class task
                 }
             });
 
-            if (response.status == 200)
+            if (response.status == 201)
             {
-                return response.json();
+                const json = await response.json() as ServerResponse<Task>;
+
+                return json;
             }
 
             return undefined;
