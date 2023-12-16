@@ -10,11 +10,11 @@ import dayjs, { Dayjs } from "dayjs";
 
 interface Edit
 {
-    id: string
-    callback: () => void;
+    id: string;
+    data: Task[]
 }
 
-export default function EditTask({id, callback}: Edit)
+export default function EditTask({id, data}: Edit)
 {
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
@@ -31,7 +31,17 @@ export default function EditTask({id, callback}: Edit)
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value, });
-      };
+    };
+
+    const updateById = (items: Task[], idToUpdate: string, updatedProps: Task) => {
+        let itemToUpdate = items.find((item) => item._id === idToUpdate);
+
+        // Check if the item is found
+        if (itemToUpdate) {
+            // Update the properties of the found item
+            itemToUpdate = updatedProps;
+        }
+    };
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         setLoading(true);
@@ -47,6 +57,8 @@ export default function EditTask({id, callback}: Edit)
             if (response?.success)
             {
                 toast.success(`${response?.message}`);
+
+                updateById(data, id, formData);
             }
             else
             {
@@ -54,8 +66,6 @@ export default function EditTask({id, callback}: Edit)
             }
 
             setLoading(false);
-
-            callback();
         }).catch((error: any) => {
             toast.error(error.message);
         });

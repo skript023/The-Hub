@@ -105,6 +105,26 @@ class task
             return undefined;
         }
     }
+    async remove(id: string): Promise<ServerResponse<Task> | undefined>
+    {
+        try 
+        {
+            const response = await api.delete(`activity/${id}`, { credentials: 'include' });
+
+            if (response.status == 200)
+            {
+                return response.json();
+            }
+
+            return undefined;
+        } 
+        catch (error: any) 
+        {
+            toast.error(error.message);
+
+            return undefined;
+        }
+    }
 }
 
 export default new task();

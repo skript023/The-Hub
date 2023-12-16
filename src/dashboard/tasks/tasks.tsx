@@ -19,11 +19,11 @@ export default function Task()
     const [openEdit, setOpenEdit] = useState(false);
     const [loading, setLoading] = useState(false);
     const [id, setId] = useState<string>("");
-    const [products, setProduct] = useState([] as any);
+    const [task, setTask] = useState([] as any);
 
     const loadTask = () => {
         tasks.findAll().then((data) =>{
-            setProduct(data);
+            setTask(data);
             
             setLoading(false);
         }).catch((error) => {
@@ -45,7 +45,19 @@ export default function Task()
       
     const handleDeleteClick = (index: string) => {
         console.log("Delete clicked for column index:", index);
-        setId(index);
+        tasks.remove(index)
+        .then((response) => {
+            if (response?.success)
+            {
+                toast.success(response.message);
+            }
+
+            const deletedTask = task.filter((item: any) => item._id !== index);
+            setTask(deletedTask);
+        })
+        .catch((error) => {
+            toast.error(error.message);
+        });
         // Add your delete logic here using the index
     };
     
@@ -120,7 +132,7 @@ export default function Task()
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
-                console.log(`${products[data.index].id}`)
+                console.log(`${task[data.index].id}`)
             })
         },
     };
@@ -160,11 +172,11 @@ export default function Task()
                                         </Button>
                                         <Box height={10}/>
                                         
-                                        <MUIDataTable title={""} data={products} columns={columns} options={options}/>
+                                        <MUIDataTable title={""} data={task} columns={columns} options={options}/>
                                     </Box>
                                 </Box>
                                 <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask callback={loadTask}/>}/>
-                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask id={id} callback={loadTask}/>}/>
+                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask id={id} data={task}/>}/>
                             </Box>
                         </Box>
                     </>
