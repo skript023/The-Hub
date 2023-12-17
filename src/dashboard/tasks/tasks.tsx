@@ -38,27 +38,23 @@ export default function Task()
     }, []);
 
     const handleEditClick = (index: string) => {
-        console.log("Edit clicked for column index:", index);
         setId(index);
-        // Add your edit logic here using the index
     };
       
     const handleDeleteClick = (index: string) => {
-        console.log("Delete clicked for column index:", index);
         tasks.remove(index)
         .then((response) => {
             if (response?.success)
             {
                 toast.success(response.message);
-            }
 
-            const deletedTask = task.filter((item: any) => item._id !== index);
-            setTask(deletedTask);
+                const deletedTask = task.filter((item: any) => item._id !== index);
+                setTask(deletedTask);
+            }
         })
         .catch((error) => {
             toast.error(error.message);
         });
-        // Add your delete logic here using the index
     };
     
     const columns = [
