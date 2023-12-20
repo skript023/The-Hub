@@ -102,6 +102,39 @@ class telkom_product
         }
     }
 
+    async addAttributeClass(className: string, attributeName: string)
+    {
+        try 
+        {
+            const response = await telkomApi.post('wibs/product/v1/addAttributeClass', {
+                headers : {
+                    'Authorization': `Basic ${telkomApi.api_key()}`,
+                    'Accept': 'application/json',
+                    'Content-Type': 'x-www-form-urlencoded'
+                },
+                body : telkomApi.jsonToUrlEncoded({
+                    class_name: className,
+                    attr_name: attributeName
+                })
+            });
+
+            if (response.status == 200)
+            {
+                const json = await response.json();
+
+                return json;
+            }
+
+            return undefined;
+        } 
+        catch (error: any) 
+        {
+            toast.error(error.message);
+
+            return undefined;
+        }
+    }
+
     async getProductUnderCatalog(catalogName: string, pageSize: number, pageNum: number)
     {
         try 
