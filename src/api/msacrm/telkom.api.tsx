@@ -98,6 +98,21 @@ export class telkom_api
             window: init?.window
         });
     }
+
+    jsonToUrlEncoded(json: Record<string, any>): string 
+    {
+        const formData = new URLSearchParams();
+      
+        for (const key in json) 
+        {
+            if (json.hasOwnProperty(key)) 
+            {
+                formData.append(key, json[key]);
+            }
+        }
+      
+        return formData.toString();
+    }
 }
 
 export default new telkom_api();

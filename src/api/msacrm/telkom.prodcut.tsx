@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import telkom_api from "./telkom.api";
+import telkomApi from "./telkom.api";
 
 class telkom_product
 {
@@ -10,9 +11,10 @@ class telkom_product
             const response = await telkom_api.post('wibs/product/v1/createAttribute', {
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': `Basic ${telkom_api.api_key()}`
+                    'Authorization': `Basic ${telkom_api.api_key()}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: JSON.stringify(objectAttribute)
+                body: telkomApi.jsonToUrlEncoded(objectAttribute)
             });
     
             if (response.status == 201)
@@ -41,9 +43,10 @@ class telkom_product
             const response = await telkom_api.post('wibs/product/v1/valueAttribute', {
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': `Basic ${telkom_api.api_key()}`
+                    'Authorization': `Basic ${telkom_api.api_key()}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: JSON.stringify(attributeBody)
+                body: telkomApi.jsonToUrlEncoded(attributeBody)
             })
     
             if (response.status == 200)
@@ -51,6 +54,40 @@ class telkom_product
                 const json = await response.json();
 
                 toast.success(json.status_message);
+
+                return json;
+            }
+
+            return undefined;
+        } 
+        catch (error: any) 
+        {
+            toast.error(error.message);
+
+            return undefined;
+        }
+    }
+
+    async createClassProduct(className: string)
+    {
+        try 
+        {
+            const response = await telkomApi.post('wibs/product/v1/createClassProduct', {
+                headers: {
+                    'Authorization': `Basic ${telkomApi.api_key()}`,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'application/json'
+                },
+                body: telkomApi.jsonToUrlEncoded({
+                    class_name: className
+                })
+            });
+
+            if (response.status == 201)
+            {
+                const json = await response.json();
+
+                toast.success(json.success_message);
 
                 return json;
             }

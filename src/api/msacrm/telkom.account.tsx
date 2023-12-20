@@ -9,7 +9,8 @@ class telkom_account
         {
             const response = await telkom_api.get(`wibs/account/v1/getAccountHierarchy?i_account_num=${i_account_num}`, {
                 headers: {
-                    "Authorization": `Basic ${telkom_api.api_key()}`
+                    "Authorization": `Basic ${telkom_api.api_key()}`,
+                    'Accept': 'application/json'
                 }
             });
 
@@ -38,7 +39,8 @@ class telkom_account
         {
             const response = await telkom_api.get(`wibs/account/v1/getAccounDetail?i_account_num=${i_account_num}`, {
                 headers: {
-                    "Authorization": `Basic ${telkom_api.api_key()}`
+                    "Authorization": `Basic ${telkom_api.api_key()}`,
+                    'Accept': 'application/json'
                 }
             });
 
