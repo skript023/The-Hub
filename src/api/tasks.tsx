@@ -5,7 +5,7 @@ import ServerResponse from "../interfaces/response.dto";
 
 class task
 {
-    async complete(id: string): Promise<boolean>
+    async complete(id: string): Promise<ServerResponse<Task> | undefined>
     {
         try 
         {
@@ -18,16 +18,16 @@ class task
 
             if (response.status == 200)
             {
-                return true;
+                return response.json();
             }
 
-            return false;
+            return undefined;
         } 
         catch (error: any) 
         {
             toast.error(error.message);
 
-            return false;
+            return undefined;
         }
     }
     async create(task: Task): Promise<ServerResponse<Task> | undefined>

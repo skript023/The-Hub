@@ -48,10 +48,10 @@ export default function Task()
     };
       
     const handleComplete = (index: string) => {
-        tasks.complete(index).then((success) => {
-            if (success)
+        tasks.complete(index).then((response) => {
+            if (response?.success)
             {
-                toast.success('Task tagged as completed');
+                toast.success(response.message);
                 const newTask = activities.map((obj: any) => {
                     // Modify the property as needed
                     if (obj._id == index)
