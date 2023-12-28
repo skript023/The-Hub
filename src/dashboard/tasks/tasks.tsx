@@ -19,15 +19,15 @@ export default function Task()
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [id, setId] = useState<string>("");
-    const [task, setTask] = useState([] as any);
+    const [activities, setactivities] = useState([] as any);
+    const [task, setTask] = useState({} as any);
 
     const loadTask = () => {
-        tasks.findAll().then((data) =>{
-            setTask(data);
+        tasks.findAll().then((data : any) =>{
+            setactivities(data);
             
             setLoading(false);
-        }).catch((error) => {
+        }).catch((error : any) => {
             toast.error(error.message)
         })
     }
@@ -39,7 +39,12 @@ export default function Task()
     }, []);
 
     const handleEditClick = (index: string) => {
-        setId(index);
+        activities.map((obj: any) => {
+            if (obj._id == index)
+            {
+                setTask(obj);
+            }
+        });
     };
       
     const handleComplete = (index: string) => {
@@ -47,7 +52,7 @@ export default function Task()
             if (success)
             {
                 toast.success('Task tagged as completed');
-                const newTask = task.map((obj: any) => {
+                const newTask = activities.map((obj: any) => {
                     // Modify the property as needed
                     if (obj._id == index)
                     {
@@ -57,7 +62,7 @@ export default function Task()
                     return obj;
                 });
 
-                setTask(newTask);
+                setactivities(newTask);
             }
             else
             {
@@ -75,8 +80,8 @@ export default function Task()
             {
                 toast.success(response.message);
 
-                const deletedTask = task.filter((item: any) => item._id !== index);
-                setTask(deletedTask);
+                const deletedTask = activities.filter((item: any) => item._id !== index);
+                setactivities(deletedTask);
             }
         })
         .catch((error) => {
@@ -157,7 +162,7 @@ export default function Task()
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
-                console.log(`${task[data.index].id}`)
+                console.log(`${activities[data.index].id}`)
             })
         },
     };
@@ -197,11 +202,11 @@ export default function Task()
                                         </Button>
                                         <Box height={10}/>
                                         
-                                        <MUIDataTable title={""} data={task} columns={columns} options={options}/>
+                                        <MUIDataTable title={""} data={activities} columns={columns} options={options}/>
                                     </Box>
                                 </Box>
                                 <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask callback={loadTask}/>}/>
-                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask id={id} callback={loadTask}/>}/>
+                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask task={task} callback={loadTask}/>}/>
                             </Box>
                         </Box>
                     </>

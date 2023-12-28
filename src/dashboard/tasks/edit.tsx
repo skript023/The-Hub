@@ -10,22 +10,22 @@ import dayjs, { Dayjs } from "dayjs";
 
 interface Edit
 {
-    id: string
+    task: Task
     callback: () => void;
 }
 
-export default function EditTask({id, callback}: Edit)
+export default function EditTask({task, callback}: Edit)
 {
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<Task>({
-        _id: id,
+        _id: task._id,
         user_id: authentication.data()?._id,
-        name: "",
-        start_date: "",
-        end_date: "",
-        status: "",
+        name: task.name,
+        start_date: task.start_date,
+        end_date: task.end_date,
+        status: task.status,
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
@@ -43,7 +43,7 @@ export default function EditTask({id, callback}: Edit)
         
         setFormData(formData);
 
-        tasks.update(id, formData as Task).then((response) => {
+        tasks.update(task._id as string, formData as Task).then((response) => {
             if (response?.success)
             {
                 toast.success(`${response?.message}`);
