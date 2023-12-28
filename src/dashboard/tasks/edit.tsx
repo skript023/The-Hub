@@ -148,7 +148,7 @@ export default function EditTask({id, callback}: Edit)
                 </Grid>
                 <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
                     <Button type="submit" variant="contained" disabled={loading}>
-                        Add
+                        Update
                     </Button>
                     {loading && (
                         <CircularProgress

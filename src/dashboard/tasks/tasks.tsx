@@ -12,6 +12,7 @@ import EditTask from "./edit";
 import tasks from "../../api/tasks";
 import toast from "react-hot-toast";
 import Loading from "../../components/backdrop";
+import AddTaskIcon from '@mui/icons-material/AddTask';
 
 export default function Task() 
 {
@@ -38,6 +39,10 @@ export default function Task()
     }, []);
 
     const handleEditClick = (index: string) => {
+        setId(index);
+    };
+      
+    const handleComplete = (index: string) => {
         setId(index);
     };
       
@@ -114,6 +119,8 @@ export default function Task()
                 sort: true,
                 customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
                     <Stack spacing={2} direction={"row"}>
+                        <AddTaskIcon style={{ fontSize: "20px", color: "green", cursor: "pointer" }}
+                            onClick={() => handleComplete(value) }/>
                         <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
                             onClick={() => {handleEditClick(value); setOpenEdit(true)} }/>
                         <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
