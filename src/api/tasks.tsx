@@ -5,6 +5,31 @@ import ServerResponse from "../interfaces/response.dto";
 
 class task
 {
+    async complete(id: string): Promise<boolean>
+    {
+        try 
+        {
+            const response = await api.patch(`activity/complete/${id}`, { 
+                credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status == 200)
+            {
+                return true;
+            }
+
+            return false;
+        } 
+        catch (error: any) 
+        {
+            toast.error(error.message);
+
+            return false;
+        }
+    }
     async create(task: Task): Promise<ServerResponse<Task> | undefined>
     {
         try 

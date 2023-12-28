@@ -43,7 +43,18 @@ export default function Task()
     };
       
     const handleComplete = (index: string) => {
-        setId(index);
+        tasks.complete(index).then((success) => {
+            if (success)
+            {
+                toast.success('Task tagged as completed');
+            }
+            else
+            {
+                toast.error('Failed tag task as completed');
+            }
+        }).catch((error: any) => {
+            toast.error(error.message);
+        });
     };
       
     const handleDeleteClick = (index: string) => {
