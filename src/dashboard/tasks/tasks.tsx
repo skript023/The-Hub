@@ -47,6 +47,17 @@ export default function Task()
             if (success)
             {
                 toast.success('Task tagged as completed');
+                const newTask = task.map((obj: any) => {
+                    // Modify the property as needed
+                    if (obj._id == index)
+                    {
+                        obj.status = 'Completed';
+                        obj.end_date = new Date().toLocaleDateString();
+                    } 
+                    return obj;
+                });
+
+                setTask(newTask);
             }
             else
             {
