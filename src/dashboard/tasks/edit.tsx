@@ -97,6 +97,7 @@ export default function EditTask({task, callback}: Edit)
                         <Grid item xs={6}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
+                                    autoFocus
                                     label="Start Date"
                                     value={startDate}
                                     onChange={value => setStartDate(value as Dayjs)}
@@ -121,6 +122,7 @@ export default function EditTask({task, callback}: Edit)
                         <Grid item xs={6}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
+                                    autoFocus
                                     label="End Date"
                                     value={endDate}
                                     onChange={value => setEndDate(value as Dayjs)}
