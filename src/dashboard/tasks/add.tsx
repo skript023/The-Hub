@@ -20,6 +20,7 @@ export default function AddTask({callback}: any)
         start_date: "",
         end_date: "",
         status: "",
+        user: undefined
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {

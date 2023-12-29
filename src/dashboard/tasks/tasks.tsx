@@ -105,7 +105,7 @@ export default function WorkerTask()
                 filter: true,
                 sort: true,
                 customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
-                    activities.find((data) => data.user_id == value)?.user.fullname
+                    activities.find((data) => data.user_id == value)?.user?.fullname
                 ),
             }
         },

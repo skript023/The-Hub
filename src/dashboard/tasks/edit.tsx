@@ -26,6 +26,7 @@ export default function EditTask({task, callback}: Edit)
         start_date: task.start_date,
         end_date: task.end_date,
         status: task.status,
+        user: task.user
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {

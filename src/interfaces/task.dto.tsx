@@ -8,5 +8,5 @@ export default interface Task
     start_date: string | undefined;
     end_date: string | undefined;
     status: string;
-    user: User;
+    user: User | undefined;
 }
