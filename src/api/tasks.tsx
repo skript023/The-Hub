@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 import Task from "../interfaces/task.dto";
 import api from "./api";
 import ServerResponse from "../interfaces/response.dto";
+import formatter from "../util/formatter";
 
 class task
 {
@@ -65,6 +66,11 @@ class task
             if (response.status == 200)
             {
                 const json = await response.json() as ServerResponse<Task[]>;
+                
+                json.data.map((data) => {
+                    data.start_date = formatter.convertDateFormat(data.start_date as any);
+                    data.end_date = formatter.convertDateFormat(data.end_date as any);
+                });
 
                 return json.data;
             }

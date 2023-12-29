@@ -13,14 +13,15 @@ import tasks from "../../api/tasks";
 import toast from "react-hot-toast";
 import Loading from "../../components/backdrop";
 import AddTaskIcon from '@mui/icons-material/AddTask';
+import Task from "../../interfaces/task.dto";
 
-export default function Task() 
+export default function WorkerTask() 
 {
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [activities, setactivities] = useState([] as any);
-    const [task, setTask] = useState({} as any);
+    const [activities, setactivities] = useState([] as Task[]);
+    const [task, setTask] = useState({} as Task);
 
     const loadTask = () => {
         tasks.findAll().then((data : any) =>{
@@ -53,7 +54,6 @@ export default function Task()
             {
                 toast.success(response.message);
                 const newTask = activities.map((obj: any) => {
-                    // Modify the property as needed
                     if (obj._id == index)
                     {
                         obj.status = 'Completed';
@@ -104,6 +104,9 @@ export default function Task()
             options: {
                 filter: true,
                 sort: true,
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
+                    activities.find((data) => data.user_id == value)?.user.fullname
+                ),
             }
         },
         {
@@ -162,9 +165,15 @@ export default function Task()
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
-                console.log(`${activities[data.index].id}`)
+                console.log(`${activities[data.index]._id}`)
             })
         },
+        downloadOptions: {
+            filename: `Laporan Task ${new Date().toLocaleDateString()}`,
+            filterOptions: {
+                useDisplayedColumnsOnly: true
+            }
+        }
     };
 
     return (
