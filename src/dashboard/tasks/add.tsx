@@ -10,8 +10,8 @@ import dayjs, { Dayjs } from "dayjs";
 
 export default function AddTask({callback}: any)
 {
-    const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
-    const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
+    const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date()))
+    const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date()))
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState<JSX.Element | null>(null);
     const [formData, setFormData] = useState<Task>({
@@ -77,7 +77,7 @@ export default function AddTask({callback}: any)
                     <Grid item xs={12}>
                         <TextField
                             required
-                            variant="filled"
+                            variant="standard"
                             type="text"
                             label="Name"
                             onChange={handleInputChange}
@@ -138,7 +138,7 @@ export default function AddTask({callback}: any)
                     <Grid item xs={6}>
                         <TextField
                             required
-                            variant="filled"
+                            variant="standard"
                             type="text"
                             label="Status"
                             onChange={handleInputChange}
@@ -153,7 +153,7 @@ export default function AddTask({callback}: any)
             </DialogContent>
             <DialogActions>
                 <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
-                    <Button type="submit" variant="contained" disabled={loading}>
+                    <Button autoFocus type="submit" disabled={loading}>
                         Add
                     </Button>
                     {loading && (

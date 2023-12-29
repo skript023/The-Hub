@@ -16,8 +16,8 @@ interface Edit
 
 export default function EditTask({task, callback}: Edit)
 {
-    const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
-    const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
+    const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date(task.start_date as string)))
+    const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date(task.end_date as string)))
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState<JSX.Element | null>(null);
     const [formData, setFormData] = useState<Task>({
