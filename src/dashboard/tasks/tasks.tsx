@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Tooltip, Typography } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
@@ -149,12 +149,18 @@ export default function WorkerTask()
                 sort: true,
                 customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
                     <Stack spacing={2} direction={"row"}>
-                        <AddTaskIcon style={{ fontSize: "20px", color: "green", cursor: "pointer" }}
-                            onClick={() => handleComplete(value) }/>
-                        <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
-                            onClick={() => {handleEditClick(value); setOpenEdit(true)} }/>
-                        <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
-                            onClick={() => handleDeleteClick(value) }/>
+                        <Tooltip title="Set as Completed">
+                            <AddTaskIcon style={{ fontSize: "20px", color: "green", cursor: "pointer" }}
+                                onClick={() => handleComplete(value) }/>
+                        </Tooltip>
+                        <Tooltip title="Edit Task">
+                            <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
+                                onClick={() => {handleEditClick(value); setOpenEdit(true)} }/>
+                        </Tooltip>
+                        <Tooltip title="Delete Task">
+                            <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
+                                onClick={() => handleDeleteClick(value) }/>
+                        </Tooltip>
                     </Stack>
                 ),
             },
