@@ -1,29 +1,41 @@
-import { Box, Modal } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import { styled } from '@mui/material/styles';
 
-const style = {
-    position: 'absolute' as const,
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 500,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
-export default function Modals({open, callback, children} : any)
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+      padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+      padding: theme.spacing(1),
+    },
+  }));
+export default function Modals({open, callback, children, title} : any)
 {
     return (
-        <Modal
-            open={open}
+        <BootstrapDialog
             onClose={callback}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            aria-labelledby="customized-dialog-title"
+            open={open}
         >
-            <Box sx={style}>
-                {children}
-            </Box>
-        </Modal>
+            <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                {title}
+            </DialogTitle>
+            <IconButton
+                aria-label="close"
+                onClick={callback}
+                sx={{
+                    position: 'absolute',
+                    right: 8,
+                    top: 8,
+                    color: (theme) => theme.palette.grey[500],
+                }}
+                >
+                <CloseIcon />
+            </IconButton>
+            {children}
+      </BootstrapDialog>
     );
 }

@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Grid, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Grid, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import toast from "react-hot-toast";
 import tasks from "../../api/tasks";
@@ -19,6 +19,7 @@ export default function EditTask({task, callback}: Edit)
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
     const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState<JSX.Element | null>(null);
     const [formData, setFormData] = useState<Task>({
         _id: task._id,
         user_id: authentication.data()?._id,
@@ -48,9 +49,19 @@ export default function EditTask({task, callback}: Edit)
             if (response?.success)
             {
                 toast.success(`${response?.message}`);
+                setAlert(() => (
+                    <>
+                        <Alert severity="success">{response.message}</Alert>
+                    </>
+                ));
             }
             else
             {
+                setAlert(() => (
+                    <>
+                        <Alert severity="error">{response?.message}</Alert>
+                    </>
+                ));
                 toast.error(`${response?.message}`);
             }
 
@@ -64,91 +75,92 @@ export default function EditTask({task, callback}: Edit)
 
     return (
         <>
-            <Box sx={{ m: 2 }}/>
-                <Typography variant="h5" align="center">
-                    Edit Task
-                </Typography>
-            <Box height={20}/>
-        
-            <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <TextField
-                            required
-                            variant="filled"
-                            type="text"
-                            label="Name"
-                            onChange={handleInputChange}
-                            value={formData.name}
-                            name="name"
-                            size="small"
-                            sx={{ minWidth: "100%" }}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                label="Start Date"
-                                value={startDate}
-                                onChange={value => setStartDate(value as Dayjs)}
-                                defaultValue={startDate}
-                            />
-                        </LocalizationProvider>
-                        <div hidden>
+            <DialogContent dividers>
+                <Box sx={{ m: 2 }}/>
+                    {alert}
+                <Box height={20}/>
+                <form onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
                             <TextField
-                                disabled={true}
-                                hidden={true}
+                                required
                                 variant="filled"
                                 type="text"
-                                label="Start Date"
+                                label="Name"
                                 onChange={handleInputChange}
-                                value={startDate}
-                                name="start_date"
+                                value={formData.name}
+                                name="name"
                                 size="small"
                                 sx={{ minWidth: "100%" }}
                             />
-                        </div>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                label="End Date"
-                                value={endDate}
-                                onChange={value => setEndDate(value as Dayjs)}
-                                defaultValue={endDate}
-                            />
-                        </LocalizationProvider>
-                        <div hidden>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    label="Start Date"
+                                    value={startDate}
+                                    onChange={value => setStartDate(value as Dayjs)}
+                                    defaultValue={startDate}
+                                />
+                            </LocalizationProvider>
+                            <div hidden>
+                                <TextField
+                                    disabled={true}
+                                    hidden={true}
+                                    variant="filled"
+                                    type="text"
+                                    label="Start Date"
+                                    onChange={handleInputChange}
+                                    value={startDate}
+                                    name="start_date"
+                                    size="small"
+                                    sx={{ minWidth: "100%" }}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    label="End Date"
+                                    value={endDate}
+                                    onChange={value => setEndDate(value as Dayjs)}
+                                    defaultValue={endDate}
+                                />
+                            </LocalizationProvider>
+                            <div hidden>
+                                <TextField
+                                    disabled={true}
+                                    hidden={true}
+                                    variant="filled"
+                                    type="text"
+                                    label="End Date"
+                                    onChange={handleInputChange}
+                                    value={endDate}
+                                    name="end_date"
+                                    size="small"
+                                    sx={{ minWidth: "100%" }}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={6}>
                             <TextField
-                                disabled={true}
-                                hidden={true}
+                                required
                                 variant="filled"
                                 type="text"
-                                label="End Date"
+                                label="Status"
                                 onChange={handleInputChange}
-                                value={endDate}
-                                name="end_date"
+                                value={formData.status}
+                                name="status"
                                 size="small"
                                 sx={{ minWidth: "100%" }}
                             />
-                        </div>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            required
-                            variant="filled"
-                            type="text"
-                            label="Status"
-                            onChange={handleInputChange}
-                            value={formData.status}
-                            name="status"
-                            size="small"
-                            sx={{ minWidth: "100%" }}
-                        />
-                    </Grid>
-                </Grid>
+                </form>
+            </DialogContent>
+            <DialogActions>
                 <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
-                    <Button type="submit" variant="contained" disabled={loading}>
+                    <Button autoFocus disabled={loading}>
                         Update
                     </Button>
                     {loading && (
@@ -164,7 +176,7 @@ export default function EditTask({task, callback}: Edit)
                         />
                     )}
                 </Box>
-            </form>
+            </DialogActions>
         </>
 
     )

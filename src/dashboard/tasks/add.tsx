@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Grid, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Grid, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import toast from "react-hot-toast";
 import tasks from "../../api/tasks";
@@ -13,6 +13,7 @@ export default function AddTask({callback}: any)
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date().toUTCString(), 'Asia/Jakarta'))
     const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState<JSX.Element | null>(null);
     const [formData, setFormData] = useState<Task>({
         _id: undefined,
         user_id: authentication.data()?._id,
@@ -42,9 +43,19 @@ export default function AddTask({callback}: any)
             if (response?.success)
             {
                 toast.success(`${response?.message}`);
+                setAlert(() => (
+                    <>
+                        <Alert severity="success">{response.message}</Alert>
+                    </>
+                ))
             }
             else
             {
+                setAlert(() => (
+                    <>
+                        <Alert severity="error">{response?.message}</Alert>
+                    </>
+                ))
                 toast.error(`${response?.message}`);
             }
             setLoading(false);
@@ -56,10 +67,9 @@ export default function AddTask({callback}: any)
 
     return (
         <>
+        <DialogContent dividers>
             <Box sx={{ m: 2 }}/>
-                <Typography variant="h5" align="center">
-                    Add Task
-                </Typography>
+            {alert}
             <Box height={20}/>
         
             <form onSubmit={handleSubmit}>
@@ -139,6 +149,9 @@ export default function AddTask({callback}: any)
                         />
                     </Grid>
                 </Grid>
+            </form>
+            </DialogContent>
+            <DialogActions>
                 <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
                     <Button type="submit" variant="contained" disabled={loading}>
                         Add
@@ -156,7 +169,7 @@ export default function AddTask({callback}: any)
                         />
                     )}
                 </Box>
-            </form>
+            </DialogActions>
         </>
 
     )

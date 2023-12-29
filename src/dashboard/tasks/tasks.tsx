@@ -220,8 +220,8 @@ export default function WorkerTask()
                                         <MUIDataTable title={""} data={activities} columns={columns} options={options}/>
                                     </Box>
                                 </Box>
-                                <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask callback={loadTask}/>}/>
-                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask task={task} callback={loadTask}/>}/>
+                                <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask callback={loadTask}/>} title={"Add Task"}/>
+                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask task={task} callback={loadTask}/>} title={"Edit Task"}/>
                             </Box>
                         </Box>
                     </>
