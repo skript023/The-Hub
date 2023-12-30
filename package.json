@@ -2,7 +2,7 @@
   "name": "the-worker-hub",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://skript023.github.io/The-Hub",
+  "homepage": "https://skript023.github.io/The-Hub/",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
