@@ -5,6 +5,7 @@ import WorkerTask from './dashboard/tasks/tasks'
 import Login from './login/login'
 import { Toaster } from 'react-hot-toast'
 import User from './dashboard/users/users'
+import { base } from './util/base'
 
 function App() {
 
@@ -12,11 +13,11 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/The-Hub' element={<Login/>}/>
-                    <Route path='/The-Hub/home' element={<Home/>}/>
-                    <Route path='/The-Hub/products' element={< Product />}/>
-                    <Route path='/The-Hub/activity' element={< WorkerTask />}/>
-                    <Route path='/The-Hub/users' element={< User />}/>
+                    <Route path={`${base}`} element={<Login/>}/>
+                    <Route path={`${base}home`} element={<Home/>}/>
+                    <Route path={`${base}products`} element={< Product />}/>
+                    <Route path={`${base}activity`} element={< WorkerTask />}/>
+                    <Route path={`${base}users`} element={< User />}/>
                     {/* <Route path='team' element={< Team title="Team" />}/>
 					<Route path='invoices' element={< Invoices title="Invoices" />}/>
 					<Route path='calendar' element={< Calendar title="Calendar" />}/>

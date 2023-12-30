@@ -1,0 +1,13 @@
+
+# HTID:22342069: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW
+php_value display_errors 0
+# DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:22342069:
+# Redirect all to the index
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
