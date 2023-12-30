@@ -46,6 +46,8 @@ jobs:
         with:
           # Upload dist repository
           path: './dist'
+      - name: copy as 404
+        run: cp ./dist/index.html ./dist/404.html
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
