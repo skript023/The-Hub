@@ -16,6 +16,7 @@ import authentication from '../api/authentication';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import { green } from '@mui/material/colors';
+import { base } from '../util/base';
 
 function Copyright(props: any) {
     return (

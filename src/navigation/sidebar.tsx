@@ -18,6 +18,7 @@ import { SidebarMenu } from './menu/sidebar_menu';
 import authentication from '../api/authentication';
 import LoadingBar from 'react-top-loading-bar';
 import toast from 'react-hot-toast';
+import { base } from '../util/base';
 
 const drawerWidth = 240;
 
