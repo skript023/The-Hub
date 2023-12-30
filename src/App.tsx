@@ -14,10 +14,10 @@ function App() {
                 <Routes>
                     <Route path="/The-Hub">
                         <Route index element={<Login/>}/>
-                        <Route path='home' element={<Home/>}/>
-                        <Route path='products' element={< Product />}/>
-                        <Route path='activity' element={< WorkerTask />}/>
-                        <Route path='users' element={< User />}/>
+                        <Route path='/home' element={<Home/>}/>
+                        <Route path='/products' element={< Product />}/>
+                        <Route path='/activity' element={< WorkerTask />}/>
+                        <Route path='/users' element={< User />}/>
                         {/* <Route path='team' element={< Team title="Team" />}/>
                         <Route path='invoices' element={< Invoices title="Invoices" />}/>
                         <Route path='calendar' element={< Calendar title="Calendar" />}/>

@@ -1,7 +1,7 @@
 
 export class api
 {
-    private url = import.meta.env.VITE_ENVIRONMENT === 'prod' ? 'https://crm-backend.glitch.me' : 'http://localhost:3000';
+    private url = 'https://crm-backend.glitch.me';
 
     async post(route: string, init : RequestInit | undefined)
     {
