@@ -81,11 +81,11 @@ export default function Sidenav()
 
         authentication.userProfile()
         .then((success) => { 
-            if (!success) navigate('/')
+            if (!success) navigate(base)
         })
         .catch((e: any)=> {
             toast.error(e.message);
-            navigate('/');
+            navigate(base);
         });
 
         ref.current.complete();

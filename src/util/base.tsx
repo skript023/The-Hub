@@ -1,0 +1,1 @@
+const base = '/The-Hub/'

@@ -48,7 +48,7 @@ export default function Login()
         if (await authentication.login(username, password))
         {
             setLoading(false);
-            navigate('/home', {replace: true})
+            navigate(`${base}home`, {replace: true})
         }
 
         setLoading(false);
