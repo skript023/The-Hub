@@ -16,6 +16,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import authentication from '../api/authentication';
 import { Avatar, Divider, ListItemIcon, Typography } from '@mui/material';
 import { Logout, PersonAdd, Settings } from '@mui/icons-material';
+import AvatarIcon from '../components/avatar';
 
 const drawerWidth = 240;
 
@@ -103,7 +104,7 @@ export default function Navbar({open, callback} : any)
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>
-                <Avatar /><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
+                <AvatarIcon alt="Profile" src={`https://crm-backend.glitch.me/user/avatar/${authentication.data()?.image}`}/><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleMenuClose} disabled>
@@ -145,7 +146,7 @@ export default function Navbar({open, callback} : any)
             onClose={handleMobileMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>
-                <Avatar /><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
+                <Avatar alt="Profile" src={`https://crm-backend.glitch.me/user/avatar/${authentication.data()?.image}`}/><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleMenuClose} disabled>
@@ -192,75 +193,75 @@ export default function Navbar({open, callback} : any)
   }));
 
   	return (
-      <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="fixed" open={open}>
-              <Toolbar>
-                  <IconButton
-                      color="inherit"
-                      aria-label="open drawer"
-                      onClick={callback}
-                      edge="start"
-                      sx={{
-                          marginRight: 5,
-                          ...(open && { display: 'none' }),
-                      }}
-                  >
-                      <MenuIcon />
-                  </IconButton>
-                  <Search>
-                      <SearchIconWrapper>
-                          <SearchIcon />
-                      </SearchIconWrapper>
-                      <StyledInputBase
-                          placeholder="Search…"
-                          inputProps={{ 'aria-label': 'search' }}
-                      />
-                  </Search>
-                  <Box sx={{ flexGrow: 1 }} />
-                  <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                      <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                          <Badge badgeContent={4} color="error">
-                              <MailIcon />
-                          </Badge>
-                      </IconButton>
-                      <IconButton
-                          size="large"
-                          aria-label="show 17 new notifications"
-                          color="inherit"
-                      >
-                          <Badge badgeContent={17} color="error">
-                              <NotificationsIcon />
-                          </Badge>
-                      </IconButton>
-                      <IconButton
-                          size="large"
-                          edge="end"
-                          aria-label="account of current user"
-                          id={menuId}
-                          aria-controls={menuId}
-                          aria-haspopup="true"
-                          onClick={handleProfileMenuOpen}
-                          color="inherit"
-                      >
-                          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-                      </IconButton>
-                  </Box>
-                  <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                      <IconButton
-                          size="large"
-                          aria-label="show more"
-                          aria-controls={mobileMenuId}
-                          aria-haspopup="true"
-                          onClick={handleMobileMenuOpen}
-                          color="inherit"
-                      >
-                          <MoreIcon />
-                      </IconButton>
-                  </Box>
-              </Toolbar>
-          </AppBar>
-          {renderMobileMenu}
-          {renderMenu}
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="fixed" open={open}>
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={callback}
+                        edge="start"
+                        sx={{
+                            marginRight: 5,
+                            ...(open && { display: 'none' }),
+                        }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Search>
+                        <SearchIconWrapper>
+                            <SearchIcon />
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            placeholder="Search…"
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
+                    </Search>
+                    <Box sx={{ flexGrow: 1 }} />
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                            <Badge badgeContent={4} color="error">
+                                <MailIcon />
+                            </Badge>
+                        </IconButton>
+                        <IconButton
+                            size="large"
+                            aria-label="show 17 new notifications"
+                            color="inherit"
+                        >
+                            <Badge badgeContent={17} color="error">
+                                <NotificationsIcon />
+                            </Badge>
+                        </IconButton>
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            id={menuId}
+                            aria-controls={menuId}
+                            aria-haspopup="true"
+                            onClick={handleProfileMenuOpen}
+                            color="inherit" 
+                        >
+                            <AvatarIcon alt="Profile" src={`https://crm-backend.glitch.me/user/avatar/${authentication.data()?.image}`} sx={{ width: 32, height: 32 }}/>
+                        </IconButton>
+                    </Box>
+                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="show more"
+                            aria-controls={mobileMenuId}
+                            aria-haspopup="true"
+                            onClick={handleMobileMenuOpen}
+                            color="inherit"
+                        >
+                            <MoreIcon />
+                        </IconButton>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+            {renderMobileMenu}
+            {renderMenu}
       </Box>
   	);
 }
