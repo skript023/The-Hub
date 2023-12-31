@@ -83,7 +83,7 @@ export default function Product()
         },
         {
             name: "game",
-            label: "Gane",
+            label: "Game",
             options: {
                 filter: true,
                 sort: true,
