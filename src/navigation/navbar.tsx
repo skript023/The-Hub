@@ -6,17 +6,17 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import authentication from '../api/authentication';
-import { Avatar, CircularProgress, Divider, ListItemIcon, Typography } from '@mui/material';
-import { Logout, PersonAdd, Settings } from '@mui/icons-material';
+import { CircularProgress } from '@mui/material';
 import AvatarIcon from '../components/avatar';
+import AccountMenuMobile from './menu/account_menu_mobile';
+import AccountMenu from './menu/account_menu';
+import MessageMenu from './menu/message_menu';
 
 const drawerWidth = 240;
 
@@ -62,12 +62,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Navbar({open, isLoaded, callback} : any) 
 {
-    const anchorRef = React.useRef<HTMLElement>();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    
+    const [isMessageOpen, setMessageOpen] = React.useState(false);
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -86,111 +87,41 @@ export default function Navbar({open, isLoaded, callback} : any)
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const handleMessageMenuOpen = () => {
+        setMessageOpen(true);
+    };
+
+    const handleMessageMenuClose = () => {
+        setMessageOpen(false);
+    };
+
     const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorRef?.current}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>
-                <AvatarIcon alt="Profile" src={`https://crm-backend.glitch.me/user/avatar/${authentication.data()?.image}`}/><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={handleMenuClose} disabled>
-                <ListItemIcon>
-                    <PersonAdd fontSize="small" />
-                </ListItemIcon>
-                    Add another account
-            </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
-                <ListItemIcon>
-                    <Settings fontSize="small" />
-                </ListItemIcon>
-                Settings
-            </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
-                <ListItemIcon>
-                    <Logout fontSize="small" />
-                </ListItemIcon>
-                Logout
-            </MenuItem>
-        </Menu>
-    );
-
+    
     const mobileMenuId = 'primary-search-account-menu-mobile';
-    const renderMobileMenu = (
-        <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={mobileMenuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>
-                <Avatar alt="Profile" src={`https://crm-backend.glitch.me/user/avatar/${authentication.data()?.image}`}/><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={handleMenuClose} disabled>
-                <ListItemIcon>
-                    <PersonAdd fontSize="small" />
-                </ListItemIcon>
-                    Add another account
-            </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
-                <ListItemIcon>
-                    <Settings fontSize="small" />
-                </ListItemIcon>
-                Settings
-            </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
-                <ListItemIcon>
-                    <Logout fontSize="small" />
-                </ListItemIcon>
-                Logout
-            </MenuItem>
-        </Menu>
-    );
 
-  interface AppBarProps extends MuiAppBarProps {
-	open?: boolean;
-  }
+    const messageMenuId = 'message-menu';
+
+    interface AppBarProps extends MuiAppBarProps {
+        open?: boolean;
+    }
   
-  const AppBar = styled(MuiAppBar, {
-      shouldForwardProp: (prop) => prop !== 'open',
-  })<AppBarProps>(({ theme, open }) => ({
-      zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(['width', 'margin'], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-      }),
-      ...(open && {
-          marginLeft: drawerWidth,
-          width: `calc(100% - ${drawerWidth}px)`,
-          transition: theme.transitions.create(['width', 'margin'], {
-              easing: theme.transitions.easing.sharp,
-              duration: theme.transitions.duration.enteringScreen,
-          }),
-      }),
-  }));
+    const AppBar = styled(MuiAppBar, {
+        shouldForwardProp: (prop) => prop !== 'open',
+    })<AppBarProps>(({ theme, open }) => ({
+        zIndex: theme.zIndex.drawer + 1,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        ...(open && {
+            marginLeft: drawerWidth,
+            width: `calc(100% - ${drawerWidth}px)`,
+            transition: theme.transitions.create(['width', 'margin'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        }),
+    }));
 
   	return (
         <Box sx={{ flexGrow: 1 }}>
@@ -219,7 +150,15 @@ export default function Navbar({open, isLoaded, callback} : any)
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                        <IconButton 
+                        size="large" 
+                        aria-label="show 4 new mails" 
+                        color="inherit" 
+                        id={messageMenuId} 
+                        aria-controls={messageMenuId} 
+                        aria-haspopup="true"
+                        onClick={handleMessageMenuOpen}
+                        >
                             <Badge badgeContent={4} color="error">
                                 <MailIcon />
                             </Badge>
@@ -265,8 +204,9 @@ export default function Navbar({open, isLoaded, callback} : any)
                     </Box>
                 </Toolbar>
             </AppBar>
-            {renderMobileMenu}
-            {renderMenu}
+            <AccountMenuMobile mobileMenuId={mobileMenuId} isMobileMenuOpen={isMobileMenuOpen} handleMobileMenuClose={handleMobileMenuClose} handleMenuClose={handleMenuClose}/>
+            <AccountMenu menuId={menuId} isMenuOpen={isMenuOpen} handleMenuClose={handleMenuClose}/>
+            <MessageMenu menuId={messageMenuId} isMenuOpen={isMessageOpen} handleMenuClose={handleMessageMenuClose}/>
       </Box>
   	);
 }
