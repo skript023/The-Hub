@@ -16,7 +16,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-  const Transition = forwardRef(function Transition(
+const Transition = forwardRef(function Transition(
     props: TransitionProps & {
       children: React.ReactElement<any, any>;
     },

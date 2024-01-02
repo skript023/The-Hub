@@ -145,8 +145,8 @@ export default function WorkerTask()
             name: "id",
             label: "Action",
             options: {
-                filter: true,
-                sort: true,
+                filter: false,
+                sort: false,
                 customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
                     <Stack spacing={2} direction={"row"}>
                         <Tooltip title="Set as Completed">
