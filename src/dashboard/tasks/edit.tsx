@@ -75,11 +75,11 @@ export default function EditTask({task, callback}: Edit)
 
     return (
         <>
-            <DialogContent dividers>
-                <Box sx={{ m: 2 }}/>
-                    {alert}
-                <Box height={20}/>
-                <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
+                <DialogContent dividers>
+                    <Box sx={{ m: 2 }}/>
+                        {alert}
+                    <Box height={20}/>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
@@ -158,27 +158,27 @@ export default function EditTask({task, callback}: Edit)
                             />
                         </Grid>
                     </Grid>
-                </form>
-            </DialogContent>
-            <DialogActions>
-                <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
-                    <Button autoFocus disabled={loading}>
-                        Update
-                    </Button>
-                    {loading && (
-                        <CircularProgress
-                            size={24}
-                            sx={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            marginTop: '-12px',
-                            marginLeft: '-12px',
-                            }}
-                        />
-                    )}
-                </Box>
-            </DialogActions>
+                </DialogContent>
+                <DialogActions>
+                    <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
+                        <Button autoFocus disabled={loading}>
+                            Update
+                        </Button>
+                        {loading && (
+                            <CircularProgress
+                                size={24}
+                                sx={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                marginTop: '-12px',
+                                marginLeft: '-12px',
+                                }}
+                            />
+                        )}
+                    </Box>
+                </DialogActions>
+            </form>
         </>
 
     )

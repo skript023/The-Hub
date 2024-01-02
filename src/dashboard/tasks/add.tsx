@@ -67,111 +67,110 @@ export default function AddTask({callback}: any)
 
     return (
         <>
-        <DialogContent dividers>
-            <Box sx={{ m: 2 }}/>
-            {alert}
-            <Box height={20}/>
-        
             <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <TextField
-                            required
-                            variant="standard"
-                            type="text"
-                            label="Name"
-                            onChange={handleInputChange}
-                            value={formData.name}
-                            name="name"
-                            size="small"
-                            sx={{ minWidth: "100%" }}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                autoFocus
-                                label="Start Date"
-                                value={startDate}
-                                onChange={value => setStartDate(value as Dayjs)}
-                                defaultValue={startDate}
-                            />
-                        </LocalizationProvider>
-                        <div hidden>
+                <DialogContent dividers>
+                    <Box sx={{ m: 2 }}/>
+                    {alert}
+                    <Box height={20}/>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
                             <TextField
-                                disabled={true}
-                                hidden={true}
-                                variant="filled"
+                                required
+                                variant="standard"
                                 type="text"
-                                label="Start Date"
+                                label="Name"
                                 onChange={handleInputChange}
-                                value={startDate}
-                                name="start_date"
+                                value={formData.name}
+                                name="name"
                                 size="small"
                                 sx={{ minWidth: "100%" }}
                             />
-                        </div>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                autoFocus
-                                label="End Date"
-                                value={endDate}
-                                onChange={value => setEndDate(value as Dayjs)}
-                                defaultValue={endDate}
-                            />
-                        </LocalizationProvider>
-                        <div hidden>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    autoFocus
+                                    label="Start Date"
+                                    value={startDate}
+                                    onChange={value => setStartDate(value as Dayjs)}
+                                    defaultValue={startDate}
+                                />
+                            </LocalizationProvider>
+                            <div hidden>
+                                <TextField
+                                    disabled={true}
+                                    hidden={true}
+                                    variant="filled"
+                                    type="text"
+                                    label="Start Date"
+                                    onChange={handleInputChange}
+                                    value={startDate}
+                                    name="start_date"
+                                    size="small"
+                                    sx={{ minWidth: "100%" }}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    autoFocus
+                                    label="End Date"
+                                    value={endDate}
+                                    onChange={value => setEndDate(value as Dayjs)}
+                                    defaultValue={endDate}
+                                />
+                            </LocalizationProvider>
+                            <div hidden>
+                                <TextField
+                                    disabled={true}
+                                    hidden={true}
+                                    variant="filled"
+                                    type="text"
+                                    label="End Date"
+                                    onChange={handleInputChange}
+                                    value={endDate}
+                                    name="end_date"
+                                    size="small"
+                                    sx={{ minWidth: "100%" }}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={6}>
                             <TextField
-                                disabled={true}
-                                hidden={true}
-                                variant="filled"
+                                required
+                                variant="standard"
                                 type="text"
-                                label="End Date"
+                                label="Status"
                                 onChange={handleInputChange}
-                                value={endDate}
-                                name="end_date"
+                                value={formData.status}
+                                name="status"
                                 size="small"
                                 sx={{ minWidth: "100%" }}
                             />
-                        </div>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            required
-                            variant="standard"
-                            type="text"
-                            label="Status"
-                            onChange={handleInputChange}
-                            value={formData.status}
-                            name="status"
-                            size="small"
-                            sx={{ minWidth: "100%" }}
-                        />
-                    </Grid>
-                </Grid>
+                </DialogContent>
+                <DialogActions>
+                    <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
+                        <Button autoFocus type="submit" disabled={loading}>
+                            Add
+                        </Button>
+                        {loading && (
+                            <CircularProgress
+                                size={24}
+                                sx={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                marginTop: '-12px',
+                                marginLeft: '-12px',
+                                }}
+                            />
+                        )}
+                    </Box>
+                </DialogActions>
             </form>
-            </DialogContent>
-            <DialogActions>
-                <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
-                    <Button autoFocus type="submit" disabled={loading}>
-                        Add
-                    </Button>
-                    {loading && (
-                        <CircularProgress
-                            size={24}
-                            sx={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            marginTop: '-12px',
-                            marginLeft: '-12px',
-                            }}
-                        />
-                    )}
-                </Box>
-            </DialogActions>
         </>
 
     )
