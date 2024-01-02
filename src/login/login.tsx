@@ -81,7 +81,7 @@ export default function Login()
                             alignItems: 'center',
                         }}
                     >
-                        <img src='/logo-icon.png'/>
+                        <img src='./logo-icon.png'/>
                         <Typography component="h1" variant="h5" sx={{ marginTop: 1 }}>
 							Sign in
                         </Typography>
