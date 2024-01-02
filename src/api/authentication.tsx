@@ -23,8 +23,6 @@ class authentication
 
             if (response.status === 200)
             {
-                toast.success(json.message);
-
                 return true;
             }
 
