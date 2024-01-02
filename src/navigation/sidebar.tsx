@@ -72,6 +72,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Sidenav() 
 {
     const theme = useTheme();
+    const [isLoaded, setLoaded] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
 
@@ -82,11 +83,14 @@ export default function Sidenav()
 
         authentication.userProfile()
         .then((success) => { 
-            if (!success) navigate(base)
+            if (!success) navigate(base);
+
+            setLoaded(true);
         })
         .catch((e: any)=> {
             toast.error(e.message);
             navigate(base);
+            setLoaded(true);
         });
 
         ref.current.complete();
@@ -104,7 +108,7 @@ export default function Sidenav()
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <Navbar open={open} callback={handleDrawerOpen}/>
+            <Navbar open={open} isLoaded={isLoaded} callback={handleDrawerOpen}/>
             <Drawer variant="permanent" open={open}>
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>

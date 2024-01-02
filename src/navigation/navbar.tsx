@@ -14,7 +14,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import authentication from '../api/authentication';
-import { Avatar, Divider, ListItemIcon, Typography } from '@mui/material';
+import { Avatar, CircularProgress, Divider, ListItemIcon, Typography } from '@mui/material';
 import { Logout, PersonAdd, Settings } from '@mui/icons-material';
 import AvatarIcon from '../components/avatar';
 
@@ -60,7 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function Navbar({open, callback} : any) 
+export default function Navbar({open, isLoaded, callback} : any) 
 {
     const anchorRef = React.useRef<HTMLElement>();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -243,7 +243,12 @@ export default function Navbar({open, callback} : any)
                             onClick={handleProfileMenuOpen}
                             color="inherit" 
                         >
-                            <AvatarIcon alt="Profile" src={`https://crm-backend.glitch.me/user/avatar/${authentication.data()?.image}`} sx={{ width: 32, height: 32 }}/>
+                            {
+                                isLoaded ? 
+                                (<AvatarIcon alt="Profile" src={`https://crm-backend.glitch.me/user/avatar/${authentication.data()?.image}`} sx={{ width: 32, height: 32 }}/>) 
+                                : 
+                                (<CircularProgress size={24} color="inherit" sx={{ justifyContent: 'center' }} />)
+                            }
                         </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
