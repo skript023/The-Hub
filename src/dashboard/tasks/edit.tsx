@@ -161,7 +161,7 @@ export default function EditTask({task, callback}: Edit)
                 </DialogContent>
                 <DialogActions>
                     <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
-                        <Button autoFocus disabled={loading}>
+                        <Button autoFocus type="submit" disabled={loading}>
                             Update
                         </Button>
                         {loading && (
