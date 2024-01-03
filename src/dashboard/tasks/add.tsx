@@ -44,19 +44,11 @@ export default function AddTask({callback}: any)
             {
                 
                 toast.success("Add Task", response.message);
-                setAlert(() => (
-                    <>
-                        <Alert severity="success">{response.message}</Alert>
-                    </>
-                ))
+                setAlert(() => (<Alert severity="success">{response.message}</Alert>))
             }
             else
             {
-                setAlert(() => (
-                    <>
-                        <Alert severity="error">{response?.message}</Alert>
-                    </>
-                ))
+                setAlert(() => (<Alert severity="error">{response?.message}</Alert>))
                 toast.error("Add Task", `${response?.message}`);
             }
             setLoading(false);
