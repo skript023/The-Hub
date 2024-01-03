@@ -49,19 +49,11 @@ export default function EditTask({task, callback}: Edit)
             if (response?.success)
             {
                 toast.success("Task Update", response.message)
-                setAlert(() => (
-                    <>
-                        <Alert severity="success">{response.message}</Alert>
-                    </>
-                ));
+                setAlert(() => (<Alert severity="success">{response.message}</Alert>));
             }
             else
             {
-                setAlert(() => (
-                    <>
-                        <Alert severity="error">{response?.message}</Alert>
-                    </>
-                ));
+                setAlert(() => (<Alert severity="error">{response?.message}</Alert>));
                 toast.error("Task Update", `${response?.message}`);
             }
 
