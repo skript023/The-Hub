@@ -23,7 +23,7 @@ export default function MessageMenu({menuId, isMenuOpen, handleMenuClose}:any)
         >
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                <Avatar alt="Remy Sharp" src="https://icons.iconarchive.com/icons/aha-soft/free-large-boss/256/Admin-icon.png" />
                 </ListItemAvatar>
                 <ListItemText
                 primary="Brunch this weekend?"
@@ -45,7 +45,7 @@ export default function MessageMenu({menuId, isMenuOpen, handleMenuClose}:any)
             <Divider variant="inset" component="li" />
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Travis Howard" src="https://icons.iconarchive.com/icons/aha-soft/free-large-boss/256/Admin-icon.png" />
                 </ListItemAvatar>
                 <ListItemText
                 primary="Summer BBQ"
@@ -67,7 +67,7 @@ export default function MessageMenu({menuId, isMenuOpen, handleMenuClose}:any)
             <Divider variant="inset" component="li" />
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                <Avatar alt="Cindy Baker" src="https://icons.iconarchive.com/icons/aha-soft/free-large-boss/256/Admin-icon.png" />
                 </ListItemAvatar>
                 <ListItemText
                 primary="Oui Oui"
