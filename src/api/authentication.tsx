@@ -43,7 +43,7 @@ class authentication
                 "Content-Type": "application/json"
             },
             credentials: 'include'
-        })
+        });
 
         if (response.status == 200)
         {

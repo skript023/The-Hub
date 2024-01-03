@@ -57,7 +57,7 @@ export default function WorkerTask()
                     if (obj._id == index)
                     {
                         obj.status = 'Completed';
-                        obj.end_date = new Date().toLocaleDateString();
+                        obj.end_date = new Date().toISOString().slice(0, 10);
                     } 
                     return obj;
                 });
