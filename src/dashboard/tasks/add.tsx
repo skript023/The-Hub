@@ -1,12 +1,12 @@
 import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Grid, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import toast from "react-hot-toast";
 import tasks from "../../api/tasks";
 import Task from "../../interfaces/task.dto";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormEvent, useState } from "react";
 import authentication from "../../api/authentication";
 import dayjs, { Dayjs } from "dayjs";
+import { toast } from "../../components/snackbar";
 
 export default function AddTask({callback}: any)
 {
@@ -42,7 +42,8 @@ export default function AddTask({callback}: any)
         tasks.create(formData as Task).then((response) => {
             if (response?.success)
             {
-                toast.success(`${response?.message}`);
+                
+                toast.success("Add Task", response.message);
                 setAlert(() => (
                     <>
                         <Alert severity="success">{response.message}</Alert>
@@ -56,12 +57,12 @@ export default function AddTask({callback}: any)
                         <Alert severity="error">{response?.message}</Alert>
                     </>
                 ))
-                toast.error(`${response?.message}`);
+                toast.error("Add Task", `${response?.message}`);
             }
             setLoading(false);
             callback();
         }).catch((error: any) => {
-            toast.error(error.message);
+            toast.error("Add Task", error.message);
         });
     };
 

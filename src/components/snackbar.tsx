@@ -1,70 +1,97 @@
-import { Alert } from "@mui/material";
+import { Alert, AlertColor, AlertTitle } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
+import { useState } from "react";
+import Slide, { SlideProps } from '@mui/material/Slide';
 
-class SnackbarHandle 
+type TransitionProps = Omit<SlideProps, 'direction'>;
+
+class ToastHandler 
 {
-    private open = false;
-    private message = '';
-    private type = '';
-
-    success(msg: string)
+    constructor()
     {
-        if (!this.isOpen())
-        {
-            this.handleOpen();
-        }
+        this.open = false;
+        this.message = '';
+        this.title = '';
+        this.type = undefined;
+        this.setOpen = () => {};
+    }
+    private open: boolean;
+    private message: string;
+    private title: string;
+    private type: AlertColor | undefined
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 
+    success(title: string, msg: string)
+    {
         this.setMessage(msg);
+        this.setTitle(title);
         this.setType("success");
-    }
-
-    handleOpen()
-    {
         this.open = true;
+        this.setOpen(true);
     }
 
-    setMessage(msg: string)
+    error(title: string, msg: string)
+    {
+        this.setMessage(msg);
+        this.setTitle(title);
+        this.setType("error");
+        this.open = true;
+        this.setOpen(true);
+    }
+    
+    private setMessage(msg: string)
     {
         this.message = msg;
     }
-    
-    setType(tp: string)
+
+    private setTitle(title: string)
     {
-        this.type = tp;
+        this.title = title;
     }
 
-    handleClose()
+    private setType(type: AlertColor)
     {
-        this.open = false;
+        this.type = type;
     }
 
-    isOpen() 
-    {
-        return this.open;
-    }
-
-    getMessage()
+    private getMessage()
     {
         return this.message;
     }
-    
-    getType()
+
+    private getTitle()
     {
-        return this.type;
+        return this.title;
+    }
+
+    private TransitionDown(props: TransitionProps) 
+    {
+        return <Slide {...props} direction="down" />;
+    }
+
+    render()
+    {
+        const handleClose = () => { this.open = false; this.setOpen(false); }
+
+        return (
+            <Snackbar open={this.open} autoHideDuration={2000} onClose={handleClose} TransitionComponent={this.TransitionDown} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+                <Alert onClose={handleClose} severity={this.type} sx={{ width: '100%' }}>
+                    <AlertTitle>{this.getTitle()}</AlertTitle>
+                    {this.getMessage()}
+                </Alert>
+            </Snackbar>
+        );
     }
 }
 
-const snackbar = new SnackbarHandle();
+const toast = new ToastHandler();
 
-export {snackbar};
-
-export default function Snackbars()
+export default function Toast()
 {
-    return (
-        <Snackbar open={snackbar.isOpen()} autoHideDuration={3000} onClose={snackbar.handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-            <Alert onClose={snackbar.handleClose} severity="success" sx={{ width: '100%' }}>
-                    {snackbar.getMessage()}
-                </Alert>
-        </Snackbar>
-    );
+    const [_open, setOpen] = useState(false);
+    toast.setOpen = setOpen;
+
+    return toast.render();
 }
+
+export { toast };

@@ -1,12 +1,12 @@
 import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Grid, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import toast from "react-hot-toast";
 import tasks from "../../api/tasks";
 import Task from "../../interfaces/task.dto";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormEvent, useState } from "react";
 import authentication from "../../api/authentication";
 import dayjs, { Dayjs } from "dayjs";
+import { toast } from "../../components/snackbar";
 
 interface Edit
 {
@@ -48,7 +48,7 @@ export default function EditTask({task, callback}: Edit)
         tasks.update(task._id as string, formData as Task).then((response) => {
             if (response?.success)
             {
-                toast.success(`${response?.message}`);
+                toast.success("Task Update", response.message)
                 setAlert(() => (
                     <>
                         <Alert severity="success">{response.message}</Alert>
@@ -62,14 +62,14 @@ export default function EditTask({task, callback}: Edit)
                         <Alert severity="error">{response?.message}</Alert>
                     </>
                 ));
-                toast.error(`${response?.message}`);
+                toast.error("Task Update", `${response?.message}`);
             }
 
             setLoading(false);
 
             callback();
         }).catch((error: any) => {
-            toast.error(error.message);
+            toast.error("Task Update", error.message);
         });
     };
 

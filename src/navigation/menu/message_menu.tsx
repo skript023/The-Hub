@@ -1,4 +1,4 @@
-import { Avatar, Divider, ListItem, ListItemAvatar, ListItemText, Menu, Typography } from "@mui/material";
+import { Avatar, Divider, ListItemAvatar, ListItemText, Menu, MenuItem, Typography } from "@mui/material";
 import React, { useRef } from "react";
 
 export default function MessageMenu({menuId, isMenuOpen, handleMenuClose}:any) 
@@ -21,7 +21,7 @@ export default function MessageMenu({menuId, isMenuOpen, handleMenuClose}:any)
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <ListItem alignItems="flex-start">
+            <MenuItem>
                 <ListItemAvatar>
                 <Avatar alt="Remy Sharp" src="https://icons.iconarchive.com/icons/aha-soft/free-large-boss/256/Admin-icon.png" />
                 </ListItemAvatar>
@@ -41,9 +41,9 @@ export default function MessageMenu({menuId, isMenuOpen, handleMenuClose}:any)
                     </React.Fragment>
                 }
                 />
-            </ListItem>
+            </MenuItem>
             <Divider variant="inset" component="li" />
-            <ListItem alignItems="flex-start">
+            <MenuItem>
                 <ListItemAvatar>
                 <Avatar alt="Travis Howard" src="https://icons.iconarchive.com/icons/aha-soft/free-large-boss/256/Admin-icon.png" />
                 </ListItemAvatar>
@@ -63,9 +63,9 @@ export default function MessageMenu({menuId, isMenuOpen, handleMenuClose}:any)
                     </React.Fragment>
                 }
                 />
-            </ListItem>
+            </MenuItem>
             <Divider variant="inset" component="li" />
-            <ListItem alignItems="flex-start">
+            <MenuItem>
                 <ListItemAvatar>
                 <Avatar alt="Cindy Baker" src="https://icons.iconarchive.com/icons/aha-soft/free-large-boss/256/Admin-icon.png" />
                 </ListItemAvatar>
@@ -85,7 +85,7 @@ export default function MessageMenu({menuId, isMenuOpen, handleMenuClose}:any)
                     </React.Fragment>
                 }
                 />
-            </ListItem>
+            </MenuItem>
         </Menu>
     );
 }
