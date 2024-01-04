@@ -10,10 +10,10 @@ import Modals from "../../components/modal";
 import AddTask from "./add";
 import EditTask from "./edit";
 import tasks from "../../api/tasks";
-import toast from "react-hot-toast";
 import Loading from "../../components/backdrop";
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import Task from "../../interfaces/task.dto";
+import { toast } from "../../components/snackbar";
 
 export default function WorkerTask() 
 {
@@ -29,7 +29,7 @@ export default function WorkerTask()
             
             setLoading(false);
         }).catch((error : any) => {
-            toast.error(error.message)
+            toast.error('Task Load', error.message)
         })
     }
 
@@ -52,7 +52,7 @@ export default function WorkerTask()
         tasks.complete(index).then((response) => {
             if (response?.success)
             {
-                toast.success(response.message);
+                toast.success('Task Completion', response.message);
                 const newTask = activities.map((obj: any) => {
                     if (obj._id == index)
                     {
@@ -66,10 +66,10 @@ export default function WorkerTask()
             }
             else
             {
-                toast.error('Failed tag task as completed');
+                toast.error('Task Completion', 'Failed tag task as completed');
             }
         }).catch((error: any) => {
-            toast.error(error.message);
+            toast.error('Task Completion', error.message);
         });
     };
       
@@ -78,16 +78,33 @@ export default function WorkerTask()
         .then((response) => {
             if (response?.success)
             {
-                toast.success(response.message);
+                toast.success('Task Delete', response.message);
 
-                const deletedTask = activities.filter((item: any) => item._id !== index);
+                const deletedTask = activities.filter((item: any) => item._id != index);
                 setactivities(deletedTask);
             }
         })
         .catch((error) => {
-            toast.error(error.message);
+            toast.error('Task Delete', error.message);
         });
     };
+
+    const handleMassDeleteClick = (index: string | undefined) => {
+        tasks.remove(index as string).
+        then((response) => {
+            if (response?.success)
+            {
+                toast.success('Mass Deleter', response.message);
+            }
+            else
+            {
+                toast.error('Mass Deleter', response?.message);
+            }
+        }).
+        catch((error: any) => {
+            toast.error('Mass Deleter', error.message)
+        });
+    }
     
     const columns = [
         { 
@@ -169,11 +186,10 @@ export default function WorkerTask()
 
     const options = {
         onRowsDelete: (rowsDeleted: any) => {
-            JSON.stringify(rowsDeleted)
+            // console.log(JSON.stringify(rowsDeleted));
             rowsDeleted.data.map((data : any) => {
-                console.log(`${activities[data.index]._id}`);
-                handleDeleteClick(activities[data.index]._id as string);
-            })
+                handleMassDeleteClick(activities[data.dataIndex]._id);
+            });
         },
         downloadOptions: {
             filename: `Laporan Task ${new Date().toLocaleDateString()}`,
