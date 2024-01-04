@@ -16,7 +16,7 @@ class ToastHandler
         this.setOpen = () => {};
     }
     private open: boolean;
-    private message: string;
+    private message: string | undefined;
     private title: string;
     private type: AlertColor | undefined
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,7 +30,7 @@ class ToastHandler
         this.setOpen(true);
     }
 
-    error(title: string, msg: string)
+    error(title: string, msg: string | undefined)
     {
         this.setMessage(msg);
         this.setTitle(title);
@@ -39,7 +39,7 @@ class ToastHandler
         this.setOpen(true);
     }
     
-    private setMessage(msg: string)
+    private setMessage(msg: string | undefined)
     {
         this.message = msg;
     }
