@@ -171,7 +171,8 @@ export default function WorkerTask()
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
-                console.log(`${activities[data.index]._id}`)
+                console.log(`${activities[data.index]._id}`);
+                handleDeleteClick(activities[data.index]._id as string);
             })
         },
         downloadOptions: {
