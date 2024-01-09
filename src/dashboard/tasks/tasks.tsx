@@ -193,7 +193,7 @@ export default function WorkerTask()
             });
         },
         downloadOptions: {
-            filename: `Laporan Task ${new Date().toLocaleDateString()}`,
+            filename: `Laporan Task ${new Date().toISOString().slice(0, 10)}`,
             filterOptions: {
                 useDisplayedColumnsOnly: true
             }
