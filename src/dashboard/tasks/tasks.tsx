@@ -185,7 +185,7 @@ export default function WorkerTask()
     ];
 
     const options = {
-        responsive: 'vertical' as Responsive,
+        responsive: 'standard' as Responsive,
         onRowsDelete: (rowsDeleted: any) => {
             // console.log(JSON.stringify(rowsDeleted));
             rowsDeleted.data.map((data : any) => {
