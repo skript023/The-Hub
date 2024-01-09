@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Stack, Tooltip, Typography } from "@mui/material";
-import MUIDataTable from "mui-datatables";
+import MUIDataTable, { Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
@@ -185,6 +185,7 @@ export default function WorkerTask()
     ];
 
     const options = {
+        responsive: 'vertical' as Responsive,
         onRowsDelete: (rowsDeleted: any) => {
             // console.log(JSON.stringify(rowsDeleted));
             rowsDeleted.data.map((data : any) => {
