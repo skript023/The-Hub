@@ -11,34 +11,75 @@ import EditProduct from "./edit";
 import Modals from "../../components/modal";
 import product from "../../api/product";
 import Loading from "../../components/backdrop";
+import { toast } from "../../components/snackbar";
+import Product from "../../interfaces/product.dto";
 
-export default function Product() 
+export default function ProductManagement() 
 {
     const [openAdd, setOpenAdd] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [products, setProduct] = useState([] as Product[]);
+    const [prod, setProd] = useState({} as Product);
 
-    const [products, setProduct] = useState([] as any)
+    function loadProduct()
+    {
+        product.findAll()
+        .then((response) => {
+            setProduct(response as any);
+            setLoading(false);
+        })
+        .catch((error: any) => console.log(error.message));
+    }
+
     useEffect(() => {
         setLoading(true);
         
-        product.findAll()
-        .then((response) => {
-            setProduct(response);
-            setLoading(false);
-        })
-        .catch((error: any) => console.log(error.message))
+        loadProduct();
     }, []);
 
     const handleEditClick = (index: number) => {
         console.log("Edit clicked for column index:", index);
-        // Add your edit logic here using the index
+        products.map((obj: any) => {
+            if (obj._id == index)
+            {
+                setProd(obj);
+            }
+        });
     };
       
-    const handleDeleteClick = (index: number) => {
-        console.log("Delete clicked for column index:", index);
-        // Add your delete logic here using the index
+    const handleDeleteClick = (index: string) => {
+        product.remove(index)
+        .then((response) => {
+            if (response?.success)
+            {
+                toast.success('Product Delete', response.message);
+
+                const deleted = products.filter((item: any) => item._id != index);
+                setProduct(deleted);
+            }
+        })
+        .catch((error) => {
+            toast.error('Product Delete', error.message);
+        });
     };
+
+    const handleMassDeleteClick = (index: string | undefined) => {
+        product.remove(index as string).
+        then((response) => {
+            if (response?.success)
+            {
+                toast.success('Mass Deleter', response.message);
+            }
+            else
+            {
+                toast.error('Mass Deleter', response?.message);
+            }
+        }).
+        catch((error: any) => {
+            toast.error('Mass Deleter', error.message)
+        });
+    }
     
     const columns = [
         { 
@@ -55,6 +96,9 @@ export default function Product()
             options: {
                 filter: true,
                 sort: true,
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
+                    products.find((data) => data.user_id == value)?.user?.fullname
+                )
             }
         },
         {
@@ -74,7 +118,7 @@ export default function Product()
             }
         },
         {
-            name: "ennd_date",
+            name: "end_date",
             label: "End Date",
             options: {
                 filter: true,
@@ -90,7 +134,7 @@ export default function Product()
             }
         },
         {
-            name: "action",
+            name: "id",
             label: "Action",
             options: {
                 filter: true,
@@ -111,7 +155,7 @@ export default function Product()
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
-                console.log(`${products[data.index].id}`)
+                handleMassDeleteClick(products[data.dataIndex]._id);
             })
         },
     };
@@ -153,8 +197,8 @@ export default function Product()
                                     <MUIDataTable title={""} data={products} columns={columns} options={options}/>
                                 </Box>
                             </Box>
-                            <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct/>}/>
-                            <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct products={products} callback={() => {}}/>}/>
+                            <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct callback={loadProduct}/>}/>
+                            <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct products={prod} callback={loadProduct}/>}/>
                         </Box>
                     </Box>
                     </>

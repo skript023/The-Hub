@@ -1,3 +1,4 @@
+import User from "./user.dto";
 
 interface ProductDetail 
 {
@@ -9,11 +10,12 @@ interface ProductDetail
 
 export default interface Product
 {
-    _id: string;
+    _id: string | undefined;
     user_id: string | undefined;
     name: string;
     start_date: string;
     end_date: string;
     status: string;
-    detail: ProductDetail[] | undefined;
+    detail: ProductDetail[];
+    user: User | undefined;
 };

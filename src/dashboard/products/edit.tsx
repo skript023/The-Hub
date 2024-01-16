@@ -1,4 +1,4 @@
-import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Grid, TextField } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Divider, Grid, Stack, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormEvent, useState } from "react";
@@ -27,12 +27,39 @@ export default function EditProduct({products, callback}: Edit)
         start_date: products.start_date,
         end_date: products.end_date,
         status: products.status,
-        detail: products.detail
+        detail: products.detail,
+        user: products.user
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value, });
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleDetailChange = (index: number, key: string, value: string) => {
+        setFormData((prevData) => {
+          const newDetail = [...prevData.detail];
+          newDetail[index] = { ...newDetail[index], [key]: value };
+          return { ...prevData, detail: newDetail };
+        });
+    };
+    
+    const addDetail = () => {
+        setFormData((prevData) => ({
+            ...prevData,
+            detail: [...prevData.detail, { order_num: '', type: '', status: '' }],
+        }));
+    };
+
+    const removeDetail = () => {
+        setFormData((prevData) => {
+            const newDetail = [...prevData.detail];
+            newDetail.pop(); // Remove the last item from the array
+            return { ...prevData, detail: newDetail };
+        });
     };
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -71,6 +98,15 @@ export default function EditProduct({products, callback}: Edit)
                 <DialogContent dividers>
                     <Box sx={{ m: 2 }}/>
                         {alert}
+                    <Box height={20}/>
+                    <Stack spacing={2} direction={'row'}>
+                        <Button variant="contained" color="primary" onClick={addDetail}>
+                            Add Skenario
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={removeDetail}>
+                            Remove Skenario
+                        </Button>
+                    </Stack>
                     <Box height={20}/>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -150,6 +186,53 @@ export default function EditProduct({products, callback}: Edit)
                             />
                         </Grid>
                     </Grid>
+                    {formData.detail.map((detail, index) => (
+                        <div key={index}>
+                            <Box height={50}/>
+                            <Divider sx={{ mb: 3 }}>Skenario Detail {index + 1}</Divider>
+                            <Grid container spacing={3}>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        required
+                                        variant="standard"
+                                        type="text"
+                                        label="Order#"
+                                        onChange={(e) => handleDetailChange(index, 'order_num', e.target.value)}
+                                        value={detail.order_num}
+                                        name={`detail[${index}].order_num`}
+                                        size="small"
+                                        sx={{ minWidth: "100%" }}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        required
+                                        variant="standard"
+                                        type="text"
+                                        label="Type"
+                                        onChange={(e) => handleDetailChange(index, 'type', e.target.value)}
+                                        value={detail.type}
+                                        name={`detail[${index}].type`}
+                                        size="small"
+                                        sx={{ minWidth: "100%" }}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        required
+                                        variant="standard"
+                                        type="text"
+                                        label="Status"
+                                        onChange={(e) => handleDetailChange(index, 'status', e.target.value)}
+                                        value={detail.status}
+                                        name={`detail[${index}].status`}
+                                        size="small"
+                                        sx={{ minWidth: "100%" }}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </div>
+                    ))}
                 </DialogContent>
                 <DialogActions>
                     <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
