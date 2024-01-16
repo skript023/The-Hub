@@ -67,7 +67,7 @@ class authentication
         if (!this.data())
             return 'https://via.placeholder.com/800x500';
 
-        return `https://crm-backend.glitch.me/user/avatar/${this.data()?.image}`;
+        return `${api.server()}/user/avatar/${this.data()?.image}`;
     }
 
     private user: User | undefined;

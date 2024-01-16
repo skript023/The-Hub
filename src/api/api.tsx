@@ -4,6 +4,8 @@ export class api
     //private url = import.meta.env.VITE_ENVIRONMENT === 'prod' ? 'https://crm-backend.glitch.me' : 'http://localhost:3000';
     private url = 'https://the-worker-hub.glitch.me';
 
+    server(): string { return this.url; }
+
     async post(route: string, init : RequestInit | undefined)
     {
         return fetch(`${this.url}/${route}`, {
