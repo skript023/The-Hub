@@ -2,6 +2,7 @@ import api from "./api"
 import Product from "../interfaces/product.dto";
 import ServerResponse from "../interfaces/response.dto";
 import { toast } from "../components/snackbar";
+import formatter from "../util/formatter";
 
 class product
 {
@@ -41,6 +42,11 @@ class product
             {
                 const json = await response.json() as ServerResponse<Product[]>;
 
+                json.data.map((data) => {
+                    data.start_date = formatter.convertDateFormat(data.start_date as any);
+                    data.end_date = formatter.convertDateFormat(data.end_date as any);
+                });
+
                 return json.data;
             }
         } 
@@ -62,6 +68,9 @@ class product
             if (response.status == 200)
             {
                 const json = await response.json() as ServerResponse<Product>;
+
+                json.data.start_date = formatter.convertDateFormat(json.data.start_date as any);
+                json.data.end_date = formatter.convertDateFormat(json.data.end_date as any);
 
                 return json.data;
             }

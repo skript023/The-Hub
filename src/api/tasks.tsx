@@ -95,6 +95,9 @@ class task
             {
                 const json = await response.json() as ServerResponse<Task>;
 
+                json.data.start_date = formatter.convertDateFormat(json.data.start_date as any);
+                json.data.end_date = formatter.convertDateFormat(json.data.end_date as any);
+
                 toast.success(json.message);
 
                 return json.data;
