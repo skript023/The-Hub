@@ -113,17 +113,16 @@ export default function WorkerTask()
             options: {
                 filter: true,
                 sort: true,
+                download: false,
             }
         },
         { 
-            name: "user_id", 
+            name: "user.fullname", 
             label: "Owner",
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
-                    activities.find((data) => data.user_id == value)?.user?.fullname
-                ),
+                download: false,
             }
         },
         {
@@ -164,6 +163,7 @@ export default function WorkerTask()
             options: {
                 filter: false,
                 sort: false,
+                download: false,
                 customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
                     <Stack spacing={2} direction={"row"}>
                         <Tooltip title="Set as Completed">
@@ -186,6 +186,7 @@ export default function WorkerTask()
 
     const options = {
         responsive: 'standard' as Responsive,
+        enableNestedDataAccess: ".",
         onRowsDelete: (rowsDeleted: any) => {
             // console.log(JSON.stringify(rowsDeleted));
             rowsDeleted.data.map((data : any) => {

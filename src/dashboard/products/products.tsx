@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import MUIDataTable from "mui-datatables";
+import MUIDataTable, { Responsive } from "mui-datatables";
 import React, {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
@@ -13,11 +13,13 @@ import product from "../../api/product";
 import Loading from "../../components/backdrop";
 import { toast } from "../../components/snackbar";
 import Product from "../../interfaces/product.dto";
+import DetailProduct from "./product.detail";
 
 export default function ProductManagement() 
 {
     const [openAdd, setOpenAdd] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(false);
+    const [openDetail, setopenDetail] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [products, setProduct] = useState([] as Product[]);
     const [prod, setProd] = useState({} as Product);
@@ -39,7 +41,6 @@ export default function ProductManagement()
     }, []);
 
     const handleEditClick = (index: number) => {
-        console.log("Edit clicked for column index:", index);
         products.map((obj: any) => {
             if (obj._id == index)
             {
@@ -88,17 +89,16 @@ export default function ProductManagement()
             options: {
                 filter: true,
                 sort: true,
+                download: false,
             }
         },
         {
-            name: "user_id",
+            name: "user.fullname",
             label: "Owner",
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
-                    products.find((data) => data.user_id == value)?.user?.fullname
-                )
+                download: false,
             }
         },
         {
@@ -139,6 +139,7 @@ export default function ProductManagement()
             options: {
                 filter: true,
                 sort: true,
+                download: false,
                 customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
                     <Stack spacing={2} direction={"row"}>
                         <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
@@ -152,12 +153,18 @@ export default function ProductManagement()
     ];
 
     const options = {
+        responsive: 'standard' as Responsive,
+        enableNestedDataAccess: ".",
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
                 handleMassDeleteClick(products[data.dataIndex]._id);
             })
         },
+        onCellClick: (_colData: any, cellMeta: { colIndex: number, rowIndex: number, dataIndex: number }) => {
+            console.log(products[cellMeta.dataIndex]._id);
+            handleEditClick(products[cellMeta.dataIndex]._id as any); setopenDetail(true)
+        }
     };
 
     return (
@@ -199,6 +206,7 @@ export default function ProductManagement()
                             </Box>
                             <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct callback={loadProduct}/>}/>
                             <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct products={prod} callback={loadProduct}/>}/>
+                            <Modals open={openDetail} callback={() => setopenDetail(false)} children={<DetailProduct products={prod}/>}/>
                         </Box>
                     </Box>
                     </>
