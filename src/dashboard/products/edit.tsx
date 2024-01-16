@@ -1,100 +1,176 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import { Formik } from "formik";
-import * as yup from "yup";
+import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Grid, TextField } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { FormEvent, useState } from "react";
+import authentication from "../../api/authentication";
+import dayjs, { Dayjs } from "dayjs";
+import { toast } from "../../components/snackbar";
+import Product from "../../interfaces/product.dto";
+import product from "../../api/product";
 
-export default function EditProduct()
+interface Edit
 {
-    const checkoutSchema = yup.object().shape({
-        name: yup.string().required("Name is required"),
-        description: yup.string().required("Description is required"),
-        price: yup.number().required("Price is required"),
+    products: Product
+    callback: () => void;
+}
+
+export default function EditProduct({products, callback}: Edit)
+{
+    const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date(products.start_date as string)))
+    const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date(products.end_date as string)))
+    const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState<JSX.Element | null>(null);
+    const [formData, setFormData] = useState<Product>({
+        _id: products._id,
+        user_id: authentication.data()?._id,
+        name: products.name,
+        start_date: products.start_date,
+        end_date: products.end_date,
+        status: products.status,
+        detail: products.detail
     });
-    const initialValues = {
-        name: "",
-        price: 0,
-        description: "",
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value, });
     };
 
-    const handleFormSubmit = () => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        setLoading(true);
+
+        e.preventDefault();
+
+        formData.start_date = startDate.toDate().toLocaleDateString();
+        formData.end_date = endDate.toDate().toLocaleDateString();
         
+        setFormData(formData);
+
+        product.update(products._id as string, formData as Product).then((response) => {
+            if (response?.success)
+            {
+                toast.success("Product Update", response.message)
+                setAlert(() => (<Alert severity="success">{response.message}</Alert>));
+            }
+            else
+            {
+                setAlert(() => (<Alert severity="error">{response?.message}</Alert>));
+                toast.error("Product Update", `${response?.message}`);
+            }
+
+            setLoading(false);
+
+            callback();
+        }).catch((error: any) => {
+            toast.error("Product Update", error.message);
+        });
     };
 
     return (
         <>
-            <Box sx={{ m: 2 }}/>
-            <Typography variant="h5" align="center">
-            Edit Product
-            </Typography>
-            <Box height={20}/>
-        
-            <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={checkoutSchema}>
-                {({
-                    values,
-                    errors,
-                    touched,
-                    handleBlur,
-                    handleChange,
-                    handleSubmit,
-                }) => (
-                    <form onSubmit={handleSubmit}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    variant="filled"
-                                    type="text"
-                                    label="Name"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.name}
-                                    name="name"
-                                    error={!!touched.name && !!errors.name}
-                                    helperText={touched.name && errors.name}
-                                    size="small"
-                                    sx={{ minWidth: "100%" }}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    required
-                                    variant="filled"
-                                    type="number"
-                                    label="Price"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.price}
-                                    name="price"
-                                    error={!!touched.price && !!errors.price}
-                                    helperText={touched.price && errors.price}
-                                    size="small"
-                                    sx={{ minWidth: "100%" }}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    required
-                                    variant="filled"
-                                    type="text"
-                                    label="Description"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.description}
-                                    name="description"
-                                    error={!!touched.description && !!errors.description}
-                                    helperText={touched.description && errors.description}
-                                    size="small"
-                                    sx={{ minWidth: "100%" }}
-                                />
-                            </Grid>
+            <form onSubmit={handleSubmit}>
+                <DialogContent dividers>
+                    <Box sx={{ m: 2 }}/>
+                        {alert}
+                    <Box height={20}/>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                variant="filled"
+                                type="text"
+                                label="Name"
+                                onChange={handleInputChange}
+                                value={formData.name}
+                                name="name"
+                                size="small"
+                                sx={{ minWidth: "100%" }}
+                            />
                         </Grid>
-                        <Box display="flex" justifyContent="center" mt="20px">
-                            <Button type="submit" color="secondary" variant="contained">
-                            Add
-                            </Button>
-                        </Box>
-                    </form>
-                )}
-            </Formik>
+                        <Grid item xs={6}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    autoFocus
+                                    label="Start Date"
+                                    value={startDate}
+                                    onChange={value => setStartDate(value as Dayjs)}
+                                    defaultValue={startDate}
+                                />
+                            </LocalizationProvider>
+                            <div hidden>
+                                <TextField
+                                    disabled={true}
+                                    hidden={true}
+                                    variant="filled"
+                                    type="text"
+                                    label="Start Date"
+                                    onChange={handleInputChange}
+                                    value={startDate}
+                                    name="start_date"
+                                    size="small"
+                                    sx={{ minWidth: "100%" }}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    autoFocus
+                                    label="End Date"
+                                    value={endDate}
+                                    onChange={value => setEndDate(value as Dayjs)}
+                                    defaultValue={endDate}
+                                />
+                            </LocalizationProvider>
+                            <div hidden>
+                                <TextField
+                                    disabled={true}
+                                    hidden={true}
+                                    variant="filled"
+                                    type="text"
+                                    label="End Date"
+                                    onChange={handleInputChange}
+                                    value={endDate}
+                                    name="end_date"
+                                    size="small"
+                                    sx={{ minWidth: "100%" }}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                required
+                                variant="filled"
+                                type="text"
+                                label="Status"
+                                onChange={handleInputChange}
+                                value={formData.status}
+                                name="status"
+                                size="small"
+                                sx={{ minWidth: "100%" }}
+                            />
+                        </Grid>
+                    </Grid>
+                </DialogContent>
+                <DialogActions>
+                    <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
+                        <Button autoFocus type="submit" disabled={loading}>
+                            Update
+                        </Button>
+                        {loading && (
+                            <CircularProgress
+                                size={24}
+                                sx={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                marginTop: '-12px',
+                                marginLeft: '-12px',
+                                }}
+                            />
+                        )}
+                    </Box>
+                </DialogActions>
+            </form>
         </>
 
     )

@@ -109,7 +109,7 @@ export default function WorkerTask()
     const columns = [
         { 
             name: "id", 
-            label: "ID",
+            label: "Task ID",
             options: {
                 filter: true,
                 sort: true,

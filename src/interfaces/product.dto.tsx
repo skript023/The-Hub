@@ -1,21 +1,19 @@
 
-export enum ProductGrade {
-    development = 'DEVELOPMENT',
-    enterprise = 'ENTERPRISE',
-    premium = 'PREMIUM',
-    basic = 'BASIC',
-}
+interface ProductDetail 
+{
+    order_num: string;
+    type: string;
+    status: string;
+};
+
 
 export default interface Product
 {
     _id: string;
-    code: number;
+    user_id: string | undefined;
     name: string;
-    price: number;
-    grade: ProductGrade;
-    game: string;
-    target: string;
-    file: string;
-    version: string;
+    start_date: string;
+    end_date: string;
     status: string;
-}
+    detail: ProductDetail[] | undefined;
+};

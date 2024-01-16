@@ -43,7 +43,15 @@ export default function Product()
     const columns = [
         { 
             name: "id", 
-            label: "ID",
+            label: "UAT ID",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "user_id",
+            label: "Owner",
             options: {
                 filter: true,
                 sort: true,
@@ -51,63 +59,31 @@ export default function Product()
         },
         {
             name: "name",
-            label: "Name",
+            label: "Agenda",
             options: {
                 filter: true,
                 sort: true,
             }
         },
         {
-            name: "code",
-            label: "Product Code",
+            name: "start_date",
+            label: "Start Date",
             options: {
                 filter: true,
                 sort: true,
             }
         },
         {
-            name: "price",
-            label: "Price",
+            name: "ennd_date",
+            label: "End Date",
             options: {
                 filter: true,
                 sort: true,
             }
         },
         {
-            name: "grade",
-            label: "Grade",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "game",
-            label: "Game",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "target",
-            label: "Target Process",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "file",
-            label: "Filename",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "version",
-            label: "version",
+            name: "status",
+            label: "Status",
             options: {
                 filter: true,
                 sort: true,
@@ -178,7 +154,7 @@ export default function Product()
                                 </Box>
                             </Box>
                             <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct/>}/>
-                            <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct/>}/>
+                            <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct products={products} callback={() => {}}/>}/>
                         </Box>
                     </Box>
                     </>
