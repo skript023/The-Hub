@@ -25,7 +25,7 @@ export default function AccountMenuMobile({mobileMenuId, isMobileMenuOpen, handl
             onClose={handleMobileMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>
-                <Avatar alt="Profile" src={`https://crm-backend.glitch.me/user/avatar/${authentication.data()?.image}`}/><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
+                <Avatar alt="Profile" src={authentication.avatar()}/><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleMenuClose} disabled>

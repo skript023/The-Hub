@@ -184,7 +184,7 @@ export default function Navbar({open, isLoaded, callback} : any)
                         >
                             {
                                 isLoaded ? 
-                                (<AvatarIcon alt="Profile" src={`https://crm-backend.glitch.me/user/avatar/${authentication.data()?.image}`} sx={{ width: 32, height: 32 }}/>) 
+                                (<AvatarIcon alt="Profile" src={authentication.avatar()} sx={{ width: 32, height: 32 }}/>) 
                                 : 
                                 (<CircularProgress size={24} color="inherit" sx={{ justifyContent: 'center' }} />)
                             }

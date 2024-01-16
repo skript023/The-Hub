@@ -62,6 +62,14 @@ class authentication
         return this.user;
     }
 
+    avatar()
+    {
+        if (!this.data())
+            return 'https://via.placeholder.com/800x500';
+
+        return `https://crm-backend.glitch.me/user/avatar/${this.data()?.image}`;
+    }
+
     private user: User | undefined;
 }
 

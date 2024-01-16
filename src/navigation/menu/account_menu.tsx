@@ -26,7 +26,7 @@ export default function AccountMenu({menuId, isMenuOpen, handleMenuClose}: any)
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>
-                <AvatarIcon alt="Profile" src={`https://crm-backend.glitch.me/user/avatar/${authentication.data()?.image}`}/><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
+                <AvatarIcon alt="Profile" src={authentication.avatar()}/><Typography sx={{ marginLeft:1 }}>{authentication.data()?.fullname}</Typography>
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleMenuClose} disabled>
