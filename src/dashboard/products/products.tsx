@@ -217,9 +217,9 @@ export default function ProductManagement()
                                     <MUIDataTable title={""} data={products} columns={columns} options={options}/>
                                 </Box>
                             </Box>
-                            <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct callback={loadProduct}/>}/>
-                            <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct products={prod} callback={loadProduct}/>}/>
-                            <Modals open={openDetail} callback={() => setopenDetail(false)} children={<DetailProduct products={prod}/>}/>
+                            <Modals title={"Add Product"} open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct callback={loadProduct}/>}/>
+                            <Modals title={"Edit Product"} open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct products={prod} callback={loadProduct}/>}/>
+                            <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)} children={<DetailProduct products={prod}/>}/>
                         </Box>
                     </Box>
                     </>

@@ -30,7 +30,6 @@ export default function DetailProduct({products}: Edit)
                             <TextField
                                 required
                                 disabled={true}
-                                variant="filled"
                                 type="text"
                                 label="Name"
                                 value={formData.name}
@@ -42,7 +41,6 @@ export default function DetailProduct({products}: Edit)
                         <Grid item xs={6}>
                             <TextField
                                 disabled={true}
-                                variant="filled"
                                 type="text"
                                 label="Status"
                                 value={formData.status}
@@ -54,7 +52,6 @@ export default function DetailProduct({products}: Edit)
                         <Grid item xs={6}>
                             <TextField
                                 disabled={true}
-                                variant="filled"
                                 type="text"
                                 label="Start Date"
                                 value={formData.start_date}
@@ -66,7 +63,6 @@ export default function DetailProduct({products}: Edit)
                         <Grid item xs={6}>
                             <TextField
                                 disabled={true}
-                                variant="filled"
                                 type="text"
                                 label="End Date"
                                 value={formData.end_date}
@@ -84,7 +80,6 @@ export default function DetailProduct({products}: Edit)
                                 <Grid item xs={12}>
                                     <TextField
                                         disabled={true}
-                                        variant="standard"
                                         type="text"
                                         label="Order#"
                                         value={detail.order_num}
@@ -96,7 +91,6 @@ export default function DetailProduct({products}: Edit)
                                 <Grid item xs={6}>
                                     <TextField
                                         disabled={true}
-                                        variant="standard"
                                         type="text"
                                         label="Type"
                                         value={detail.type}
@@ -108,7 +102,6 @@ export default function DetailProduct({products}: Edit)
                                 <Grid item xs={6}>
                                     <TextField
                                         disabled={true}
-                                        variant="standard"
                                         type="text"
                                         label="Status"
                                         value={detail.status}
