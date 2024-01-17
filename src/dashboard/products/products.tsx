@@ -14,6 +14,7 @@ import Loading from "../../components/backdrop";
 import { toast } from "../../components/snackbar";
 import Product from "../../interfaces/product.dto";
 import DetailProduct from "./product.detail";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export default function ProductManagement() 
 {
@@ -41,6 +42,15 @@ export default function ProductManagement()
     }, []);
 
     const handleEditClick = (index: number) => {
+        products.map((obj: any) => {
+            if (obj._id == index)
+            {
+                setProd(obj);
+            }
+        });
+    };
+
+    const handleDetailClick = (index: number) => {
         products.map((obj: any) => {
             if (obj._id == index)
             {
@@ -142,8 +152,10 @@ export default function ProductManagement()
                 download: false,
                 customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
                     <Stack spacing={2} direction={"row"}>
+                        <MoreVertIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
+                            onClick={() => {handleDetailClick(value); setopenDetail(true);} }/>
                         <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
-                            onClick={() => {handleEditClick(value); setOpenEdit(true)} }/>
+                            onClick={() => {handleEditClick(value); setOpenEdit(true);} }/>
                         <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
                             onClick={() => handleDeleteClick(value) }/>
                     </Stack>
@@ -159,11 +171,12 @@ export default function ProductManagement()
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
                 handleMassDeleteClick(products[data.dataIndex]._id);
-            })
+            });
         },
         onCellClick: (_colData: any, cellMeta: { colIndex: number, rowIndex: number, dataIndex: number }) => {
             console.log(products[cellMeta.dataIndex]._id);
-            handleEditClick(products[cellMeta.dataIndex]._id as any); setopenDetail(true)
+            //handleDetailClick(products[cellMeta.dataIndex]._id as any); 
+            //setopenDetail(true);
         }
     };
 

@@ -11,7 +11,7 @@ import AddTask from "./add";
 import EditTask from "./edit";
 import tasks from "../../api/tasks";
 import Loading from "../../components/backdrop";
-import AddTaskIcon from '@mui/icons-material/AddTask';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Task from "../../interfaces/task.dto";
 import { toast } from "../../components/snackbar";
 
@@ -167,7 +167,7 @@ export default function WorkerTask()
                 customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
                     <Stack spacing={2} direction={"row"}>
                         <Tooltip title="Set as Completed">
-                            <AddTaskIcon style={{ fontSize: "20px", color: "green", cursor: "pointer" }}
+                            <TaskAltIcon style={{ fontSize: "20px", color: "green", cursor: "pointer" }}
                                 onClick={() => handleComplete(value) }/>
                         </Tooltip>
                         <Tooltip title="Edit Task">
