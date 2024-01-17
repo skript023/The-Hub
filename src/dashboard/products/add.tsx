@@ -182,7 +182,7 @@ export default function AddProduct({callback}: any)
                 {formData.detail.map((detail, index) => (
                     <div key={index}>
                         <Box height={50}/>
-                        <Divider sx={{ mb: 3 }}>Skenario Detail {index + 1}</Divider>
+                        <Divider sx={{ mb: 3 }}>Skenario {index + 1}</Divider>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 <TextField
