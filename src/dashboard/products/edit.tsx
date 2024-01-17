@@ -98,7 +98,6 @@ export default function EditProduct({products, callback}: Edit)
                 <DialogContent dividers>
                     <Box sx={{ m: 2 }}/>
                         {alert}
-                    <Box height={20}/>
                     <Stack spacing={2} direction={'row'}>
                         <Button variant="contained" color="primary" onClick={addDetail}>
                             Add Skenario
