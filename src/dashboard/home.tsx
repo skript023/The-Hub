@@ -6,7 +6,7 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import './styles/ellohim.css';
-import PopularProduct from "./products/popular_product";
+import PopularProduct from "./products/product.popular";
 import BarChart from "./charts/bar";
 
 
