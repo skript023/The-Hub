@@ -34,7 +34,7 @@ export default function AccountMenuMobile({mobileMenuId, isMobileMenuOpen, handl
                 </ListItemIcon>
                     Add another account
             </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
+            <MenuItem onClick={handleMenuClose} disabled>
                 <ListItemIcon>
                     <Settings fontSize="small" />
                 </ListItemIcon>

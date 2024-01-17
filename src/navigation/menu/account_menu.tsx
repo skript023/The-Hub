@@ -35,7 +35,7 @@ export default function AccountMenu({menuId, isMenuOpen, handleMenuClose}: any)
                 </ListItemIcon>
                     Add another account
             </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
+            <MenuItem onClick={handleMenuClose} disabled>
                 <ListItemIcon>
                     <Settings fontSize="small" />
                 </ListItemIcon>
