@@ -100,6 +100,7 @@ export default function EditProduct({products, callback}: Edit)
                 <DialogContent dividers>
                     <Box sx={{ m: 2 }}/>
                         {alert}
+                        {alert ?? <Box height={20}/>}
                     <Stack spacing={2} direction={'row'}>
                         <IconButton onClick={addDetail}>
                             <AddIcon/>

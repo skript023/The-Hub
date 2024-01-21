@@ -31,7 +31,7 @@ export default function ProductManagement()
     {
         product.findAll()
         .then((response) => {
-            setProduct(response as any);
+            setProduct(response as Product[]);
             setLoading(false);
         })
         .catch((error: any) => console.log(error.message));
@@ -99,7 +99,7 @@ export default function ProductManagement()
             }
         }).
         catch((error: any) => {
-            toast.error('Mass Deleter', error.message)
+            toast.error('Mass Deleter', error.message);
         });
     }
     
