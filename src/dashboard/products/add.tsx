@@ -1,4 +1,4 @@
-import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Divider, Grid, Stack, TextField } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Divider, Grid, IconButton, Stack, TextField } from "@mui/material";
 import { FormEvent, useState } from "react";
 import authentication from "../../api/authentication";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -7,6 +7,8 @@ import dayjs, { Dayjs } from "dayjs";
 import product from "../../api/product";
 import Product from "../../interfaces/product.dto";
 import { toast } from "../../components/snackbar";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 export default function AddProduct({callback}: any)
 {
@@ -21,7 +23,7 @@ export default function AddProduct({callback}: any)
         start_date: "",
         end_date: "",
         status: "",
-        detail: [{ order_num: "", type: "", status: ""}],
+        detail: [{ order_num: "", type: "", status: "", attributes: [{name: '', value: ''}]}],
         user: undefined
     });
 
@@ -44,7 +46,7 @@ export default function AddProduct({callback}: any)
     const addDetail = () => {
         setFormData((prevData) => ({
             ...prevData,
-            detail: [...prevData.detail, { order_num: '', type: '', status: '' }],
+            detail: [...prevData.detail, { order_num: '', type: '', status: '', attributes: [{name: "", value: ""}], captures: [""] }],
         }));
     };
 
@@ -56,6 +58,41 @@ export default function AddProduct({callback}: any)
         });
     };
 
+    const addAttribute = (detailIndex: number) => {
+        setFormData((prevData) => {
+          const newDetail = [...prevData.detail];
+          newDetail[detailIndex].attributes.push({ name: '', value: '' });
+          return { ...prevData, detail: newDetail };
+        });
+      };
+    
+    const removeAttribute = (detailIndex: number) => {
+        setFormData((prevData) => {
+            const newDetail = [...prevData.detail];
+            const lastAttributeIndex = newDetail[detailIndex].attributes.length - 1;
+            if (lastAttributeIndex >= 0) {
+            newDetail[detailIndex].attributes.splice(lastAttributeIndex, 1);
+            }
+            return { ...prevData, detail: newDetail };
+        });
+    };
+    
+    const handleChangeAttributeKey = (detailIndex: number, attributeIndex: number, newName: string) => {
+        setFormData((prevData) => {
+            const newDetail = [...prevData.detail];
+            newDetail[detailIndex].attributes[attributeIndex].name = newName;
+            return { ...prevData, detail: newDetail };
+        });
+    };
+
+    const handleChangeAttributeValue = (detailIndex: number, attributeIndex: number, newValue: string) => {
+        setFormData((prevData) => {
+            const newDetail = [...prevData.detail];
+            newDetail[detailIndex].attributes[attributeIndex].value = newValue;
+            return { ...prevData, detail: newDetail };
+        });
+    };
+    
     function handleSubmit (e: FormEvent<HTMLFormElement>) 
     {
         setLoading(true);
@@ -67,6 +104,9 @@ export default function AddProduct({callback}: any)
         
         setFormData(formData);
 
+        console.log(JSON.stringify(formData));
+        
+
         product.create(formData).then((response) => {
             if (response?.success)
             {
@@ -77,7 +117,7 @@ export default function AddProduct({callback}: any)
             else
             {
                 setAlert(() => (<Alert severity="error">{response?.message}</Alert>))
-                toast.error("Add Product", `${response?.message}`);
+                toast.error("Product Not Success", `${response?.message}`);
             }
             callback();
             setLoading(false);
@@ -91,13 +131,13 @@ export default function AddProduct({callback}: any)
             <DialogContent dividers>
                 <Box sx={{ m: 2 }}/>
                 {alert}
-                <Stack spacing={2} direction={'row'}>
-                    <Button variant="contained" color="primary" onClick={addDetail}>
-                        Add Skenario
-                    </Button>
-                    <Button variant="contained" color="primary" onClick={removeDetail}>
-                        Remove Skenario
-                    </Button>
+                <Stack spacing={1} direction={'row'}>
+                    <IconButton onClick={addDetail}>
+                        <AddIcon/>
+                    </IconButton>
+                    <IconButton onClick={removeDetail}>
+                        <RemoveIcon/>
+                    </IconButton>
                 </Stack>
                 <Box height={20}/>
                 <Grid container spacing={2}>
@@ -182,9 +222,17 @@ export default function AddProduct({callback}: any)
                     <div key={index}>
                         <Box height={50}/>
                         <Divider sx={{ mb: 3 }}>Skenario {index + 1}</Divider>
+                        <Stack spacing={1} direction={'row'}>
+                            <IconButton onClick={() => addAttribute(index)}>
+                                <AddIcon/> Attribute
+                            </IconButton>
+                            <IconButton onClick={() => removeAttribute(index)}>
+                                <RemoveIcon/> Attribute
+                            </IconButton>
+                        </Stack>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
-                                <TextField
+                                <TextField  
                                     required
                                     variant="standard"
                                     type="text"
@@ -196,6 +244,36 @@ export default function AddProduct({callback}: any)
                                     sx={{ minWidth: "100%" }}
                                 />
                             </Grid>
+                            {detail.attributes.map((attr, attr_id) => (
+                                <>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        required
+                                        variant="standard"
+                                        type="text"
+                                        label={`Name ${index}`}
+                                        onChange={(e) => handleChangeAttributeKey(index, attr_id, e.target.value)}
+                                        value={attr.name}
+                                        name={`attribute[${index}].name`}
+                                        size="small"
+                                        sx={{ minWidth: "100%" }}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        required
+                                        variant="standard"
+                                        type="text"
+                                        label={`Value ${index}`}
+                                        onChange={(e) => handleChangeAttributeValue(index, attr_id, e.target.value)}
+                                        value={attr.value}
+                                        name={`attributes[${index}].value`}
+                                        size="small"
+                                        sx={{ minWidth: "100%" }}
+                                    />
+                                </Grid>
+                                </>
+                            ))}
                             <Grid item xs={6}>
                                 <TextField
                                     required

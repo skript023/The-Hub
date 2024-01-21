@@ -3,7 +3,7 @@ import MUIDataTable, { Responsive } from "mui-datatables";
 import React, {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
-
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import AddProduct from "./add";
@@ -15,12 +15,14 @@ import { toast } from "../../components/snackbar";
 import Product from "../../interfaces/product.dto";
 import DetailProduct from "./product.detail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FileUpload from "./upload";
 
 export default function ProductManagement() 
 {
     const [openAdd, setOpenAdd] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(false);
     const [openDetail, setopenDetail] = React.useState(false);
+    const [openEvident, setopenEvident] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [products, setProduct] = useState([] as Product[]);
     const [prod, setProd] = useState({} as Product);
@@ -51,6 +53,15 @@ export default function ProductManagement()
     };
 
     const handleDetailClick = (index: number) => {
+        products.map((obj: any) => {
+            if (obj._id == index)
+            {
+                setProd(obj);
+            }
+        });
+    };
+
+    const handleUploadClick = (index: number) => {
         products.map((obj: any) => {
             if (obj._id == index)
             {
@@ -154,6 +165,8 @@ export default function ProductManagement()
                     <Stack spacing={2} direction={"row"}>
                         <MoreVertIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
                             onClick={() => {handleDetailClick(value); setopenDetail(true);} }/>
+                        <AddAPhotoIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
+                            onClick={() => {handleUploadClick(value); setopenEvident(true);} }/>
                         <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
                             onClick={() => {handleEditClick(value); setOpenEdit(true);} }/>
                         <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
@@ -220,6 +233,7 @@ export default function ProductManagement()
                             <Modals title={"Add Product"} open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct callback={loadProduct}/>}/>
                             <Modals title={"Edit Product"} open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct products={prod} callback={loadProduct}/>}/>
                             <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)} children={<DetailProduct products={prod}/>}/>
+                            <Modals title={"Evident"} open={openEvident} callback={() => setopenEvident(false)} children={<FileUpload upload={prod}/>}/>
                         </Box>
                     </Box>
                     </>

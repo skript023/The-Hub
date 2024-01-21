@@ -1,10 +1,16 @@
 import User from "./user.dto";
 
-interface ProductDetail 
+export interface AttributesDetail {
+    name: string;
+    value: string;
+}
+
+export interface ProductDetail 
 {
     order_num: string;
     type: string;
     status: string;
+    attributes: AttributesDetail[];
 };
 
 

@@ -18,12 +18,7 @@ class product
                 }
             });
             
-            if (response.status == 201)
-            {
-                return response.json();
-            }
-
-            return undefined;
+            return response.json();
         } 
         catch (error: any) 
         {
@@ -126,6 +121,48 @@ class product
             return undefined;
         }
     }
+    async uploadEvident(id: string, product: FormData): Promise<ServerResponse<Product> | undefined>
+    {
+        try 
+        {
+            const response = await api.put(`product/uploads/detail/captures/${id}`, 
+            { 
+                credentials: 'include',
+                body: product,
+            });
+
+            console.log(response.status);
+            
+
+            return response.json();
+        } 
+        catch (error: any) 
+        {
+            toast.error('API Call Product Update', error.message);
+
+            return undefined;
+        }
+    }
+
+    // private form_data(formData: FormData, prefix: string, obj: any)
+    // {
+    //     for (const [key, value] of Object.entries(obj) as any) 
+    //     {
+    //         const fieldName = prefix ? `${prefix}[${key}]` : key;
+    //         if (value instanceof File) 
+    //         {
+    //             formData.append(fieldName, value);
+    //         } 
+    //         else if (typeof value === 'object' && value !== null) 
+    //         {
+    //             this.form_data(formData, fieldName, value);
+    //         } 
+    //         else 
+    //         {
+    //             formData.append(fieldName, value);
+    //         }
+    //     }
+    // };
 } 
 
 export default new product()

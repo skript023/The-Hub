@@ -1,4 +1,4 @@
-import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Divider, Grid, Stack, TextField } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Divider, Grid, IconButton, Stack, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormEvent, useState } from "react";
@@ -7,6 +7,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { toast } from "../../components/snackbar";
 import Product from "../../interfaces/product.dto";
 import product from "../../api/product";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 interface Edit
 {
@@ -50,7 +52,7 @@ export default function EditProduct({products, callback}: Edit)
     const addDetail = () => {
         setFormData((prevData) => ({
             ...prevData,
-            detail: [...prevData.detail, { order_num: '', type: '', status: '' }],
+            detail: [...prevData.detail, { order_num: '', type: '', status: '', attributes: [{name: '', value: ''}], captures: [''] }],
         }));
     };
 
@@ -99,12 +101,12 @@ export default function EditProduct({products, callback}: Edit)
                     <Box sx={{ m: 2 }}/>
                         {alert}
                     <Stack spacing={2} direction={'row'}>
-                        <Button variant="contained" color="primary" onClick={addDetail}>
-                            Add Skenario
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={removeDetail}>
-                            Remove Skenario
-                        </Button>
+                        <IconButton onClick={addDetail}>
+                            <AddIcon/>
+                        </IconButton>
+                        <IconButton onClick={removeDetail}>
+                            <RemoveIcon/>
+                        </IconButton>
                     </Stack>
                     <Box height={20}/>
                     <Grid container spacing={2}>
