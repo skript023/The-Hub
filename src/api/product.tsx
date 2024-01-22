@@ -131,14 +131,35 @@ class product
                 body: product,
             });
 
-            console.log(response.status);
-            
-
             return response.json();
         } 
         catch (error: any) 
         {
             toast.error('API Call Product Update', error.message);
+
+            return undefined;
+        }
+    }
+
+    async generateDocument(id: string)
+    {
+        try 
+        {
+            const response = await api.get(`product/doc/${id}`, 
+            {
+                credentials: 'include',
+            });
+
+            if (response.status == 200)
+            {
+                return response.blob();
+            }
+            
+            return undefined;
+        } 
+        catch (error: any)
+        {
+            toast.error('Document Generate', error.message);
 
             return undefined;
         }

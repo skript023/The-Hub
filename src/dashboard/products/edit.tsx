@@ -64,6 +64,48 @@ export default function EditProduct({products, callback}: Edit)
         });
     };
 
+    
+    const addAttribute = (detailIndex: number) => {
+        setFormData((prevData) => {
+            const newDetail = [...prevData.detail];
+            if (!newDetail[detailIndex].attributes)
+            {
+                newDetail[detailIndex].attributes = [];
+            }
+        
+            newDetail[detailIndex].attributes.push({ name: '', value: '' });
+            return { ...prevData, detail: newDetail };
+        });
+    };
+    
+    const removeAttribute = (detailIndex: number) => {
+        setFormData((prevData) => {
+            const newDetail = [...prevData.detail];
+            const lastAttributeIndex = newDetail[detailIndex].attributes.length - 1;
+            if (lastAttributeIndex >= 0) {
+            newDetail[detailIndex].attributes.splice(lastAttributeIndex, 1);
+            }
+            return { ...prevData, detail: newDetail };
+        });
+    };
+    
+    const handleChangeAttributeKey = (detailIndex: number, attributeIndex: number, newName: string) => {
+        setFormData((prevData) => {
+            const newDetail = [...prevData.detail];
+            newDetail[detailIndex].attributes[attributeIndex].name = newName;
+            return { ...prevData, detail: newDetail };
+        });
+    };
+
+    const handleChangeAttributeValue = (detailIndex: number, attributeIndex: number, newValue: string) => {
+        setFormData((prevData) => {
+            const newDetail = [...prevData.detail];
+            newDetail[detailIndex].attributes[attributeIndex].value = newValue;
+            return { ...prevData, detail: newDetail };
+        });
+    };
+    
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         setLoading(true);
 
@@ -100,15 +142,20 @@ export default function EditProduct({products, callback}: Edit)
                 <DialogContent dividers>
                     <Box sx={{ m: 2 }}/>
                         {alert}
-                        {alert ?? <Box height={20}/>}
-                    <Stack spacing={2} direction={'row'}>
-                        <IconButton onClick={addDetail}>
-                            <AddIcon/>
-                        </IconButton>
-                        <IconButton onClick={removeDetail}>
-                            <RemoveIcon/>
-                        </IconButton>
-                    </Stack>
+                        {alert ? <Box height={20}/> : <div/>}
+                    <Divider>
+                        {products.name}
+                    </Divider>
+                    <Box display="flex" justifyContent="center">
+                        <Stack spacing={2} direction={'row'}>
+                            <IconButton onClick={addDetail}>
+                                <AddIcon/>
+                            </IconButton>
+                            <IconButton onClick={removeDetail}>
+                                <RemoveIcon/>
+                            </IconButton>
+                        </Stack>
+                    </Box>
                     <Box height={20}/>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -191,7 +238,7 @@ export default function EditProduct({products, callback}: Edit)
                     {formData.detail.map((detail, index) => (
                         <div key={index}>
                             <Box height={50}/>
-                            <Divider sx={{ mb: 3 }}>Skenario {index + 1}</Divider>
+                            <Divider sx={{ mb: 3 }}>Skenario {detail.type}</Divider>
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
                                     <TextField
@@ -232,6 +279,50 @@ export default function EditProduct({products, callback}: Edit)
                                         sx={{ minWidth: "100%" }}
                                     />
                                 </Grid>
+                            </Grid>
+                            <Box height={50}/>
+                            <Divider>Attribute</Divider>
+                            <Box display="flex" justifyContent="center" mt="20px" mb="20px">
+                                <Stack spacing={2}alignContent={"center"} direction={'row'}>
+                                    <IconButton onClick={() => addAttribute(index)}>
+                                        <AddIcon/>
+                                    </IconButton>
+                                    <IconButton onClick={() => removeAttribute(index)}>
+                                        <RemoveIcon/>
+                                    </IconButton>
+                                </Stack>
+                            </Box>
+                            <Grid container spacing={2}>
+                                {detail.attributes?.map((attr, attr_id) => (
+                                    <>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                required
+                                                variant="standard"
+                                                type="text"
+                                                label={`Name ${index}`}
+                                                onChange={(e) => handleChangeAttributeKey(index, attr_id, e.target.value)}
+                                                value={attr.name}
+                                                name={`attribute[${index}].name`}
+                                                size="small"
+                                                sx={{ minWidth: "100%" }}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                required
+                                                variant="standard"
+                                                type="text"
+                                                label={`Value ${index}`}
+                                                onChange={(e) => handleChangeAttributeValue(index, attr_id, e.target.value)}
+                                                value={attr.value}
+                                                name={`attributes[${index}].value`}
+                                                size="small"
+                                                sx={{ minWidth: "100%" }}
+                                            />
+                                        </Grid>
+                                    </>
+                                ))}
                             </Grid>
                         </div>
                     ))}

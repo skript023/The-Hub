@@ -2,6 +2,8 @@ import { Box, Button, DialogActions, DialogContent, Divider, Grid, TextField } f
 import authentication from "../../api/authentication";
 import Product from "../../interfaces/product.dto";
 import { useState } from "react";
+import product from "../../api/product";
+import { toast } from "../../components/snackbar";
 interface Edit
 {
     products: Product
@@ -19,6 +21,35 @@ export default function DetailProduct({products}: Edit)
         detail: products.detail,
         user: products.user
     });
+
+    function handleGenerate()
+    {
+        product.generateDocument(products._id as string).
+        then((response) => {
+            const url = window.URL.createObjectURL(response as Blob);
+            const link = document.createElement('a');
+            link.href = url;
+
+            const product_split = products.name.split('UAT ');
+            const product_name = product_split[product_split.length - 1];
+            const filename = `Deployment_to_Production_${product_name.replace(' ', '_')}.docx`;
+            link.download = filename;
+
+            // Append the link to the document
+            document.body.appendChild(link);
+
+            // Trigger a click on the link to start the download
+            link.click();
+
+            // Remove the link from the document
+            document.body.removeChild(link);
+
+            // Revoke the Blob URL to free up resources
+            window.URL.revokeObjectURL(url);
+        }).catch((error: any) => {
+            toast.error('Generate Error', error.message);
+        });
+    }
 
     return (
         <>
@@ -116,7 +147,7 @@ export default function DetailProduct({products}: Edit)
                 </DialogContent>
                 <DialogActions>
                     <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
-                        <Button autoFocus type="submit" disabled={true}>
+                        <Button autoFocus type="button" disabled={products.status != 'Completed'} onClick={handleGenerate}>
                             Generate D2P Document
                         </Button>
                     </Box>

@@ -222,14 +222,6 @@ export default function AddProduct({callback}: any)
                     <div key={index}>
                         <Box height={50}/>
                         <Divider sx={{ mb: 3 }}>Skenario {index + 1}</Divider>
-                        <Stack spacing={1} direction={'row'}>
-                            <IconButton onClick={() => addAttribute(index)}>
-                                <AddIcon/> Attribute
-                            </IconButton>
-                            <IconButton onClick={() => removeAttribute(index)}>
-                                <RemoveIcon/> Attribute
-                            </IconButton>
-                        </Stack>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 <TextField  
@@ -244,6 +236,46 @@ export default function AddProduct({callback}: any)
                                     sx={{ minWidth: "100%" }}
                                 />
                             </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    required
+                                    variant="standard"
+                                    type="text"
+                                    label="Type"
+                                    onChange={(e) => handleDetailChange(index, 'type', e.target.value)}
+                                    value={detail.type}
+                                    name={`detail[${index}].type`}
+                                    size="small"
+                                    sx={{ minWidth: "100%" }}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    required
+                                    variant="standard"
+                                    type="text"
+                                    label="Status"
+                                    onChange={(e) => handleDetailChange(index, 'status', e.target.value)}
+                                    value={detail.status}
+                                    name={`detail[${index}].status`}
+                                    size="small"
+                                    sx={{ minWidth: "100%" }}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Box height={50}/>
+                        <Divider>Attribute</Divider>
+                        <Box display="flex" justifyContent="center" mt="20px" mb="20px">
+                            <Stack spacing={1} direction={'row'}>
+                                <IconButton onClick={() => addAttribute(index)}>
+                                    <AddIcon/>
+                                </IconButton>
+                                <IconButton onClick={() => removeAttribute(index)}>
+                                    <RemoveIcon/>
+                                </IconButton>
+                            </Stack>
+                        </Box>
+                        <Grid container spacing={2}>
                             {detail.attributes.map((attr, attr_id) => (
                                 <>
                                 <Grid item xs={6}>
@@ -274,32 +306,6 @@ export default function AddProduct({callback}: any)
                                 </Grid>
                                 </>
                             ))}
-                            <Grid item xs={6}>
-                                <TextField
-                                    required
-                                    variant="standard"
-                                    type="text"
-                                    label="Type"
-                                    onChange={(e) => handleDetailChange(index, 'type', e.target.value)}
-                                    value={detail.type}
-                                    name={`detail[${index}].type`}
-                                    size="small"
-                                    sx={{ minWidth: "100%" }}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    required
-                                    variant="standard"
-                                    type="text"
-                                    label="Status"
-                                    onChange={(e) => handleDetailChange(index, 'status', e.target.value)}
-                                    value={detail.status}
-                                    name={`detail[${index}].status`}
-                                    size="small"
-                                    sx={{ minWidth: "100%" }}
-                                />
-                            </Grid>
                         </Grid>
                     </div>
                 ))}

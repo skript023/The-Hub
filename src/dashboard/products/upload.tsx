@@ -1,4 +1,4 @@
-import { Button, Typography, DialogActions, DialogContent, Grid, Box, Stack } from '@mui/material';
+import { Button, Typography, DialogActions, DialogContent, Grid, Box, Stack, Input } from '@mui/material';
 import { useState, ChangeEvent } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Product from '../../interfaces/product.dto';
@@ -36,9 +36,6 @@ function FileUpload({upload}: Uploads)
             // Make a POST request to the server endpoint
             product.uploadEvident(upload._id as string, formData).
             then((response) => {
-                console.log(formData);
-                console.log(selectedFiles);
-                
                 if (response?.success)
                 {
                     toast.success('Upload', response.message);
@@ -63,28 +60,28 @@ function FileUpload({upload}: Uploads)
                 <Grid item xs={12}>
                     <Box display="flex" justifyContent="center" mt="20px" mb="20px" position="relative" width="550px">
                         <Grid item xs={12}>
-                                <Stack spacing={2}>
-                                    <Typography variant="h6">Selected Files:</Typography>
-                                    {selectedFiles && (
-                                    <ul>
-                                        {Array.from(selectedFiles).map((file, index) => (
-                                        <li key={index}>{file.name}</li>
-                                        ))}
-                                    </ul>
-                                    )}
-                                </Stack>
+                            <Stack spacing={2}>
+                                <Typography variant="h6">Selected Files:</Typography>
+                                {selectedFiles && (
+                                <ul>
+                                    {Array.from(selectedFiles).map((file, index) => (
+                                    <li key={index}>{file.name}</li>
+                                    ))}
+                                </ul>
+                                )}
+                            </Stack>
                         </Grid>
                     </Box>
-                    <input
+                    <Input
                         style={{ display: 'none' }}
                         id="file-upload-input"
                         type="file"
                         name="capture"
-                        multiple
+                        inputProps={{ accept: 'image/*', multiple: true }}
                         onChange={handleFileChange}
                     />
                     <label htmlFor="file-upload-input">
-                        <Button variant="contained" color="primary" component="span" startIcon={<CloudUploadIcon />}>
+                        <Button variant="outlined" color="primary" component="span" startIcon={<CloudUploadIcon />}>
                             Choose Files
                         </Button>
                     </label>
