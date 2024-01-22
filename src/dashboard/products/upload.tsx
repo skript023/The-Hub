@@ -31,6 +31,11 @@ function FileUpload({upload}: Uploads)
             formData.append('capture', selectedFiles[i]);
         }
 
+        formData.forEach((value, key) => {
+            console.log(`${key}:${value}`);
+            
+        })
+
         try 
         {
             // Make a POST request to the server endpoint

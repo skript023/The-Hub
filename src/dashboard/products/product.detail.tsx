@@ -19,7 +19,8 @@ export default function DetailProduct({products}: Edit)
         end_date: products.end_date,
         status: products.status,
         detail: products.detail,
-        user: products.user
+        user: products.user,
+        capture: products.capture
     });
 
     function handleGenerate()

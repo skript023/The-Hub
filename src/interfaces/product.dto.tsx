@@ -1,5 +1,9 @@
 import User from "./user.dto";
 
+export interface Evidents {
+    image: string;
+}
+
 export interface AttributesDetail {
     name: string;
     value: string;
@@ -11,6 +15,7 @@ export interface ProductDetail
     type: string;
     status: string;
     attributes: AttributesDetail[];
+    captures: Evidents[];
 };
 
 
@@ -24,4 +29,5 @@ export default interface Product
     status: string;
     detail: ProductDetail[];
     user: User | undefined;
+    capture: FileList | null;
 };

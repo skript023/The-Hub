@@ -8,14 +8,31 @@ class product
 {
     async create(product: Product): Promise<ServerResponse<Product> | undefined>
     {
+        const form = new FormData();
+
+        if (!product.capture) return undefined;
+
+        this.form_data(form, '', product);
+
+        for (let i = 0; i < product.capture.length; i++)
+        {
+            form.append('capture', product.capture[i]);
+            form.delete(`capture[${i}]`);
+        }
+        
+        form.delete('_id');
+        form.delete('user');
+        
+        form.forEach((value, key) => {
+            console.log(`${key}:${value}`);
+            
+        })
+
         try 
         {
             const response = await api.post('product', { 
                 credentials: 'include',
-                body: JSON.stringify(product),
-                headers: {
-                    "Content-Type": "application/json"
-                }
+                body: form,
             });
             
             return response.json();
@@ -165,25 +182,25 @@ class product
         }
     }
 
-    // private form_data(formData: FormData, prefix: string, obj: any)
-    // {
-    //     for (const [key, value] of Object.entries(obj) as any) 
-    //     {
-    //         const fieldName = prefix ? `${prefix}[${key}]` : key;
-    //         if (value instanceof File) 
-    //         {
-    //             formData.append(fieldName, value);
-    //         } 
-    //         else if (typeof value === 'object' && value !== null) 
-    //         {
-    //             this.form_data(formData, fieldName, value);
-    //         } 
-    //         else 
-    //         {
-    //             formData.append(fieldName, value);
-    //         }
-    //     }
-    // };
+    private form_data(formData: FormData, prefix: string, obj: any)
+    {
+        for (const [key, value] of Object.entries(obj) as any) 
+        {
+            const fieldName = prefix ? `${prefix}[${key}]` : key;
+            if (value instanceof File) 
+            {
+                formData.append(fieldName, value);
+            } 
+            else if (typeof value === 'object' && value !== null) 
+            {
+                this.form_data(formData, fieldName, value);
+            } 
+            else 
+            {
+                formData.append(fieldName, value);
+            }
+        }
+    };
 } 
 
 export default new product()
