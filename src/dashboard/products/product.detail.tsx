@@ -1,4 +1,4 @@
-import { Box, Button, DialogActions, DialogContent, Divider, Grid, TextField } from "@mui/material";
+import { Box, Button, DialogActions, DialogContent, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
 import authentication from "../../api/authentication";
 import Product from "../../interfaces/product.dto";
 import { useState } from "react";
@@ -140,6 +140,52 @@ export default function DetailProduct({products}: Edit)
                                         size="small"
                                         sx={{ minWidth: "100%" }}
                                     />
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={2}>
+                                {detail.attributes?.map((attr) => (
+                                    <>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                disabled
+                                                variant="standard"
+                                                type="text"
+                                                label={`Name ${index}`}
+                                                value={attr.name}
+                                                name={`attribute[${index}].name`}
+                                                size="small"
+                                                sx={{ minWidth: "100%" }}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                disabled
+                                                variant="standard"
+                                                type="text"
+                                                label={`Value ${index}`}
+                                                value={attr.value}
+                                                name={`attributes[${index}].value`}
+                                                size="small"
+                                                sx={{ minWidth: "100%" }}
+                                            />
+                                        </Grid>
+                                    </>
+                                ))}
+                                <Grid item xs={12}>
+                                    <Box display="flex" justifyContent="center" mt="20px" mb="20px" position="relative" width="550px">
+                                        <Grid item xs={12}>
+                                            <Stack spacing={2}>
+                                                <Typography variant="h6">Selected Files:</Typography>
+                                                {detail.captures && (
+                                                <ul>
+                                                    {detail.captures.map((capture, captureIndex) => (
+                                                        <li key={captureIndex}>{capture.image}</li>
+                                                    ))}
+                                                </ul>
+                                                )}
+                                            </Stack>
+                                        </Grid>
+                                    </Box>
                                 </Grid>
                             </Grid>
                         </div>

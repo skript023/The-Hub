@@ -95,19 +95,28 @@ export default function EditProduct({products, callback}: Edit)
 
         if (!file) return;
 
+        if (products.detail[detailIndex].captures)
+            products.detail[detailIndex].captures.length = 0;
+
         setFormData((prevData) => {
             const newDetail = [...prevData.detail];
             newDetail[detailIndex] = { ...newDetail[detailIndex], images: file };
             return { ...prevData, detail: newDetail };
         });
 
-        products.detail[detailIndex].captures.length = 0;
-    
         for (let i = 0; i < file.length; i++)
         {
             setFormData((prevData) => {
                 const newDetail = [...prevData.detail];
-                newDetail[detailIndex].captures[i]= {image: file[i].name};
+                if (newDetail[detailIndex].captures)
+                {
+                    newDetail[detailIndex].captures[i]= {image: file[i].name};
+                }
+                else
+                {
+                    newDetail[detailIndex].captures = []
+                    newDetail[detailIndex].captures.push({image: file[i].name})
+                }
                 return { ...prevData, detail: newDetail };
             });
         }
