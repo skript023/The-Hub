@@ -54,6 +54,7 @@ export default function DetailProduct({products}: Edit)
             setLoading(false);
         }).catch((error: any) => {
             toast.error('Generate Error', error.message);
+            setLoading(false);
         });
     }
 
