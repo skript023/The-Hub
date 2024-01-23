@@ -199,7 +199,7 @@ export default function DetailProduct({products}: Edit)
                 </DialogContent>
                 <DialogActions>
                     <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
-                        <Button autoFocus type="button" disabled={products.status != 'Completed'} onClick={handleGenerate}>
+                        <Button autoFocus type="button" disabled={products.status != 'Completed' || loading} onClick={handleGenerate}>
                             Generate D2P Document
                         </Button>
                         {loading && (
