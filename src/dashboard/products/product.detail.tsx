@@ -20,7 +20,6 @@ export default function DetailProduct({products}: Edit)
         status: products.status,
         detail: products.detail,
         user: products.user,
-        capture: products.capture
     });
 
     function handleGenerate()

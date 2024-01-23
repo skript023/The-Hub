@@ -16,6 +16,7 @@ export interface ProductDetail
     status: string;
     attributes: AttributesDetail[];
     captures: Evidents[];
+    images: FileList | null;
 };
 
 
@@ -29,5 +30,4 @@ export default interface Product
     status: string;
     detail: ProductDetail[];
     user: User | undefined;
-    capture: FileList | null;
 };

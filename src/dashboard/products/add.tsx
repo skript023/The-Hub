@@ -24,9 +24,8 @@ export default function AddProduct({callback}: any)
         start_date: "",
         end_date: "",
         status: "",
-        detail: [{ order_num: "", type: "", status: "", attributes: [{name: '', value: ''}], captures: [{image: ""}]}],
-        user: undefined,
-        capture: null
+        detail: [{ order_num: "", type: "", status: "", attributes: [{name: '', value: ''}], captures: [{image: ""}], images: null}],
+        user: undefined
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
@@ -48,7 +47,7 @@ export default function AddProduct({callback}: any)
     const addDetail = () => {
         setFormData((prevData) => ({
             ...prevData,
-            detail: [...prevData.detail, { order_num: '', type: '', status: '', attributes: [{name: "", value: ""}], captures: [{image: ""}] }],
+            detail: [...prevData.detail, { order_num: '', type: '', status: '', attributes: [{name: "", value: ""}], captures: [{image: ""}], images: null }],
         }));
     };
 
@@ -333,7 +332,7 @@ export default function AddProduct({callback}: any)
                                     <Grid item xs={12}>
                                         <Stack spacing={2}>
                                             <Typography variant="h6">Selected Files:</Typography>
-                                            {formData.capture && (
+                                            {detail.captures && (
                                             <ul>
                                                 {detail.captures.map((capture, captureIndex) => (
                                                     <li key={captureIndex}>{capture.image}</li>

@@ -32,7 +32,6 @@ export default function EditProduct({products, callback}: Edit)
         status: products.status,
         detail: products.detail,
         user: products.user,
-        capture: products.capture
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
@@ -54,7 +53,7 @@ export default function EditProduct({products, callback}: Edit)
     const addDetail = () => {
         setFormData((prevData) => ({
             ...prevData,
-            detail: [...prevData.detail, { order_num: '', type: '', status: '', attributes: [{name: '', value: ''}], captures: [{image: ""}] }],
+            detail: [...prevData.detail, { order_num: '', type: '', status: '', attributes: [{name: '', value: ''}], captures: [{image: ""}], images: null }],
         }));
     };
 
@@ -96,10 +95,11 @@ export default function EditProduct({products, callback}: Edit)
 
         if (!file) return;
 
-        setFormData((prevData) => ({
-            ...prevData,
-            capture: file,
-        }));
+        setFormData((prevData) => {
+            const newDetail = [...prevData.detail];
+            newDetail[detailIndex] = { ...newDetail[detailIndex], images: file };
+            return { ...prevData, detail: newDetail };
+        });
 
         products.detail[detailIndex].captures.length = 0;
     

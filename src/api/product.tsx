@@ -10,15 +10,7 @@ class product
     {
         const form = new FormData();
 
-        if (!product.capture) return undefined;
-
         this.form_data(form, '', product);
-
-        for (let i = 0; i < product.capture.length; i++)
-        {
-            form.append('capture', product.capture[i]);
-            form.delete(`capture[${i}]`);
-        }
         
         form.delete('_id');
         form.delete('user');
@@ -97,16 +89,8 @@ class product
         {
             const form = new FormData();
 
-            if (!product.capture) return undefined;
-
             this.form_data(form, '', product);
 
-            for (let i = 0; i < product.capture.length; i++)
-            {
-                form.append('capture', product.capture[i]);
-                form.delete(`capture[${i}]`);
-            }
-            
             form.delete('_id');
             form.delete('user');
             
