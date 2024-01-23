@@ -1,4 +1,4 @@
-import { Box, Button, DialogActions, DialogContent, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, DialogActions, DialogContent, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
 import authentication from "../../api/authentication";
 import Product from "../../interfaces/product.dto";
 import { useState } from "react";
@@ -22,8 +22,12 @@ export default function DetailProduct({products}: Edit)
         user: products.user,
     });
 
+    const [loading, setLoading] = useState(false);
+
     function handleGenerate()
     {
+        setLoading(true);
+
         product.generateDocument(products._id as string).
         then((response) => {
             const url = window.URL.createObjectURL(response as Blob);
@@ -46,6 +50,8 @@ export default function DetailProduct({products}: Edit)
 
             // Revoke the Blob URL to free up resources
             window.URL.revokeObjectURL(url);
+
+            setLoading(false);
         }).catch((error: any) => {
             toast.error('Generate Error', error.message);
         });
@@ -196,6 +202,18 @@ export default function DetailProduct({products}: Edit)
                         <Button autoFocus type="button" disabled={products.status != 'Completed'} onClick={handleGenerate}>
                             Generate D2P Document
                         </Button>
+                        {loading && (
+                        <CircularProgress
+                            size={24}
+                            sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            marginTop: '-12px',
+                            marginLeft: '-12px',
+                            }}
+                        />
+                        )}
                     </Box>
                 </DialogActions>
             </form>
