@@ -83,10 +83,11 @@ export default function AddProduct({callback}: any)
 
         if (!file) return;
 
-        setFormData((prevData) => ({
-            ...prevData,
-            capture: file,
-        }));
+        setFormData((prevData) => {
+            const newDetail = [...prevData.detail];
+            newDetail[detailIndex] = { ...newDetail[detailIndex], images: file };
+            return { ...prevData, detail: newDetail };
+        });
     
         for (let i = 0; i < file.length; i++)
         {
