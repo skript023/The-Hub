@@ -1,7 +1,7 @@
-import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Divider, Grid, IconButton, Stack, TextField } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Divider, Grid, IconButton, Input, Stack, TextField, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import authentication from "../../api/authentication";
 import dayjs, { Dayjs } from "dayjs";
 import { toast } from "../../components/snackbar";
@@ -9,6 +9,7 @@ import Product from "../../interfaces/product.dto";
 import product from "../../api/product";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 interface Edit
 {
@@ -30,7 +31,8 @@ export default function EditProduct({products, callback}: Edit)
         end_date: products.end_date,
         status: products.status,
         detail: products.detail,
-        user: products.user
+        user: products.user,
+        capture: products.capture
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
@@ -52,7 +54,7 @@ export default function EditProduct({products, callback}: Edit)
     const addDetail = () => {
         setFormData((prevData) => ({
             ...prevData,
-            detail: [...prevData.detail, { order_num: '', type: '', status: '', attributes: [{name: '', value: ''}], captures: [''] }],
+            detail: [...prevData.detail, { order_num: '', type: '', status: '', attributes: [{name: '', value: ''}], captures: [{image: ""}] }],
         }));
     };
 
@@ -87,6 +89,28 @@ export default function EditProduct({products, callback}: Edit)
             }
             return { ...prevData, detail: newDetail };
         });
+    };
+
+    const handleCaptureFileChange = (detailIndex: number, event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files;
+
+        if (!file) return;
+
+        setFormData((prevData) => ({
+            ...prevData,
+            capture: file,
+        }));
+
+        products.detail[detailIndex].captures.length = 0;
+    
+        for (let i = 0; i < file.length; i++)
+        {
+            setFormData((prevData) => {
+                const newDetail = [...prevData.detail];
+                newDetail[detailIndex].captures[i]= {image: file[i].name};
+                return { ...prevData, detail: newDetail };
+            });
+        }
     };
     
     const handleChangeAttributeKey = (detailIndex: number, attributeIndex: number, newName: string) => {
@@ -323,6 +347,35 @@ export default function EditProduct({products, callback}: Edit)
                                         </Grid>
                                     </>
                                 ))}
+                                <Grid item xs={12}>
+                                    <Box display="flex" justifyContent="center" mt="20px" mb="20px" position="relative" width="550px">
+                                        <Grid item xs={12}>
+                                            <Stack spacing={2}>
+                                                <Typography variant="h6">Selected Files:</Typography>
+                                                {detail.captures && (
+                                                <ul>
+                                                    {detail.captures.map((capture, captureIndex) => (
+                                                        <li key={captureIndex}>{capture.image}</li>
+                                                    ))}
+                                                </ul>
+                                                )}
+                                            </Stack>
+                                        </Grid>
+                                    </Box>
+                                    <Input
+                                        style={{ display: 'none' }}
+                                        id={`file-upload-input${index}`}
+                                        type="file"
+                                        name={`capture${index}`}
+                                        inputProps={{ accept: 'image/*', multiple: true }}
+                                        onChange={(event: any) => handleCaptureFileChange(index, event)}
+                                    />
+                                    <label htmlFor={`file-upload-input${index}`}>
+                                        <Button variant="outlined" color="primary" component="span" startIcon={<CloudUploadIcon />}>
+                                            Choose Files
+                                        </Button>
+                                    </label>
+                                </Grid>
                             </Grid>
                         </div>
                     ))}

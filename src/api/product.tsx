@@ -23,11 +23,6 @@ class product
         form.delete('_id');
         form.delete('user');
         
-        form.forEach((value, key) => {
-            console.log(`${key}:${value}`);
-            
-        })
-
         try 
         {
             const response = await api.post('product', { 
@@ -100,13 +95,25 @@ class product
     {
         try 
         {
+            const form = new FormData();
+
+            if (!product.capture) return undefined;
+
+            this.form_data(form, '', product);
+
+            for (let i = 0; i < product.capture.length; i++)
+            {
+                form.append('capture', product.capture[i]);
+                form.delete(`capture[${i}]`);
+            }
+            
+            form.delete('_id');
+            form.delete('user');
+            
             const response = await api.patch(`product/${id}`, 
             { 
                 credentials: 'include',
-                body: JSON.stringify(product),
-                headers: {
-                    "Content-Type": "application/json"
-                }
+                body: form
             });
 
             return response.json();
