@@ -91,35 +91,34 @@ export default function EditProduct({products, callback}: Edit)
     };
 
     const handleCaptureFileChange = (detailIndex: number, event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files;
+        const files = event.target.files;
 
-        if (!file) return;
+        if (!files) return;
 
         if (products.detail[detailIndex].captures)
             products.detail[detailIndex].captures.length = 0;
 
         setFormData((prevData) => {
             const newDetail = [...prevData.detail];
-            newDetail[detailIndex] = { ...newDetail[detailIndex], images: file };
+            newDetail[detailIndex] = { ...newDetail[detailIndex], images: files };
             return { ...prevData, detail: newDetail };
         });
 
-        for (let i = 0; i < file.length; i++)
-        {
+        Array.from(files).forEach((file, i) =>{
             setFormData((prevData) => {
                 const newDetail = [...prevData.detail];
                 if (newDetail[detailIndex].captures)
                 {
-                    newDetail[detailIndex].captures[i]= {image: file[i].name};
+                    newDetail[detailIndex].captures[i] = {image: file.name};
                 }
                 else
                 {
                     newDetail[detailIndex].captures = []
-                    newDetail[detailIndex].captures.push({image: file[i].name})
+                    newDetail[detailIndex].captures.push({image: file.name})
                 }
                 return { ...prevData, detail: newDetail };
             });
-        }
+        })
     };
     
     const handleChangeAttributeKey = (detailIndex: number, attributeIndex: number, newName: string) => {

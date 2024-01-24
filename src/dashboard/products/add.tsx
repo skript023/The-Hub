@@ -79,24 +79,23 @@ export default function AddProduct({callback}: any)
     };
 
     const handleCaptureFileChange = (detailIndex: number, event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files;
+        const files = event.target.files;
 
-        if (!file) return;
+        if (!files) return;
 
         setFormData((prevData) => {
             const newDetail = [...prevData.detail];
-            newDetail[detailIndex] = { ...newDetail[detailIndex], images: file };
+            newDetail[detailIndex] = { ...newDetail[detailIndex], images: files };
             return { ...prevData, detail: newDetail };
         });
     
-        for (let i = 0; i < file.length; i++)
-        {
+        Array.from(files).forEach((file, i) => {
             setFormData((prevData) => {
                 const newDetail = [...prevData.detail];
-                newDetail[detailIndex].captures[i]= {image: file[i].name};
+                newDetail[detailIndex].captures[i]= {image: file.name};
                 return { ...prevData, detail: newDetail };
             });
-        }
+        })
     };
     
     const handleChangeAttributeKey = (detailIndex: number, attributeIndex: number, newName: string) => {
