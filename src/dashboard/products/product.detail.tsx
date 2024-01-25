@@ -182,7 +182,7 @@ export default function DetailProduct({products}: Edit)
                                     <Box display="flex" justifyContent="center" mt="20px" mb="20px" position="relative" width="550px">
                                         <Grid item xs={12}>
                                             <Stack spacing={2}>
-                                                <Typography variant="h6">Selected Files:</Typography>
+                                                <Typography variant="h6">Uploaded Files:</Typography>
                                                 {detail.captures && (
                                                 <ul>
                                                     {detail.captures.map((capture, captureIndex) => (
