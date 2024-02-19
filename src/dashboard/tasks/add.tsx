@@ -8,7 +8,7 @@ import authentication from "../../api/authentication";
 import dayjs, { Dayjs } from "dayjs";
 import { toast } from "../../components/snackbar";
 
-export default function AddTask({callback}: any)
+export default function AddTask({activities}: any)
 {
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date()))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date()))
@@ -51,7 +51,7 @@ export default function AddTask({callback}: any)
                 setAlert(() => (<Alert severity="error">{response?.message}</Alert>))
                 toast.error("Add Task", `${response?.message}`);
             }
-            callback(formData);
+            activities.push(formData);
             setLoading(false);
         }).catch((error: any) => {
             toast.error("Add Task", error.message);
