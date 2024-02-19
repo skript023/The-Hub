@@ -20,12 +20,12 @@ export default function WorkerTask()
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [activities, setactivities] = useState([] as Task[]);
+    const [activities, setActivities] = useState([] as Task[]);
     const [task, setTask] = useState({} as Task);
 
     const loadTask = () => {
         tasks.findAll().then((data : any) =>{
-            setactivities(data);
+            setActivities(data);
             
             setLoading(false);
         }).catch((error : any) => {
@@ -62,7 +62,7 @@ export default function WorkerTask()
                     return obj;
                 });
 
-                setactivities(newTask);
+                setActivities(newTask);
             }
             else
             {
@@ -81,7 +81,7 @@ export default function WorkerTask()
                 toast.success('Task Delete', response.message);
 
                 const deletedTask = activities.filter((item: any) => item._id != index);
-                setactivities(deletedTask);
+                setActivities(deletedTask);
             }
         })
         .catch((error) => {
@@ -239,7 +239,7 @@ export default function WorkerTask()
                                         <MUIDataTable title={""} data={activities} columns={columns} options={options}/>
                                     </Box>
                                 </Box>
-                                <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask callback={activities}/>} title={"Add Task"}/>
+                                <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask callback={setActivities}/>} title={"Add Task"}/>
                                 <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask task={task} callback={loadTask}/>} title={"Edit Task"}/>
                             </Box>
                         </Box>
