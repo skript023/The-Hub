@@ -51,7 +51,7 @@ export default function AddTask({activities}: any)
                 setAlert(() => (<Alert severity="error">{response?.message}</Alert>))
                 toast.error("Add Task", `${response?.message}`);
             }
-            activities.push(formData);
+            activities?.push(formData);
             setLoading(false);
         }).catch((error: any) => {
             toast.error("Add Task", error.message);
