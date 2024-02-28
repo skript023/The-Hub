@@ -39,15 +39,6 @@ export default function Login()
     const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
 
-    React.useEffect(() => {
-        authentication.userProfile()
-        .then((success) => { 
-            setAuth(success);
-        })
-        .catch((_e: any)=> {
-        });
-    });
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);

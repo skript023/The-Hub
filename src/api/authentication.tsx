@@ -23,10 +23,10 @@ class authentication
 
             if (response.status === 200)
             {
+                toast.success(json.message);
+
                 return true;
             }
-
-            toast.error(json.message);
         } 
         catch (error: any) 
         {
@@ -34,6 +34,31 @@ class authentication
         }
 
         return false
+    }
+
+    async logout() : Promise<boolean>
+    {
+        try 
+        {
+            const response = await api.get('auth/logout', {
+                credentials: 'include'
+            });
+    
+            const json = await response.json();
+    
+            if (response.status === 200)
+            {
+                toast.success(json.message);
+
+                return true;
+            }
+        } 
+        catch (error: any) 
+        {
+            toast.error(error.message);
+        }
+
+        return false;
     }
 
     async userProfile(): Promise<Profile | null>

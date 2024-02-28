@@ -15,10 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Navbar from './navbar';
 import { useNavigate } from 'react-router-dom';
 import { SidebarMenu } from './menu/sidebar_menu';
-import authentication from '../api/authentication';
 import LoadingBar from 'react-top-loading-bar';
-import toast from 'react-hot-toast';
-import useAuth from '../hooks/authentication';
 
 const drawerWidth = 240;
 
@@ -72,7 +69,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Sidenav() 
 {
     const theme = useTheme();
-    const { setAuth } = useAuth();
     const [isLoaded, setLoaded] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -81,17 +77,7 @@ export default function Sidenav()
     
     React.useEffect(() => {
         ref.current.staticStart();
-
-        authentication.userProfile()
-        .then((success) => { 
-            setAuth(success);
-            setLoaded(true);
-        })
-        .catch((e: any)=> {
-            toast.error(e.message);
-            setLoaded(true);
-        });
-
+        setLoaded(true);
         ref.current.complete();
     }
     , [])
