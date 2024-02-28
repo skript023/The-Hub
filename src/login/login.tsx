@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { base } from '../util/base';
+import useAuth from '../hooks/authentication';
 
 function Copyright(props: any) {
     return (
@@ -34,9 +35,25 @@ const defaultTheme = createTheme();
 
 export default function Login() 
 {
+    const { setAuth } = useAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
 
+    React.useEffect(() => {
+        authentication.userProfile()
+        .then((success) => { 
+            if (!success) 
+            {
+                setAuth(false);
+            }
+            else
+            {
+                setAuth(true);
+            }
+        })
+        .catch((_e: any)=> {
+        });
+    });
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -47,6 +64,7 @@ export default function Login()
         if (await authentication.login(username, password))
         {
             setLoading(false);
+            setAuth(true);
             navigate(`${base}home`, {replace: true});
         }
 

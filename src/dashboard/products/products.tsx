@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import MUIDataTable, { Responsive } from "mui-datatables";
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 import DeleteIcon from "@mui/icons-material/Delete"
@@ -14,15 +14,18 @@ import { toast } from "../../components/snackbar";
 import Product from "../../interfaces/product.dto";
 import DetailProduct from "./product.detail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import DeleteProduct from "./delete";
 
 export default function ProductManagement() 
 {
-    const [openAdd, setOpenAdd] = React.useState(false);
-    const [openEdit, setOpenEdit] = React.useState(false);
-    const [openDetail, setopenDetail] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
+    const [openAdd, setOpenAdd] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [openDetail, setopenDetail] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [products, setProduct] = useState([] as Product[]);
     const [prod, setProd] = useState({} as Product);
+    const [index, setIndex] = useState('');
 
     function loadProduct()
     {
@@ -156,7 +159,7 @@ export default function ProductManagement()
                         <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
                             onClick={() => {handleEditClick(value); setOpenEdit(true);} }/>
                         <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
-                            onClick={() => handleDeleteClick(value) }/>
+                            onClick={() => {setOpenDelete(true); setIndex(value); }}/>
                     </Stack>
                 ),
             },
@@ -218,6 +221,7 @@ export default function ProductManagement()
                             </Box>
                             <Modals title={"Add Product"} open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct callback={loadProduct}/>}/>
                             <Modals title={"Edit Product"} open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct products={prod} callback={loadProduct}/>}/>
+                            <Modals title={"Delete Product"} open={openDelete} callback={() => setOpenDelete(false)} children={<DeleteProduct product={prod} agree={ () => { setLoading(true); handleDeleteClick(index); setOpenDelete(false); setLoading(false); } } disagree={ () => { setOpenDelete(false) }}/>}/>
                             <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)} children={<DetailProduct products={prod}/>}/>
                         </Box>
                     </Box>

@@ -14,11 +14,14 @@ import Loading from "../../components/backdrop";
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Task from "../../interfaces/task.dto";
 import { toast } from "../../components/snackbar";
+import DeleteTask from "./delete";
 
 export default function WorkerTask() 
 {
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [index, setIndex] = useState('');
     const [loading, setLoading] = useState(false);
     const [activities, setActivities] = useState([] as Task[]);
     const [task, setTask] = useState({} as Task);
@@ -164,7 +167,7 @@ export default function WorkerTask()
                 filter: false,
                 sort: false,
                 download: false,
-                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
+                customBodyRender: (value: string, _tableMeta: any, _updateValue: any) => (
                     <Stack spacing={2} direction={"row"}>
                         <Tooltip title="Set as Completed">
                             <TaskAltIcon style={{ fontSize: "20px", color: "green", cursor: "pointer" }}
@@ -176,7 +179,7 @@ export default function WorkerTask()
                         </Tooltip>
                         <Tooltip title="Delete Task">
                             <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
-                                onClick={() => handleDeleteClick(value) }/>
+                                onClick={() => { setIndex(value); setOpenDelete(true) }}/>
                         </Tooltip>
                     </Stack>
                 ),
@@ -241,6 +244,7 @@ export default function WorkerTask()
                                 </Box>
                                 <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask callback={loadTask}/>} title={"Add Task"}/>
                                 <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask task={task} callback={loadTask}/>} title={"Edit Task"}/>
+                                <Modals open={openDelete} callback={() => setOpenDelete(false)} children={<DeleteTask agree={ () => { setLoading(true); handleDeleteClick(index); setOpenDelete(false); setLoading(false); } } disagree={ () => setOpenDelete(false)}/>} title={"Delete Task"}/>
                             </Box>
                         </Box>
                     </>

@@ -18,7 +18,7 @@ import { SidebarMenu } from './menu/sidebar_menu';
 import authentication from '../api/authentication';
 import LoadingBar from 'react-top-loading-bar';
 import toast from 'react-hot-toast';
-import { base } from '../util/base';
+import useAuth from '../hooks/authentication';
 
 const drawerWidth = 240;
 
@@ -72,6 +72,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Sidenav() 
 {
     const theme = useTheme();
+    const { setAuth } = useAuth();
     const [isLoaded, setLoaded] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -83,13 +84,18 @@ export default function Sidenav()
 
         authentication.userProfile()
         .then((success) => { 
-            if (!success) navigate(base);
-
-            setLoaded(true);
+            if (!success) 
+            {
+                setAuth(false);
+            }
+            else
+            {
+                setAuth(true);
+                setLoaded(true);
+            }
         })
         .catch((e: any)=> {
             toast.error(e.message);
-            navigate(base);
             setLoaded(true);
         });
 
