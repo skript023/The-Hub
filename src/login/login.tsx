@@ -42,14 +42,7 @@ export default function Login()
     React.useEffect(() => {
         authentication.userProfile()
         .then((success) => { 
-            if (!success) 
-            {
-                setAuth(false);
-            }
-            else
-            {
-                setAuth(true);
-            }
+            setAuth(success);
         })
         .catch((_e: any)=> {
         });
@@ -64,7 +57,7 @@ export default function Login()
         if (await authentication.login(username, password))
         {
             setLoading(false);
-            setAuth(true);
+            setAuth(await authentication.userProfile());
             navigate(`${base}home`, {replace: true});
         }
 

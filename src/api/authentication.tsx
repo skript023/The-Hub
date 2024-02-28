@@ -1,6 +1,6 @@
 import api from "./api";
-import User from "../interfaces/user.dto";
 import toast from "react-hot-toast";
+import Profile from "../interfaces/profile.dto";
 
 class authentication 
 {
@@ -36,7 +36,7 @@ class authentication
         return false
     }
 
-    async userProfile(): Promise<boolean>
+    async userProfile(): Promise<Profile | null>
     {
         const response = await api.get('user/profile/detail', {
             headers: {
@@ -47,17 +47,17 @@ class authentication
 
         if (response.status == 200)
         {
-            const json = await response.json() as User;
+            const json = await response.json() as Profile;
 
             this.user = json;
 
-            return true;
+            return json;
         }
 
-        return false;
+        return null;
     }
     
-    data(): User|undefined
+    data(): Profile | undefined
     {
         return this.user;
     }
@@ -70,7 +70,7 @@ class authentication
         return `${api.server()}/user/avatar/${this.data()?.image}`;
     }
 
-    private user: User | undefined;
+    private user: Profile | undefined;
 }
 
 export default new authentication()

@@ -175,8 +175,8 @@ export default function ProductManagement()
                 handleMassDeleteClick(products[data.dataIndex]._id);
             });
         },
-        onCellClick: (_colData: any, cellMeta: { colIndex: number, rowIndex: number, dataIndex: number }) => {
-            console.log(products[cellMeta.dataIndex]._id);
+        onCellClick: (_colData: any, _cellMeta: { colIndex: number, rowIndex: number, dataIndex: number }) => {
+            // console.log(products[cellMeta.dataIndex]._id);
             //handleDetailClick(products[cellMeta.dataIndex]._id as any); 
             //setopenDetail(true);
         }

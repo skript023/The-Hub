@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import MUIDataTable from "mui-datatables";
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
@@ -15,9 +15,9 @@ import Loading from "../../components/backdrop";
 
 export default function User() 
 {
-    const [openAdd, setOpenAdd] = React.useState(false);
-    const [openEdit, setOpenEdit] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
+    const [openAdd, setOpenAdd] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [users, setUsers] = useState([] as any)
     useEffect(() => {

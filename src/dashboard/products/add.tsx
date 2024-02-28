@@ -124,10 +124,7 @@ export default function AddProduct({callback}: any)
         formData.end_date = endDate.toDate().toLocaleDateString();
         
         setFormData(formData);
-
-        console.log(JSON.stringify(formData));
         
-
         product.create(formData).then((response) => {
             if (response?.success)
             {

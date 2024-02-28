@@ -84,15 +84,8 @@ export default function Sidenav()
 
         authentication.userProfile()
         .then((success) => { 
-            if (!success) 
-            {
-                setAuth(false);
-            }
-            else
-            {
-                setAuth(true);
-                setLoaded(true);
-            }
+            setAuth(success);
+            setLoaded(true);
         })
         .catch((e: any)=> {
             toast.error(e.message);
