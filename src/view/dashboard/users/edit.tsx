@@ -1,101 +1,201 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import { Formik } from "formik";
-import * as yup from "yup";
+import { Box, Button, CircularProgress, DialogActions, DialogContent, FormControl, Grid, Input, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
+import user from "../../../api/user";
+import User from "../../../interfaces/user.dto";
+import { ChangeEvent, useEffect, useState } from "react";
+import { toast } from "../../../components/snackbar";
+import role from "../../../api/role";
+import Role from "../../../interfaces/role.dto";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-export default function EditUser()
+export default function EditUser({ users, callback }: { users: User, callback: () => void})
 {
-    const checkoutSchema = yup.object().shape({
-        name: yup.string().required("Name is required"),
-        description: yup.string().required("Description is required"),
-        price: yup.number().required("Price is required"),
+    const [loading, setLoading] = useState(false);
+    const [roles, setRoles] = useState([] as Role[]);
+    const [selectedRole, setSelectedRole] = useState({} as Role);
+    
+    const [formData, setFormData] = useState<User>({
+        _id: '',
+        role_id: '',
+        username: '',
+        password: '',
+        email: '',
+        fullname: '',
+        computer_name: '',
+        expired: '',
+        hardware_id: '',
+        image: '',
+        recent_login: '',
+        remember_token: ''
     });
-    const initialValues = {
-        name: "",
-        price: 0,
-        description: "",
+
+    useEffect(() => {
+        role.findAll().then((response) => {
+            if (response?.success)
+                setRoles(response.data);
+        })
+    }, []);
+
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            // Update formData with the image file name
+            const imageName = file.name;
+            setFormData(prevState => ({
+                ...prevState,
+                image: imageName
+            }));
+        }
     };
 
-    const handleFormSubmit = () => {
-        
+    const handleChange = (event: SelectChangeEvent) => {
+        const { name, value } = event.target;
+        setSelectedRole({ ...selectedRole, [name]: value, });
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value, });
+    };
+
+    const handleFormSubmit = async () => {
+        try 
+        {
+            setLoading(true);
+            user.update(users._id, formData).then((response) => {
+                if (response?.success)
+                    toast.success('Setting', response.message);
+                else
+                    toast.error('Setting', response?.message);
+
+                callback();
+                setLoading(false);
+            })
+        } 
+        catch (error: any) 
+        {
+            setLoading(false);
+        }
     };
 
     return (
-        <>
-            <Box sx={{ m: 2 }}/>
-            <Typography variant="h5" align="center">
-            Edit Product
-            </Typography>
-            <Box height={20}/>
-        
-            <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={checkoutSchema}>
-                {({
-                    values,
-                    errors,
-                    touched,
-                    handleBlur,
-                    handleChange,
-                    handleSubmit,
-                }) => (
-                    <form onSubmit={handleSubmit}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    variant="filled"
-                                    type="text"
-                                    label="Name"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.name}
-                                    name="name"
-                                    error={!!touched.name && !!errors.name}
-                                    helperText={touched.name && errors.name}
-                                    size="small"
-                                    sx={{ minWidth: "100%" }}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    required
-                                    variant="filled"
-                                    type="number"
-                                    label="Price"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.price}
-                                    name="price"
-                                    error={!!touched.price && !!errors.price}
-                                    helperText={touched.price && errors.price}
-                                    size="small"
-                                    sx={{ minWidth: "100%" }}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    required
-                                    variant="filled"
-                                    type="text"
-                                    label="Description"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.description}
-                                    name="description"
-                                    error={!!touched.description && !!errors.description}
-                                    helperText={touched.description && errors.description}
-                                    size="small"
-                                    sx={{ minWidth: "100%" }}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Box display="flex" justifyContent="center" mt="20px">
-                            <Button type="submit" color="secondary" variant="contained">
-                            Add
-                            </Button>
+        <form onSubmit={handleFormSubmit}>
+            <DialogContent dividers>
+                <Box sx={{ m: 1 }}/>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Box display="flex" justifyContent="center">
+                            <Input
+                                style={{ display: 'none' }}
+                                id={`avatar`}
+                                type="file"
+                                name={`image`}
+                                inputProps={{ accept: 'image/*' }}
+                                onChange={handleImageChange}
+                            />
+                            <label htmlFor={`avatar`}>
+                                <Button variant="outlined" color="primary" component="span" startIcon={<CloudUploadIcon />}>
+                                    {formData.image ? formData.image : `Upload avatar`}
+                                </Button>
+                            </label>
                         </Box>
-                    </form>
-                )}
-            </Formik>
-        </>
-
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box display="flex" justifyContent="center">
+                            <FormControl sx={{ m: 1, minWidth: 500 }} size="small">
+                                <InputLabel id="demo-select-small-label">Role</InputLabel>
+                                <Select
+                                    labelId="demo-select-small-label"
+                                    id="demo-select-small"
+                                    value={selectedRole._id}
+                                    label="Role"
+                                    name="role_id"
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    { roles.map((role) => {
+                                        return (
+                                            <MenuItem value={role._id}>{role.name}</MenuItem>
+                                        );
+                                    }) }
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            required
+                            variant="standard"
+                            type="text"
+                            label="Fullname"
+                            onChange={handleInputChange}
+                            value={formData.fullname}
+                            name="fullname"
+                            size="small"
+                            sx={{ minWidth: "100%" }}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            required
+                            variant="standard"
+                            type="number"
+                            label="Username"
+                            onChange={handleInputChange}
+                            value={formData.username}
+                            name="username"
+                            size="small"
+                            sx={{ minWidth: "100%" }}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            required
+                            variant="standard"
+                            type="text"
+                            label="Email"
+                            onChange={handleInputChange}
+                            value={formData.email}
+                            name="email"
+                            size="small"
+                            sx={{ minWidth: "100%" }}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            required
+                            variant="standard"
+                            type="password"
+                            label="Password"
+                            onChange={handleInputChange}
+                            value={formData.password}
+                            name="password"
+                            size="small"
+                            sx={{ minWidth: "100%" }}
+                        />
+                    </Grid>
+                </Grid>
+            </DialogContent>
+            <DialogActions>
+                <Box display="flex" justifyContent="center" mt="20px">
+                    <Button autoFocus type="submit" disabled={loading}>
+                    Add
+                    </Button>
+                    {loading && (
+                        <CircularProgress
+                            size={24}
+                            sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            marginTop: '-12px',
+                            marginLeft: '-12px',
+                            }}
+                        />
+                    )}
+                </Box>
+            </DialogActions>
+        </form>
     )
 }

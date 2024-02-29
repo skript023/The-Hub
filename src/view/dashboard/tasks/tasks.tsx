@@ -251,9 +251,7 @@ export default function WorkerTask()
                                 <Modals open={openEdit} callback={() => setOpenEdit(false)} title={"Edit Task"}>
                                     <EditTask task={task} callback={loadTask}/>
                                 </Modals>
-                                <Modals open={openDelete} callback={() => setOpenDelete(false)} title={"Delete Task"}>
-                                    <DeleteTask agree={ () => { setNotifMessage({title: 'Delete Task', message: 'You have successfully delete task', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
-                                </Modals>
+                                <DeleteTask open={openDelete} agree={ () => { setNotifMessage({title: 'Delete Task', message: 'You have successfully delete task', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
                                 <Notification id="success" color="#198754" title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
                             </Box>
                         </Box>

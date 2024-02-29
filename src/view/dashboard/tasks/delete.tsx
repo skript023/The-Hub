@@ -1,20 +1,10 @@
-import { Button, DialogActions, DialogContent, DialogContentText } from "@mui/material";
+import Confirmation from "../../../components/confirmation";
 
-export default function DeleteTask({agree, disagree}: any)
+export default function DeleteTask({open, agree, disagree}: { open: boolean; agree: ()=>void; disagree: ()=>void; })
 {
     return (
         <>
-        <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-                Are you sure want to delete this data?
-            </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={disagree}>Disagree</Button>
-            <Button onClick={agree} autoFocus>
-                Agree
-            </Button>
-        </DialogActions>
+            <Confirmation title="Task Delete" message="Are you sure want to delete this record?" open={open} agree={agree} disagree={disagree}/>
         </>
     )
 }

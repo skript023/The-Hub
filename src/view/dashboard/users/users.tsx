@@ -7,11 +7,11 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import Modals from "../../../components/modal";
 import user from "../../../api/user";
-import toast from "react-hot-toast";
 import AddUser from "./add";
 import EditUser from "./edit";
 import Loading from "../../../components/backdrop";
 import Sidenav from "../../navigation/sidebar";
+import { toast } from "../../../components/snackbar";
 
 export default function User() 
 {
@@ -19,26 +19,45 @@ export default function User()
     const [openEdit, setOpenEdit] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const [users, setUsers] = useState([] as any)
-    useEffect(() => {
+    const [users, setUsers] = useState([] as any);
+    const [usr, setUser] = useState({} as any);
+    
+    const loadUser = () => { 
         setLoading(true);
-
         user.findAll().then((data) => {
             setUsers(data);
             setLoading(false);
         }).catch((error) => {
-            toast.error(error.message);
+            toast.error('Load Users', error.message);
         });
+    }
+    useEffect(() => {
+        loadUser();
     }, []);
 
-    const handleEditClick = (index: number) => {
-        console.log("Edit clicked for column index:", index);
-        // Add your edit logic here using the index
+    const handleEditClick = (index: string) => {
+        users.map((obj: any) => {
+            if (obj._id == index)
+            {
+                setUser(obj);
+            }
+        });
     };
       
-    const handleDeleteClick = (index: number) => {
-        console.log("Delete clicked for column index:", index);
-        // Add your delete logic here using the index
+    const handleDeleteClick = (index: string) => {
+        user.remove(index)
+        .then((response) => {
+            if (response?.success)
+            {
+                toast.success('User Delete', response.message);
+
+                const deletedUser = users.filter((item: any) => item._id != index);
+                setUsers(deletedUser);
+            }
+        })
+        .catch((error) => {
+            toast.error('User Delete', error.message);
+        });
     };
     
     const columns = [
@@ -156,10 +175,10 @@ export default function User()
                                     </Box>
                                 </Box>
                                 <Modals  title="Add User" open={openAdd} callback={() => setOpenAdd(false)}>
-                                    <AddUser/>
+                                    <AddUser callback={() => { loadUser(); }}/>
                                 </Modals>
                                 <Modals  title="Edit User" open={openEdit} callback={() => setOpenEdit(false)}>
-                                    <EditUser/>
+                                    <EditUser users={usr} callback={() => {loadUser();}}/>
                                 </Modals>
                             </Box>
                         </Box>

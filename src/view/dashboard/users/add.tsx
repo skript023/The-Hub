@@ -7,7 +7,7 @@ import role from "../../../api/role";
 import Role from "../../../interfaces/role.dto";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-export default function AddUser()
+export default function AddUser({ callback } : { callback: () => void })
 {
     const [loading, setLoading] = useState(false);
     const [roles, setRoles] = useState([] as Role[]);
@@ -67,6 +67,7 @@ export default function AddUser()
                 else
                     toast.error('Registeration', response?.message);
 
+                callback();
                 setLoading(false);
             })
         } 

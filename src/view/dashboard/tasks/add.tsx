@@ -8,7 +8,7 @@ import authentication from "../../../api/authentication";
 import dayjs, { Dayjs } from "dayjs";
 import { toast } from "../../../components/snackbar";
 
-export default function AddTask({callback}: any)
+export default function AddTask({callback}: { callback: () => void})
 {
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(new Date()))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(new Date()))

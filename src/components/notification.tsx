@@ -66,7 +66,7 @@ export default function Notification({ id, color, title, message, open, callback
     return (
         <Modal
             open={open}
-            slotProps={{ backdrop: { invisible: true } }}
+            slotProps={{ backdrop: { invisible: false } }}
             aria-labelledby={`${id}-title`}
             aria-describedby={`${id}-description`}
         >

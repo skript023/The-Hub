@@ -45,8 +45,6 @@ class user
             {
                 const json = await response.json() as ServerResponse<User[]>;
 
-                toast.success(json.message);
-
                 return json.data;
             }
         } 
@@ -58,6 +56,55 @@ class user
         }
 
         return undefined;
+    }
+    async update(id: string, user: User): Promise<ServerResponse<User> | undefined>
+    {
+        try 
+        {
+            const forms = new FormData();
+
+            form.from_json(forms, '', user);
+
+            forms.delete('_id');
+
+            const response = await api.patch(`user/${id}`, { 
+                credentials: 'include',
+                body: forms
+            });
+
+            if (response.status == 200)
+            {
+                return response.json();
+            }
+
+            return undefined;
+        } 
+        catch (error: any) 
+        {
+            toast.error(error.message);
+
+            return undefined;
+        }
+    }
+    async remove(id: string): Promise<ServerResponse<User> | undefined>
+    {
+        try 
+        {
+            const response = await api.delete(`user/${id}`, {  credentials: 'include' });
+
+            if (response.status == 200)
+            {
+                return response.json();
+            }
+
+            return undefined;
+        } 
+        catch (error: any) 
+        {
+            toast.error(error.message);
+
+            return undefined;
+        }
     }
 }
 
