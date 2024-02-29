@@ -243,14 +243,14 @@ export default function ProductManagement()
                                 <Tab label="8IC Progress" wrapped/>
                             </Tabs>
                             <TabMenu value={value} index={0}>
-                                <AddProduct callback={() => {setNotifMessage({title: 'Delete Product', message: 'You have successfully delete product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenAdd(false)}}/>
+                                <AddProduct callback={() => {setNotifMessage({title: 'Add Product', message: 'You have successfully add product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenAdd(false)}}/>
                             </TabMenu>
                             <TabMenu value={value} index={1}>
                                 <></>
                             </TabMenu>
                             </Modals>
                             <Modals title={"Edit Product"} open={openEdit} callback={() => setOpenEdit(false)}>
-                                <EditProduct products={prod} callback={() => {setNotifMessage({title: 'Delete Product', message: 'You have successfully delete product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenEdit(false)}}/>
+                                <EditProduct products={prod} callback={() => {setNotifMessage({title: 'Update Product', message: 'You have successfully update product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenEdit(false)}}/>
                             </Modals>
                             <DeleteProduct open={openDelete} agree={ () => { setNotifMessage({title: 'Delete Product', message: 'You have successfully delete product', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => { setOpenDelete(false) }}/>
                             <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)}>
