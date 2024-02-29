@@ -1,9 +1,9 @@
 import { Button, Typography, DialogActions, DialogContent, Grid, Box, Stack, Input } from '@mui/material';
 import { useState, ChangeEvent } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Product from '../../interfaces/product.dto';
-import product from '../../api/product';
-import { toast } from '../../components/snackbar';
+import Product from '../../../interfaces/product.dto';
+import product from '../../../api/product';
+import { toast } from '../../../components/snackbar';
 
 interface Uploads
 {

@@ -11,13 +11,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import authentication from '../api/authentication';
 import { CircularProgress } from '@mui/material';
-import AvatarIcon from '../components/avatar';
+import AvatarIcon from '../../components/avatar';
+import authentication from '../../api/authentication';
 import AccountMenuMobile from './menu/account_menu_mobile';
 import AccountMenu from './menu/account_menu';
 import MessageMenu from './menu/message_menu';
-
 const drawerWidth = 240;
 
 const Search = styled('div')(({ theme }) => ({

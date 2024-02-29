@@ -2,7 +2,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import BallotIcon from '@mui/icons-material/Ballot';
 import PeopleIcon from '@mui/icons-material/People';
-import { base } from '../../util/base';
+import { base } from '../../../util/base';
 
 export const SidebarMenu = [
     {name: 'Home', route: `${base}home`, icon: <HomeIcon/>}, 

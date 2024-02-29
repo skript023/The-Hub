@@ -2,11 +2,11 @@ import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Div
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ChangeEvent, FormEvent, useState } from "react";
-import authentication from "../../api/authentication";
+import authentication from "../../../api/authentication";
 import dayjs, { Dayjs } from "dayjs";
-import { toast } from "../../components/snackbar";
-import Product from "../../interfaces/product.dto";
-import product from "../../api/product";
+import { toast } from "../../../components/snackbar";
+import Product from "../../../interfaces/product.dto";
+import product from "../../../api/product";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';

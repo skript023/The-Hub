@@ -1,21 +1,21 @@
 import { Box, Button, Grid, Stack, Tooltip, Typography } from "@mui/material";
 import MUIDataTable, { Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
-import Sidenav from "../../navigation/sidebar";
+import Sidenav from "../../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
-import Modals from "../../components/modal";
+import Modals from "../../../components/modal";
 import AddTask from "./add";
 import EditTask from "./edit";
-import tasks from "../../api/tasks";
-import Loading from "../../components/backdrop";
+import tasks from "../../../api/tasks";
+import Loading from "../../../components/backdrop";
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import Task from "../../interfaces/task.dto";
-import { toast } from "../../components/snackbar";
+import Task from "../../../interfaces/task.dto";
+import { toast } from "../../../components/snackbar";
 import DeleteTask from "./delete";
-import Notification from "../../components/notification";
+import Notification from "../../../components/notification";
 
 export default function WorkerTask() 
 {

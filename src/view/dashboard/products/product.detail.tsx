@@ -1,9 +1,9 @@
 import { Box, Button, CircularProgress, DialogActions, DialogContent, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
-import authentication from "../../api/authentication";
-import Product from "../../interfaces/product.dto";
+import authentication from "../../../api/authentication";
+import Product from "../../../interfaces/product.dto";
 import { useState } from "react";
-import product from "../../api/product";
-import { toast } from "../../components/snackbar";
+import product from "../../../api/product";
+import { toast } from "../../../components/snackbar";
 interface Edit
 {
     products: Product

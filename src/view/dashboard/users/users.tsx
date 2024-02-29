@@ -1,17 +1,17 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import {useEffect, useState} from 'react'
-import Sidenav from "../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
-import Modals from "../../components/modal";
-import user from "../../api/user";
+import Modals from "../../../components/modal";
+import user from "../../../api/user";
 import toast from "react-hot-toast";
 import AddUser from "./add";
 import EditUser from "./edit";
-import Loading from "../../components/backdrop";
+import Loading from "../../../components/backdrop";
+import Sidenav from "../../navigation/sidebar";
 
 export default function User() 
 {

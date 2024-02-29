@@ -1,5 +1,5 @@
 import { Button, DialogActions, DialogContent, DialogContentText } from "@mui/material";
-import Product from "../../interfaces/product.dto";
+import Product from "../../../interfaces/product.dto";
 
 export default function DeleteProduct({agree, disagree, product}: { agree: any, disagree: any, product: Product })
 {

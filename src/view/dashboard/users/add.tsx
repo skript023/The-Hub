@@ -1,7 +1,7 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import api from "../../api/api";
+import api from "../../../api/api";
 
 export default function AddUser()
 {

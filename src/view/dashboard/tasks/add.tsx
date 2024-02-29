@@ -1,12 +1,12 @@
 import { Alert, Box, Button, CircularProgress, DialogActions, DialogContent, Grid, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import tasks from "../../api/tasks";
-import Task from "../../interfaces/task.dto";
+import tasks from "../../../api/tasks";
+import Task from "../../../interfaces/task.dto";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { FormEvent, useState } from "react";
-import authentication from "../../api/authentication";
+import authentication from "../../../api/authentication";
 import dayjs, { Dayjs } from "dayjs";
-import { toast } from "../../components/snackbar";
+import { toast } from "../../../components/snackbar";
 
 export default function AddTask({callback}: any)
 {

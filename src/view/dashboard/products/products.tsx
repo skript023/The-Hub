@@ -1,17 +1,17 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import MUIDataTable, { Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
-import Sidenav from "../../navigation/sidebar";
+import Sidenav from "../../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import AddProduct from "./add";
 import EditProduct from "./edit";
-import Modals from "../../components/modal";
-import product from "../../api/product";
-import Loading from "../../components/backdrop";
-import { toast } from "../../components/snackbar";
-import Product from "../../interfaces/product.dto";
+import Modals from "../../../components/modal";
+import product from "../../../api/product";
+import Loading from "../../../components/backdrop";
+import { toast } from "../../../components/snackbar";
+import Product from "../../../interfaces/product.dto";
 import DetailProduct from "./product.detail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteProduct from "./delete";

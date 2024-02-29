@@ -1,10 +1,10 @@
 import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 import { Divider, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
 import { useRef, useState } from "react";
-import AvatarIcon from "../../components/avatar";
-import authentication from "../../api/authentication";
+import AvatarIcon from "../../../components/avatar";
+import authentication from "../../../api/authentication";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../components/backdrop";
+import Loading from "../../../components/backdrop";
 
 
 export default function AccountMenu({menuId, isMenuOpen, handleMenuClose}: any)

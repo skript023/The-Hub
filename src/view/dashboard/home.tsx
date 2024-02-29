@@ -1,5 +1,4 @@
 import { Box, Card, CardContent, Grid, Stack, Typography } from "@mui/material";
-import Sidenav from "../navigation/sidebar";
 
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
@@ -7,7 +6,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import './styles/ellohim.css';
 import PopularProduct from "./products/product.popular";
-import BarChart from "./charts/bar";
+import BarChart from "../../components/charts/bar";
+import Sidenav from "../navigation/sidebar";
 
 
 export default function Home() {

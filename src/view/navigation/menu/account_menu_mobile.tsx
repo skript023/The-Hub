@@ -1,5 +1,5 @@
 import { Avatar, Divider, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
-import authentication from "../../api/authentication";
+import authentication from "../../../api/authentication";
 import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 import { useRef } from "react";
 
