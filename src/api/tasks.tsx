@@ -63,19 +63,14 @@ class task
         {
             const response = await api.get('activity', { credentials: 'include' });
 
-            if (response.status == 200)
-            {
-                const json = await response.json() as ServerResponse<Task[]>;
-                
-                json.data.map((data) => {
-                    data.start_date = formatter.convertDateFormat(data.start_date as any);
-                    data.end_date = formatter.convertDateFormat(data.end_date as any);
-                });
+            const json = await response.json() as ServerResponse<Task[]>;
+            
+            json.data.map((data) => {
+                data.start_date = formatter.convertDateFormat(data.start_date as any);
+                data.end_date = formatter.convertDateFormat(data.end_date as any);
+            });
 
-                return json.data;
-            }
-
-            return undefined;
+            return json.data;
         } 
         catch (error: any) 
         {
@@ -91,19 +86,14 @@ class task
         {
             const response = await api.get(`activity/${id}`, { credentials: 'include' });
 
-            if (response.status == 200)
-            {
-                const json = await response.json() as ServerResponse<Task>;
+            const json = await response.json() as ServerResponse<Task>;
 
-                json.data.start_date = formatter.convertDateFormat(json.data.start_date as any);
-                json.data.end_date = formatter.convertDateFormat(json.data.end_date as any);
+            json.data.start_date = formatter.convertDateFormat(json.data.start_date as any);
+            json.data.end_date = formatter.convertDateFormat(json.data.end_date as any);
 
-                toast.success(json.message);
+            toast.success(json.message);
 
-                return json.data;
-            }
-
-            return undefined;
+            return json.data;
         } 
         catch (error: any) 
         {
@@ -125,12 +115,7 @@ class task
                 }
             });
 
-            if (response.status == 200)
-            {
-                return response.json();
-            }
-
-            return undefined;
+            return response.json();
         } 
         catch (error: any) 
         {
@@ -145,12 +130,7 @@ class task
         {
             const response = await api.delete(`activity/${id}`, { credentials: 'include' });
 
-            if (response.status == 200)
-            {
-                return response.json();
-            }
-
-            return undefined;
+            return response.json();
         } 
         catch (error: any) 
         {

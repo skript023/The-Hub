@@ -21,12 +21,7 @@ class user
                 body: forms
             });
 
-            if (response.status == 201)
-            {
-                return response.json();
-            }
-
-            return undefined;
+            return response.json();
         } 
         catch (error: any) 
         {
@@ -41,17 +36,14 @@ class user
         {
             const response = await api.get('user', { credentials: 'include' });
 
-            if (response.status == 200)
-            {
-                const json = await response.json() as ServerResponse<User[]>;
+            const json = await response.json() as ServerResponse<User[]>;
 
-                json.data.map((user) => {
-                    user.expired = new Date(user.expired).toString();
-                    user.recent_login = new Date(user.recent_login).toString();
-                });
+            json.data.map((user) => {
+                user.expired = new Date(user.expired).toString();
+                user.recent_login = new Date(user.recent_login).toString();
+            });
 
-                return json.data;
-            }
+            return json.data;
         } 
         catch (error: any) 
         {
@@ -59,8 +51,6 @@ class user
 
             return undefined;
         }
-
-        return undefined;
     }
     async update(id: string, user: User): Promise<ServerResponse<User> | undefined>
     {
@@ -77,12 +67,7 @@ class user
                 body: forms
             });
 
-            if (response.status == 200)
-            {
-                return response.json();
-            }
-
-            return undefined;
+            return response.json();
         } 
         catch (error: any) 
         {
@@ -97,12 +82,7 @@ class user
         {
             const response = await api.delete(`user/${id}`, {  credentials: 'include' });
 
-            if (response.status == 200)
-            {
-                return response.json();
-            }
-
-            return undefined;
+            return response.json();
         } 
         catch (error: any) 
         {

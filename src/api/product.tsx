@@ -38,17 +38,14 @@ class product
         {
             const response = await api.get('product', {credentials: 'include'});
 
-            if (response.status == 200)
-            {
-                const json = await response.json() as ServerResponse<Product[]>;
+            const json = await response.json() as ServerResponse<Product[]>;
 
-                json.data.map((data) => {
-                    data.start_date = formatter.convertDateFormat(data.start_date as any);
-                    data.end_date = formatter.convertDateFormat(data.end_date as any);
-                });
+            json.data.map((data) => {
+                data.start_date = formatter.convertDateFormat(data.start_date as any);
+                data.end_date = formatter.convertDateFormat(data.end_date as any);
+            });
 
-                return json.data;
-            }
+            return json.data;
         } 
         catch (error: any) 
         {
@@ -56,8 +53,6 @@ class product
 
             return undefined;
         }
-
-        return undefined;
     }
     async findOne(id: number): Promise<Product | undefined>
     {
@@ -65,15 +60,12 @@ class product
         {
             const response = await api.get(`product/${id}`, {credentials: 'include'});
 
-            if (response.status == 200)
-            {
-                const json = await response.json() as ServerResponse<Product>;
+            const json = await response.json() as ServerResponse<Product>;
 
-                json.data.start_date = formatter.convertDateFormat(json.data.start_date as any);
-                json.data.end_date = formatter.convertDateFormat(json.data.end_date as any);
+            json.data.start_date = formatter.convertDateFormat(json.data.start_date as any);
+            json.data.end_date = formatter.convertDateFormat(json.data.end_date as any);
 
-                return json.data;
-            }
+            return json.data;
         } 
         catch (error: any) 
         {
@@ -81,8 +73,6 @@ class product
 
             return undefined;
         }
-
-        return undefined;
     }
     async update(id: string, product: Product): Promise<ServerResponse<Product> | undefined>
     {
@@ -116,12 +106,7 @@ class product
         {
             const response = await api.delete(`product/${id}`, { credentials: 'include' });
 
-            if (response.status == 200)
-            {
-                return response.json();
-            }
-
-            return undefined;
+            return response.json();
         } 
         catch (error: any) 
         {

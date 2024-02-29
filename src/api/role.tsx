@@ -13,16 +13,7 @@ class role
                 credentials: 'include'
             });
 
-            const json = await response.json() as ServerResponse<Role[]>;
-    
-            if (response.status == 200)
-            {
-                return json;
-            }
-
-            toast.error('Roles', json.message);
-
-            return undefined;
+            return response.json();
         } 
         catch (error: any) 
         {
