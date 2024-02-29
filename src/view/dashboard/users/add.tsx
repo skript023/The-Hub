@@ -1,11 +1,14 @@
 import { Box, Button, CircularProgress, DialogActions, DialogContent, FormControl, Grid, Input, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import user from "../../../api/user";
 import User from "../../../interfaces/user.dto";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "../../../components/snackbar";
 import role from "../../../api/role";
 import Role from "../../../interfaces/role.dto";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 export default function AddUser({ callback } : { callback: () => void })
 {
@@ -13,6 +16,8 @@ export default function AddUser({ callback } : { callback: () => void })
     const [roles, setRoles] = useState([] as Role[]);
     const [selectedRole, setSelectedRole] = useState({} as Role);
     
+    const [expiredDate, setExpiredDate] = useState<Dayjs>(dayjs(new Date()));
+    const [recentLogin, setRecentLogin] = useState<Dayjs>(dayjs(new Date()));
     const [formData, setFormData] = useState<User>({
         _id: '',
         role_id: '',
@@ -57,10 +62,17 @@ export default function AddUser({ callback } : { callback: () => void })
         setFormData({ ...formData, [name]: value, });
     };
 
-    const handleFormSubmit = async () => {
+    const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
         try 
         {
             setLoading(true);
+
+            e.preventDefault();
+            formData.expired = expiredDate.toDate().toLocaleDateString();
+            formData.recent_login = recentLogin.toDate().toLocaleDateString();
+            
+            setFormData(formData);
+            
             user.create(formData).then((response) => {
                 if (response?.success)
                     toast.success('Registeration', response.message);
@@ -140,7 +152,7 @@ export default function AddUser({ callback } : { callback: () => void })
                         <TextField
                             required
                             variant="standard"
-                            type="number"
+                            type="text"
                             label="Username"
                             onChange={handleInputChange}
                             value={formData.username}
@@ -171,10 +183,61 @@ export default function AddUser({ callback } : { callback: () => void })
                             onChange={handleInputChange}
                             value={formData.password}
                             name="password"
+                            error={formData.password.length < 8}
                             size="small"
                             sx={{ minWidth: "100%" }}
                         />
                     </Grid>
+                    <Grid item xs={6}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    autoFocus
+                                    label="Expired Date"
+                                    value={expiredDate}
+                                    onChange={value => setExpiredDate(value as Dayjs)}
+                                    defaultValue={expiredDate}
+                                />
+                            </LocalizationProvider>
+                            <div hidden>
+                                <TextField
+                                    disabled={true}
+                                    hidden={true}
+                                    variant="filled"
+                                    type="text"
+                                    label="Expired Date"
+                                    onChange={handleInputChange}
+                                    value={expiredDate}
+                                    name="expired"
+                                    size="small"
+                                    sx={{ minWidth: "100%" }}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    autoFocus
+                                    label="Recent Login"
+                                    value={recentLogin}
+                                    onChange={value => setRecentLogin(value as Dayjs)}
+                                    defaultValue={recentLogin}
+                                />
+                            </LocalizationProvider>
+                            <div hidden>
+                                <TextField
+                                    disabled={true}
+                                    hidden={true}
+                                    variant="filled"
+                                    type="text"
+                                    label="Recent Login"
+                                    onChange={handleInputChange}
+                                    value={recentLogin}
+                                    name="recent_login"
+                                    size="small"
+                                    sx={{ minWidth: "100%" }}
+                                />
+                            </div>
+                        </Grid>
                 </Grid>
             </DialogContent>
             <DialogActions>

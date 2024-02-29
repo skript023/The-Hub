@@ -76,13 +76,18 @@ export default function Notification({ id, color, title, message, open, callback
                         <circle className="path circle" stroke={color} strokeWidth="6" cx="65.1" cy="65.1" r="62.1" />
                         {id === 'error' ? (
                             <>
+                                <circle className="path circle" fill="none" stroke="#db3646" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" /> 
                                 <line className="path line" stroke={color} strokeWidth="6" x1="34.4" y1="37.9" x2="95.8" y2="92.3" />
                                 <line className="path line" stroke={color} strokeWidth="6" x1="95.8" y1="38" x2="34.4" y2="92.2" />
                             </>
                         ) : (
-                            <polyline className="path check" stroke={color} strokeWidth="6" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+                            <>
+                                <circle className="path circle" fill="none" stroke="#198754" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
+                                <polyline className="path check" stroke={color} strokeWidth="6" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+                            </>
                         )}
                     </Svg>
+                    <Box height={20}/>
                     <Typography variant="h4" color={color === '#db3646' ? 'error' : 'success'} id={`${id}-title`} gutterBottom>
                         {title}
                     </Typography>

@@ -140,7 +140,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                         <TextField
                             required
                             variant="standard"
-                            type="number"
+                            type="text"
                             label="Username"
                             onChange={handleInputChange}
                             value={formData.username}

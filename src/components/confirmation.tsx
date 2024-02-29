@@ -78,6 +78,7 @@ export default function Confirmation({ title, message, open, agree, disagree }: 
                         <path fill="none" stroke="#000" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" d="M32 15v20"/>
                         <line fill="none" stroke="#000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="32" y1="46" x2="32" y2="46"/>
                     </svg>
+                    <Box height={20}/>
                     <Typography variant="h4" color={'error'} id={`confirm-title`} gutterBottom>
                         {title}
                     </Typography>

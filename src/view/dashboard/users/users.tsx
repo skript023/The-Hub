@@ -12,15 +12,22 @@ import EditUser from "./edit";
 import Loading from "../../../components/backdrop";
 import Sidenav from "../../navigation/sidebar";
 import { toast } from "../../../components/snackbar";
+import DeleteUser from "./delete";
+import Notification from "../../../components/notification";
 
 export default function User() 
 {
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [index, setIndex] = useState('');
     const [loading, setLoading] = useState(false);
 
     const [users, setUsers] = useState([] as any);
     const [usr, setUser] = useState({} as any);
+
+    const [openNotif, setOpenNotif] = useState(false);
+    const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string; status: string;});
     
     const loadUser = () => { 
         setLoading(true);
@@ -53,6 +60,8 @@ export default function User()
 
                 const deletedUser = users.filter((item: any) => item._id != index);
                 setUsers(deletedUser);
+
+                setNotifMessage({title: 'Delete User', message: 'You have successfully delete user', status: 'success'}); setOpenNotif(true); 
             }
         })
         .catch((error) => {
@@ -120,7 +129,7 @@ export default function User()
                         <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
                             onClick={() => {handleEditClick(value); setOpenEdit(true)} }/>
                         <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
-                            onClick={() => handleDeleteClick(value) }/>
+                            onClick={() => { setOpenDelete(true); setIndex(value); } }/>
                     </Stack>
                 ),
             },
@@ -175,11 +184,13 @@ export default function User()
                                     </Box>
                                 </Box>
                                 <Modals  title="Add User" open={openAdd} callback={() => setOpenAdd(false)}>
-                                    <AddUser callback={() => { loadUser(); }}/>
+                                    <AddUser callback={() => { setNotifMessage({title: 'Add User', message: 'You have successfully add user', status: 'success'}); setOpenNotif(true); loadUser(); setOpenAdd(false); }}/>
                                 </Modals>
-                                <Modals  title="Edit User" open={openEdit} callback={() => setOpenEdit(false)}>
+                                <Modals  title="Edit User" open={openEdit} callback={() => { setNotifMessage({title: 'Add Task', message: 'You have successfully add task', status: 'success'}); setOpenNotif(true); setOpenEdit(false); setOpenEdit(false); }}>
                                     <EditUser users={usr} callback={() => {loadUser();}}/>
                                 </Modals>
+                                <DeleteUser open={openDelete} agree={ () => { handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
+                                <Notification id="success" color="#198754" title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
                             </Box>
                         </Box>
                         </>
