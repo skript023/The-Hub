@@ -76,7 +76,7 @@ export default function EditTask({task, callback}: Edit)
                         <Grid item xs={12}>
                             <TextField
                                 required
-                                variant="filled"
+                                variant="standard"
                                 type="text"
                                 label="Name"
                                 onChange={handleInputChange}
@@ -139,7 +139,7 @@ export default function EditTask({task, callback}: Edit)
                         <Grid item xs={6}>
                             <TextField
                                 required
-                                variant="filled"
+                                variant="standard"
                                 type="text"
                                 label="Status"
                                 onChange={handleInputChange}

@@ -252,9 +252,7 @@ export default function ProductManagement()
                             <Modals title={"Edit Product"} open={openEdit} callback={() => setOpenEdit(false)}>
                                 <EditProduct products={prod} callback={() => {setNotifMessage({title: 'Delete Product', message: 'You have successfully delete product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenEdit(false)}}/>
                             </Modals>
-                            <Modals title={"Delete Product"} open={openDelete} callback={() => setOpenDelete(false)}>
-                                <DeleteProduct product={prod} agree={ () => { setNotifMessage({title: 'Delete Product', message: 'You have successfully delete product', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => { setOpenDelete(false) }}/>
-                            </Modals>
+                            <DeleteProduct open={openDelete} agree={ () => { setNotifMessage({title: 'Delete Product', message: 'You have successfully delete product', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => { setOpenDelete(false) }}/>
                             <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)}>
                                 <DetailProduct products={prod}/>
                             </Modals>

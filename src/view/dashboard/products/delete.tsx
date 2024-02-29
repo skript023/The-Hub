@@ -1,21 +1,10 @@
-import { Button, DialogActions, DialogContent, DialogContentText } from "@mui/material";
-import Product from "../../../interfaces/product.dto";
+import Confirmation from "../../../components/confirmation";
 
-export default function DeleteProduct({agree, disagree, product}: { agree: any, disagree: any, product: Product })
+export default function DeleteProduct({open, agree, disagree}: { open: boolean; agree: ()=>void; disagree: ()=>void; })
 {
     return (
         <>
-        <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-                Are you sure want to delete { product.name } product data?
-            </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={disagree}>Disagree</Button>
-            <Button onClick={agree} autoFocus>
-                Agree
-            </Button>
-        </DialogActions>
+            <Confirmation title="Product Delete" message="Are you sure want to delete this record?" open={open} agree={agree} disagree={disagree}/>
         </>
     )
 }

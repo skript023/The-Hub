@@ -57,6 +57,12 @@ const ModalContent = styled('div')({
     },
 });
 
+const Svg = styled('svg')({
+    width: '100px',
+    display: 'block',
+    margin: '0 auto',
+});
+
 export default function Confirmation({ title, message, open, agree, disagree }: StatusModalProps) 
 {
     const [toggle, setToggle] = useState('warning');
@@ -72,12 +78,12 @@ export default function Confirmation({ title, message, open, agree, disagree }: 
         >
             <Box sx={style}>
                 <ModalContent>
-                    <svg style={{ width: '100px', display: 'block', margin: '0 auto' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className={toggle}>
+                    <Svg style={{ width: '100px', display: 'block', margin: '0 auto' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className={toggle}>
                         <circle className="solid" fill="none" stroke-linecap="round" stroke-width="4" stroke-miterlimit="10" cx="32" cy="32" r="30"/>
                         <circle className="animation" fill="none" stroke-linecap="round" stroke-width="4" stroke-miterlimit="10" cx="32" cy="32" r="30"/>
                         <path fill="none" stroke="#000" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" d="M32 15v20"/>
                         <line fill="none" stroke="#000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="32" y1="46" x2="32" y2="46"/>
-                    </svg>
+                    </Svg>
                     <Box height={20}/>
                     <Typography variant="h4" color={'error'} id={`confirm-title`} gutterBottom>
                         {title}
@@ -85,12 +91,13 @@ export default function Confirmation({ title, message, open, agree, disagree }: 
                     <Typography id={`confirm-description`} gutterBottom>
                         {message}
                     </Typography>
+                    <Box height={20}/>
                     <Box display={'flex'} justifyContent={'center'}>
                         <Stack spacing={2} direction={'row'}>
-                            <Button variant="outlined" color={'error'} onClick={disagree}>
+                            <Button variant="contained" color={'error'} onClick={disagree}>
                                 No
                             </Button>
-                            <Button variant="outlined" color={'success'} onClick={agree}>
+                            <Button variant="contained" color={'success'} onClick={agree}>
                                 Ok
                             </Button>
                         </Stack>
