@@ -155,8 +155,12 @@ export default function User()
                                         <MUIDataTable title={""} data={users} columns={columns} options={options}/>
                                     </Box>
                                 </Box>
-                                <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddUser/>}/>
-                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditUser/>}/>
+                                <Modals  title="Add User" open={openAdd} callback={() => setOpenAdd(false)}>
+                                    <AddUser/>
+                                </Modals>
+                                <Modals  title="Edit User" open={openEdit} callback={() => setOpenEdit(false)}>
+                                    <EditUser/>
+                                </Modals>
                             </Box>
                         </Box>
                         </>

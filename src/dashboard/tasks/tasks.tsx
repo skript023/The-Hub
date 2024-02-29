@@ -15,12 +15,15 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Task from "../../interfaces/task.dto";
 import { toast } from "../../components/snackbar";
 import DeleteTask from "./delete";
+import Notification from "../../components/notification";
 
 export default function WorkerTask() 
 {
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [openNotif, setOpenNotif] = useState(false);
+    const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string});
     const [index, setIndex] = useState('');
     const [loading, setLoading] = useState(false);
     const [activities, setActivities] = useState([] as Task[]);
@@ -39,7 +42,7 @@ export default function WorkerTask()
     useEffect(() => {
         setLoading(true);
 
-        loadTask()
+        loadTask();
     }, []);
 
     const handleEditClick = (index: string) => {
@@ -242,9 +245,16 @@ export default function WorkerTask()
                                         <MUIDataTable title={""} data={activities} columns={columns} options={options}/>
                                     </Box>
                                 </Box>
-                                <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask callback={loadTask}/>} title={"Add Task"}/>
-                                <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask task={task} callback={loadTask}/>} title={"Edit Task"}/>
-                                <Modals open={openDelete} callback={() => setOpenDelete(false)} children={<DeleteTask agree={ () => { setLoading(true); handleDeleteClick(index); setOpenDelete(false); setLoading(false); } } disagree={ () => setOpenDelete(false)}/>} title={"Delete Task"}/>
+                                <Modals open={openAdd} callback={() => setOpenAdd(false)} title={"Add Task"}>
+                                    <AddTask callback={() => { setNotifMessage({title: 'Add Task', message: 'You have successfully add task'}); setOpenNotif(true); loadTask(); setOpenAdd(false); }}/>
+                                </Modals>
+                                <Modals open={openEdit} callback={() => setOpenEdit(false)} title={"Edit Task"}>
+                                    <EditTask task={task} callback={loadTask}/>
+                                </Modals>
+                                <Modals open={openDelete} callback={() => setOpenDelete(false)} title={"Delete Task"}>
+                                    <DeleteTask agree={ () => { setNotifMessage({title: 'Delete Task', message: 'You have successfully delete task'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
+                                </Modals>
+                                <Notification id="statusSuccessModal" color="#198754" title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
                             </Box>
                         </Box>
                     </>

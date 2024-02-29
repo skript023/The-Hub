@@ -25,7 +25,7 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Modals({open, callback, children, title} : any)
+export default function Modals({open, callback, children, title} : { open: boolean; callback: () => void; children: React.ReactNode; title: string})
 {
     return (
         <BootstrapDialog
