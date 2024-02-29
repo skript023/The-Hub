@@ -16,22 +16,9 @@ export default function EditUser({ users, callback }: { users: User, callback: (
     const [roles, setRoles] = useState([] as Role[]);
     const [selectedRole, setSelectedRole] = useState({} as Role);
     
-    const [expiredDate, setExpiredDate] = useState<Dayjs>(dayjs(new Date()));
-    const [recentLogin, setRecentLogin] = useState<Dayjs>(dayjs(new Date()));
-    const [formData, setFormData] = useState<User>({
-        _id: '',
-        role_id: '',
-        username: '',
-        password: '',
-        email: '',
-        fullname: '',
-        computer_name: '',
-        expired: '',
-        hardware_id: '',
-        image: '',
-        recent_login: '',
-        remember_token: ''
-    });
+    const [expiredDate, setExpiredDate] = useState<Dayjs>(dayjs(new Date(users.expired)));
+    const [recentLogin, setRecentLogin] = useState<Dayjs>(dayjs(new Date(users.recent_login)));
+    const [formData, setFormData] = useState<User>(users);
 
     useEffect(() => {
         role.findAll().then((response) => {
@@ -236,9 +223,9 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Box display="flex" justifyContent="center" mt="20px">
+                <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
                     <Button autoFocus type="submit" disabled={loading}>
-                    Add
+                    Update
                     </Button>
                     {loading && (
                         <CircularProgress

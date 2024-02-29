@@ -45,6 +45,11 @@ class user
             {
                 const json = await response.json() as ServerResponse<User[]>;
 
+                json.data.map((user) => {
+                    user.expired = new Date(user.expired).toString();
+                    user.recent_login = new Date(user.recent_login).toString();
+                });
+
                 return json.data;
             }
         } 

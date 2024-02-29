@@ -241,7 +241,7 @@ export default function AddUser({ callback } : { callback: () => void })
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Box display="flex" justifyContent="center" mt="20px">
+                <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
                     <Button autoFocus type="submit" disabled={loading}>
                     Add
                     </Button>

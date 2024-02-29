@@ -186,8 +186,8 @@ export default function User()
                                 <Modals  title="Add User" open={openAdd} callback={() => setOpenAdd(false)}>
                                     <AddUser callback={() => { setNotifMessage({title: 'Add User', message: 'You have successfully add user', status: 'success'}); setOpenNotif(true); loadUser(); setOpenAdd(false); }}/>
                                 </Modals>
-                                <Modals  title="Edit User" open={openEdit} callback={() => { setNotifMessage({title: 'Add Task', message: 'You have successfully add task', status: 'success'}); setOpenNotif(true); setOpenEdit(false); setOpenEdit(false); }}>
-                                    <EditUser users={usr} callback={() => {loadUser();}}/>
+                                <Modals  title="Edit User" open={openEdit} callback={() => { setOpenEdit(false); }}>
+                                    <EditUser users={usr} callback={() => { setNotifMessage({title: 'Update User', message: 'You have successfully update user', status: 'success'}); setOpenNotif(true); loadUser(); setOpenEdit(false); }}/>
                                 </Modals>
                                 <DeleteUser open={openDelete} agree={ () => { handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
                                 <Notification id="success" color="#198754" title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
