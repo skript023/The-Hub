@@ -1,8 +1,8 @@
-import toast from "react-hot-toast";
 import Task from "../interfaces/task.dto";
 import api from "./api";
 import ServerResponse from "../interfaces/response.dto";
 import formatter from "../util/formatter";
+import { toast } from "../components/snackbar";
 
 class task
 {
@@ -26,7 +26,7 @@ class task
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Complete Task', error.message);
 
             return undefined;
         }
@@ -52,7 +52,7 @@ class task
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Create Task', error.message);
 
             return undefined;
         }
@@ -74,7 +74,7 @@ class task
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Get Task', error.message);
 
             return undefined;
         }
@@ -91,13 +91,11 @@ class task
             json.data.start_date = formatter.convertDateFormat(json.data.start_date as any);
             json.data.end_date = formatter.convertDateFormat(json.data.end_date as any);
 
-            toast.success(json.message);
-
             return json.data;
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Get Task', error.message);
 
             return undefined;
         }
@@ -119,7 +117,7 @@ class task
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Update Task', error.message);
 
             return undefined;
         }
@@ -134,7 +132,7 @@ class task
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Delete Task', error.message);
 
             return undefined;
         }

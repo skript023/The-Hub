@@ -1,6 +1,6 @@
 import api from "./api";
-import toast from "react-hot-toast";
 import Profile from "../interfaces/profile.dto";
+import { toast } from "../components/snackbar";
 
 class authentication 
 {
@@ -23,14 +23,18 @@ class authentication
 
             if (response.status === 200)
             {
-                toast.success(json.message);
+                toast.success('Authentication', json.message);
 
                 return true;
+            }
+            else
+            {
+                toast.error('Authentication', json.message);
             }
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Authentication', error.message);
         }
 
         return false
@@ -48,14 +52,14 @@ class authentication
     
             if (response.status === 200)
             {
-                toast.success(json.message);
+                toast.success('Logout', json.message);
 
                 return true;
             }
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Logout', error.message);
         }
 
         return false;

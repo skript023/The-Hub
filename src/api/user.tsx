@@ -1,8 +1,8 @@
-import toast from "react-hot-toast";
 import api from "./api";
 import User from "../interfaces/user.dto";
 import ServerResponse from "../interfaces/response.dto";
 import form from "../util/form";
+import { toast } from "../components/snackbar";
 
 class user
 {
@@ -25,7 +25,7 @@ class user
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Create User', error.message);
 
             return undefined;
         }
@@ -47,7 +47,7 @@ class user
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Get User', error.message);
 
             return undefined;
         }
@@ -71,7 +71,7 @@ class user
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Update User', error.message);
 
             return undefined;
         }
@@ -86,7 +86,8 @@ class user
         } 
         catch (error: any) 
         {
-            toast.error(error.message);
+            toast.error('Delete User', error.message);
+
 
             return undefined;
         }
