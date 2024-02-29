@@ -1,7 +1,6 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import MUIDataTable, { Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
-import Sidenav from "../../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
@@ -15,6 +14,7 @@ import Product from "../../../interfaces/product.dto";
 import DetailProduct from "./product.detail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteProduct from "./delete";
+import Sidenav from "../../navigation/sidebar";
 
 export default function ProductManagement() 
 {

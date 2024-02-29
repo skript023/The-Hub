@@ -14,8 +14,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Navbar from './navbar';
 import { useNavigate } from 'react-router-dom';
-import { SidebarMenu } from './menu/sidebar_menu';
 import LoadingBar from 'react-top-loading-bar';
+import { SidebarMenu } from './menu/sidebar_menu';
 
 const drawerWidth = 240;
 

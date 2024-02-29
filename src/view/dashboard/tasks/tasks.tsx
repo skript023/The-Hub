@@ -1,7 +1,6 @@
 import { Box, Button, Grid, Stack, Tooltip, Typography } from "@mui/material";
 import MUIDataTable, { Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
-import Sidenav from "../../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
 import DeleteIcon from "@mui/icons-material/Delete"
@@ -16,6 +15,7 @@ import Task from "../../../interfaces/task.dto";
 import { toast } from "../../../components/snackbar";
 import DeleteTask from "./delete";
 import Notification from "../../../components/notification";
+import Sidenav from "../../navigation/sidebar";
 
 export default function WorkerTask() 
 {
