@@ -62,9 +62,13 @@ export default function EditUser({ users, callback }: { users: User, callback: (
             
             user.update(users._id, formData).then((response) => {
                 if (response?.success)
+                {
                     toast.success('Setting', response.message);
+                }
                 else
+                {
                     toast.error('Setting', response?.message);
+                }
 
                 callback();
                 setLoading(false);
