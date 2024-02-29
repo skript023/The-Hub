@@ -191,7 +191,7 @@ export default function WorkerTask()
     ];
 
     const options = {
-        responsive: 'standard' as Responsive,
+        responsive: 'vertical' as Responsive,
         enableNestedDataAccess: ".",
         onRowsDelete: (rowsDeleted: any) => {
             // console.log(JSON.stringify(rowsDeleted));

@@ -181,7 +181,7 @@ export default function ProductManagement()
     ];
 
     const options = {
-        responsive: 'standard' as Responsive,
+        responsive: 'vertical' as Responsive,
         enableNestedDataAccess: ".",
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
