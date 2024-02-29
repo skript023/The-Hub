@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Tab, Tabs, Typography } from "@mui/material";
 import MUIDataTable, { Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
 import AddCircleIcon from "@mui/icons-material/AddCircle"
@@ -15,6 +15,13 @@ import DetailProduct from "./product.detail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteProduct from "./delete";
 import Sidenav from "../../navigation/sidebar";
+import Notification from "../../../components/notification";
+
+const TabMenu: React.FC<{ children: React.ReactNode; value: number, index: number }> = ({ children, value, index }) => (
+    <div hidden={value !== index} style={{ width: '100%' }}>
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
 
 export default function ProductManagement() 
 {
@@ -22,10 +29,17 @@ export default function ProductManagement()
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [openDetail, setopenDetail] = useState(false);
+    const [openNotif, setOpenNotif] = useState(false);
+    const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string; status: string;});
     const [loading, setLoading] = useState(false);
     const [products, setProduct] = useState([] as Product[]);
     const [prod, setProd] = useState({} as Product);
     const [index, setIndex] = useState('');
+    const [value, setValue] = useState(0);
+
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
     function loadProduct()
     {
@@ -219,10 +233,32 @@ export default function ProductManagement()
                                     <MUIDataTable title={""} data={products} columns={columns} options={options}/>
                                 </Box>
                             </Box>
-                            <Modals title={"Add Product"} open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct callback={loadProduct}/>}/>
-                            <Modals title={"Edit Product"} open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct products={prod} callback={loadProduct}/>}/>
-                            <Modals title={"Delete Product"} open={openDelete} callback={() => setOpenDelete(false)} children={<DeleteProduct product={prod} agree={ () => { setLoading(true); handleDeleteClick(index); setOpenDelete(false); setLoading(false); } } disagree={ () => { setOpenDelete(false) }}/>}/>
-                            <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)} children={<DetailProduct products={prod}/>}/>
+                            <Modals title={"Add Product"} open={openAdd} callback={() => setOpenAdd(false)}>
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                aria-label="wrapped label tabs example"
+                            >
+                                <Tab label="UAT Progress" wrapped/>
+                                <Tab label="8IC Progress" wrapped/>
+                            </Tabs>
+                            <TabMenu value={value} index={0}>
+                                <AddProduct callback={() => {setNotifMessage({title: 'Delete Product', message: 'You have successfully delete product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenAdd(false)}}/>
+                            </TabMenu>
+                            <TabMenu value={value} index={1}>
+                                <></>
+                            </TabMenu>
+                            </Modals>
+                            <Modals title={"Edit Product"} open={openEdit} callback={() => setOpenEdit(false)}>
+                                <EditProduct products={prod} callback={() => {setNotifMessage({title: 'Delete Product', message: 'You have successfully delete product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenEdit(false)}}/>
+                            </Modals>
+                            <Modals title={"Delete Product"} open={openDelete} callback={() => setOpenDelete(false)}>
+                                <DeleteProduct product={prod} agree={ () => { setNotifMessage({title: 'Delete Product', message: 'You have successfully delete product', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => { setOpenDelete(false) }}/>
+                            </Modals>
+                            <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)}>
+                                <DetailProduct products={prod}/>
+                            </Modals>
+                            <Notification id="statusSuccessModal" color="#198754" title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
                         </Box>
                     </Box>
                     </>

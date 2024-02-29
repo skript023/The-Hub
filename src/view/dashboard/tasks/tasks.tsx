@@ -23,7 +23,7 @@ export default function WorkerTask()
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [openNotif, setOpenNotif] = useState(false);
-    const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string});
+    const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string; status: string;});
     const [index, setIndex] = useState('');
     const [loading, setLoading] = useState(false);
     const [activities, setActivities] = useState([] as Task[]);
@@ -246,15 +246,15 @@ export default function WorkerTask()
                                     </Box>
                                 </Box>
                                 <Modals open={openAdd} callback={() => setOpenAdd(false)} title={"Add Task"}>
-                                    <AddTask callback={() => { setNotifMessage({title: 'Add Task', message: 'You have successfully add task'}); setOpenNotif(true); loadTask(); setOpenAdd(false); }}/>
+                                    <AddTask callback={() => { setNotifMessage({title: 'Add Task', message: 'You have successfully add task', status: 'success'}); setOpenNotif(true); loadTask(); setOpenAdd(false); }}/>
                                 </Modals>
                                 <Modals open={openEdit} callback={() => setOpenEdit(false)} title={"Edit Task"}>
                                     <EditTask task={task} callback={loadTask}/>
                                 </Modals>
                                 <Modals open={openDelete} callback={() => setOpenDelete(false)} title={"Delete Task"}>
-                                    <DeleteTask agree={ () => { setNotifMessage({title: 'Delete Task', message: 'You have successfully delete task'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
+                                    <DeleteTask agree={ () => { setNotifMessage({title: 'Delete Task', message: 'You have successfully delete task', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
                                 </Modals>
-                                <Notification id="statusSuccessModal" color="#198754" title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
+                                <Notification id="success" color="#198754" title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
                             </Box>
                         </Box>
                     </>

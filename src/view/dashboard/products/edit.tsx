@@ -178,27 +178,30 @@ export default function EditProduct({products, callback}: Edit)
                     <Divider>
                         {products.name}
                     </Divider>
-                    <Box display="flex" justifyContent="center">
-                        <Stack spacing={2} direction={'row'}>
-                            <IconButton onClick={addDetail}>
-                                <AddIcon/>
-                            </IconButton>
-                            <IconButton onClick={removeDetail}>
-                                <RemoveIcon/>
-                            </IconButton>
-                        </Stack>
-                    </Box>
                     <Box height={20}/>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
+                        <Grid item xs={6}>
                             <TextField
                                 required
-                                variant="filled"
+                                variant="standard"
                                 type="text"
                                 label="Name"
                                 onChange={handleInputChange}
                                 value={formData.name}
                                 name="name"
+                                size="small"
+                                sx={{ minWidth: "100%" }}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                required
+                                variant="standard"
+                                type="text"
+                                label="Status"
+                                onChange={handleInputChange}
+                                value={formData.status}
+                                name="status"
                                 size="small"
                                 sx={{ minWidth: "100%" }}
                             />
@@ -253,28 +256,24 @@ export default function EditProduct({products, callback}: Edit)
                                 />
                             </div>
                         </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                required
-                                variant="filled"
-                                type="text"
-                                label="Status"
-                                onChange={handleInputChange}
-                                value={formData.status}
-                                name="status"
-                                size="small"
-                                sx={{ minWidth: "100%" }}
-                            />
-                        </Grid>
                     </Grid>
+                    <Box height={50}/>
+                    <Box display="flex" justifyContent="center">
+                        <Stack spacing={2} direction={'row'}>
+                            <IconButton onClick={addDetail}>
+                                <AddIcon/>
+                            </IconButton>
+                            <IconButton onClick={removeDetail}>
+                                <RemoveIcon/>
+                            </IconButton>
+                        </Stack>
+                    </Box>
                     {formData.detail.map((detail, index) => (
                         <div key={index}>
-                            <Box height={50}/>
-                            <Divider sx={{ mb: 3 }}>Skenario {detail.type}</Divider>
+                            <Divider sx={{ mb: 3 }}>{detail.type}</Divider>
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
                                     <TextField
-                                        required
                                         variant="standard"
                                         type="text"
                                         label="Order#"
@@ -287,7 +286,6 @@ export default function EditProduct({products, callback}: Edit)
                                 </Grid>
                                 <Grid item xs={6}>
                                     <TextField
-                                        required
                                         variant="standard"
                                         type="text"
                                         label="Type"
@@ -300,7 +298,6 @@ export default function EditProduct({products, callback}: Edit)
                                 </Grid>
                                 <Grid item xs={6}>
                                     <TextField
-                                        required
                                         variant="standard"
                                         type="text"
                                         label="Status"
@@ -329,10 +326,9 @@ export default function EditProduct({products, callback}: Edit)
                                     <>
                                         <Grid item xs={6}>
                                             <TextField
-                                                required
                                                 variant="standard"
                                                 type="text"
-                                                label={`Name ${index}`}
+                                                label={`${attr.name}`}
                                                 onChange={(e) => handleChangeAttributeKey(index, attr_id, e.target.value)}
                                                 value={attr.name}
                                                 name={`attribute[${index}].name`}
@@ -342,10 +338,9 @@ export default function EditProduct({products, callback}: Edit)
                                         </Grid>
                                         <Grid item xs={6}>
                                             <TextField
-                                                required
                                                 variant="standard"
                                                 type="text"
-                                                label={`Value ${index}`}
+                                                label={`${attr.value}`}
                                                 onChange={(e) => handleChangeAttributeValue(index, attr_id, e.target.value)}
                                                 value={attr.value}
                                                 name={`attributes[${index}].value`}

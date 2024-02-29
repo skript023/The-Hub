@@ -3,23 +3,24 @@ import Product from "../interfaces/product.dto";
 import ServerResponse from "../interfaces/response.dto";
 import { toast } from "../components/snackbar";
 import formatter from "../util/formatter";
+import form from "../util/form";
 
 class product
 {
     async create(product: Product): Promise<ServerResponse<Product> | undefined>
     {
-        const form = new FormData();
+        const forms = new FormData();
 
-        this.form_data(form, '', product);
+        form.from_json(forms, '', product);
         
-        form.delete('_id');
-        form.delete('user');
+        forms.delete('_id');
+        forms.delete('user');
         
         try 
         {
             const response = await api.post('product', { 
                 credentials: 'include',
-                body: form,
+                body: forms,
             });
             
             return response.json();
@@ -87,17 +88,17 @@ class product
     {
         try 
         {
-            const form = new FormData();
+            const forms = new FormData();
 
-            this.form_data(form, '', product);
+            form.from_json(forms, '', product);
 
-            form.delete('_id');
-            form.delete('user');
+            forms.delete('_id');
+            forms.delete('user');
             
             const response = await api.patch(`product/${id}`, 
             { 
                 credentials: 'include',
-                body: form
+                body: forms
             });
 
             return response.json();
@@ -172,26 +173,6 @@ class product
             return undefined;
         }
     }
-
-    private form_data(formData: FormData, prefix: string, obj: any)
-    {
-        for (const [key, value] of Object.entries(obj) as any) 
-        {
-            const fieldName = prefix ? `${prefix}[${key}]` : key;
-            if (value instanceof File) 
-            {
-                formData.append(fieldName, value);
-            } 
-            else if (typeof value === 'object' && value !== null) 
-            {
-                this.form_data(formData, fieldName, value);
-            } 
-            else 
-            {
-                formData.append(fieldName, value);
-            }
-        }
-    };
 } 
 
 export default new product()

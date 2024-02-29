@@ -74,7 +74,7 @@ export default function Notification({ id, color, title, message, open, callback
                 <ModalContent>
                     <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
                         <circle className="path circle" stroke={color} strokeWidth="6" cx="65.1" cy="65.1" r="62.1" />
-                        {id === 'statusErrorsModal' ? (
+                        {id === 'error' ? (
                             <>
                                 <line className="path line" stroke={color} strokeWidth="6" x1="34.4" y1="37.9" x2="95.8" y2="92.3" />
                                 <line className="path line" stroke={color} strokeWidth="6" x1="95.8" y1="38" x2="34.4" y2="92.2" />
