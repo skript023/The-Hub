@@ -256,7 +256,7 @@ export default function ProductManagement()
                             <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)}>
                                 <DetailProduct products={prod}/>
                             </Modals>
-                            <Notification id="statusSuccessModal" color="#198754" title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
+                            <Notification id={notifMessage.status} title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
                         </Box>
                     </Box>
                     </>

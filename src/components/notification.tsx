@@ -3,7 +3,6 @@ import { styled } from '@mui/system';
 
 interface StatusModalProps {
     id: string;
-    color: string;
     title: string;
     message: string;
     open: boolean;
@@ -62,7 +61,7 @@ const Svg = styled('svg')({
     margin: '0 auto',
 });
 
-export default function Notification({ id, color, title, message, open, callback }: StatusModalProps) {
+export default function Notification({ id, title, message, open, callback }: StatusModalProps) {
     return (
         <Modal
             open={open}
@@ -87,13 +86,13 @@ export default function Notification({ id, color, title, message, open, callback
                         )}
                     </Svg>
                     <Box height={20}/>
-                    <Typography variant="h4" color={color === '#db3646' ? 'error' : 'success'} id={`${id}-title`} gutterBottom>
+                    <Typography variant="h4" color={id === 'error' ? 'error' : 'success'} id={`${id}-title`} gutterBottom>
                         {title}
                     </Typography>
                     <Typography id={`${id}-description`} gutterBottom>
                         {message}
                     </Typography>
-                    <Button variant="outlined" color={color === '#db3646' ? 'error' : 'success'} onClick={callback}>
+                    <Button variant="outlined" color={id === 'error' ? 'error' : 'success'} onClick={callback}>
                         Ok
                     </Button>
                 </ModalContent>

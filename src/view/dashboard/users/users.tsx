@@ -200,7 +200,7 @@ export default function User()
                                     <EditUser users={usr} callback={() => { setNotifMessage({title: 'Update User', message: 'You have successfully update user', status: 'success'}); setOpenNotif(true); loadUser(); setOpenEdit(false); }}/>
                                 </Modals>
                                 <DeleteUser open={openDelete} agree={ () => { handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
-                                <Notification id="success" color="#198754" title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
+                                <Notification id={notifMessage.status} title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
                             </Box>
                         </Box>
                         </>

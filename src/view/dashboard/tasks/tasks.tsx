@@ -16,12 +16,14 @@ import { toast } from "../../../components/snackbar";
 import DeleteTask from "./delete";
 import Notification from "../../../components/notification";
 import Sidenav from "../../navigation/sidebar";
+import MarkAsCompleted from "./completion";
 
 export default function WorkerTask() 
 {
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [openCompletion, setOpenCompletion] = useState(false);
     const [openNotif, setOpenNotif] = useState(false);
     const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string; status: string;});
     const [index, setIndex] = useState('');
@@ -174,7 +176,7 @@ export default function WorkerTask()
                     <Stack spacing={2} direction={"row"}>
                         <Tooltip title="Set as Completed">
                             <TaskAltIcon style={{ fontSize: "20px", color: "green", cursor: "pointer" }}
-                                onClick={() => handleComplete(value) }/>
+                                onClick={() => { setOpenCompletion(true); setIndex(value); } }/>
                         </Tooltip>
                         <Tooltip title="Edit Task">
                             <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
@@ -252,7 +254,8 @@ export default function WorkerTask()
                                     <EditTask task={task} callback={loadTask}/>
                                 </Modals>
                                 <DeleteTask open={openDelete} agree={ () => { setNotifMessage({title: 'Delete Task', message: 'You have successfully delete task', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
-                                <Notification id="success" color="#198754" title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
+                                <MarkAsCompleted open={openCompletion} agree={ () => { setNotifMessage({title: 'Task Completed', message: 'You have successfully mark task as completed', status: 'success'}); setOpenNotif(true); handleComplete(index); setOpenCompletion(false); } } disagree={ () => setOpenDelete(false)}/>
+                                <Notification id={notifMessage.status} title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
                             </Box>
                         </Box>
                     </>
