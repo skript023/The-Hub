@@ -189,55 +189,55 @@ export default function AddUser({ callback } : { callback: () => void })
                         />
                     </Grid>
                     <Grid item xs={6}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    autoFocus
-                                    label="Expired Date"
-                                    value={expiredDate}
-                                    onChange={value => setExpiredDate(value as Dayjs)}
-                                    defaultValue={expiredDate}
-                                />
-                            </LocalizationProvider>
-                            <div hidden>
-                                <TextField
-                                    disabled={true}
-                                    hidden={true}
-                                    variant="filled"
-                                    type="text"
-                                    label="Expired Date"
-                                    onChange={handleInputChange}
-                                    value={expiredDate}
-                                    name="expired"
-                                    size="small"
-                                    sx={{ minWidth: "100%" }}
-                                />
-                            </div>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    autoFocus
-                                    label="Recent Login"
-                                    value={recentLogin}
-                                    onChange={value => setRecentLogin(value as Dayjs)}
-                                    defaultValue={recentLogin}
-                                />
-                            </LocalizationProvider>
-                            <div hidden>
-                                <TextField
-                                    disabled={true}
-                                    hidden={true}
-                                    variant="filled"
-                                    type="text"
-                                    label="Recent Login"
-                                    onChange={handleInputChange}
-                                    value={recentLogin}
-                                    name="recent_login"
-                                    size="small"
-                                    sx={{ minWidth: "100%" }}
-                                />
-                            </div>
-                        </Grid>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                autoFocus
+                                label="Expired Date"
+                                value={expiredDate}
+                                onChange={value => setExpiredDate(value as Dayjs)}
+                                defaultValue={expiredDate}
+                            />
+                        </LocalizationProvider>
+                        <div hidden>
+                            <TextField
+                                disabled={true}
+                                hidden={true}
+                                variant="filled"
+                                type="text"
+                                label="Expired Date"
+                                onChange={handleInputChange}
+                                value={expiredDate}
+                                name="expired"
+                                size="small"
+                                sx={{ minWidth: "100%" }}
+                            />
+                        </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                autoFocus
+                                label="Recent Login"
+                                value={recentLogin}
+                                onChange={value => setRecentLogin(value as Dayjs)}
+                                defaultValue={recentLogin}
+                            />
+                        </LocalizationProvider>
+                        <div hidden>
+                            <TextField
+                                disabled={true}
+                                hidden={true}
+                                variant="filled"
+                                type="text"
+                                label="Recent Login"
+                                onChange={handleInputChange}
+                                value={recentLogin}
+                                name="recent_login"
+                                size="small"
+                                sx={{ minWidth: "100%" }}
+                            />
+                        </div>
+                    </Grid>
                 </Grid>
             </DialogContent>
             <DialogActions>
