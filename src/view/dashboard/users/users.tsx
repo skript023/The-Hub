@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import MUIDataTable from "mui-datatables";
+import MUIDataTable, { Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
@@ -103,6 +103,14 @@ export default function User()
             }
         },
         {
+            name: "role.name",
+            label: "Role",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
             name: "recent_login",
             label: "Last Login",
             options: {
@@ -137,6 +145,8 @@ export default function User()
     ];
 
     const options = {
+        responsive: 'vertical' as Responsive,
+        enableNestedDataAccess: ".",
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
