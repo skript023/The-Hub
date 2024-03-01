@@ -1,5 +1,5 @@
-import { Box, Button, Grid, Stack, Tab, Tabs, Typography } from "@mui/material";
-import MUIDataTable, { Responsive } from "mui-datatables";
+import { Box, Button, Grid, Pagination, Stack, Tab, Tabs, Typography } from "@mui/material";
+import MUIDataTable, { MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 import DeleteIcon from "@mui/icons-material/Delete"
@@ -193,7 +193,19 @@ export default function ProductManagement()
             // console.log(products[cellMeta.dataIndex]._id);
             //handleDetailClick(products[cellMeta.dataIndex]._id as any); 
             //setopenDetail(true);
-        }
+        },
+        customFooter: (rowCount: number, page: number, rowsPerPage: number, _changeRowsPerPage: (newPage: number) => void, changePage: (newPage: number) => void, _textLabels: Partial<MUIDataTableTextLabels>) => {
+            return (
+                <Box display="flex" justifyContent="flex-end" marginTop={2} marginBottom={2}>
+                    <Pagination
+                        showFirstButton showLastButton
+                        count={Math.floor(rowCount / rowsPerPage)}
+                        page={page + 1}
+                        onChange={(_e, index) => changePage(index - 1)}
+                    />
+                </Box>
+            );
+        },
     };
 
     return (

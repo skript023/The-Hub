@@ -1,5 +1,5 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import MUIDataTable, { Responsive } from "mui-datatables";
+import { Box, Button, Grid, Pagination, Stack, Typography } from "@mui/material";
+import MUIDataTable, { MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
@@ -152,6 +152,18 @@ export default function User()
             rowsDeleted.data.map((data : any) => {
                 console.log(`${users[data.index].id}`)
             })
+        },
+        customFooter: (rowCount: number, page: number, rowsPerPage: number, _changeRowsPerPage: (newPage: number) => void, changePage: (newPage: number) => void, _textLabels: Partial<MUIDataTableTextLabels>) => {
+            return (
+                <Box display="flex" justifyContent="flex-end" marginTop={2} marginBottom={2}>
+                    <Pagination
+                        showFirstButton showLastButton
+                        count={Math.floor(rowCount / rowsPerPage)}
+                        page={page + 1}
+                        onChange={(_e, index) => changePage(index - 1)}
+                    />
+                </Box>
+            );
         },
     };
 

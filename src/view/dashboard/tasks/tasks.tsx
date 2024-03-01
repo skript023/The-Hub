@@ -1,5 +1,5 @@
-import { Box, Button, Grid, Stack, Tooltip, Typography } from "@mui/material";
-import MUIDataTable, { Responsive } from "mui-datatables";
+import { Box, Button, Grid, Stack, Tooltip, Typography, Pagination } from "@mui/material";
+import MUIDataTable, { MUIDataTableOptions, MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
@@ -192,7 +192,7 @@ export default function WorkerTask()
         },
     ];
 
-    const options = {
+    const options: MUIDataTableOptions = {
         responsive: 'vertical' as Responsive,
         enableNestedDataAccess: ".",
         onRowsDelete: (rowsDeleted: any) => {
@@ -206,7 +206,19 @@ export default function WorkerTask()
             filterOptions: {
                 useDisplayedColumnsOnly: true
             }
-        }
+        },
+        customFooter: (rowCount: number, page: number, rowsPerPage: number, _changeRowsPerPage: (newPage: number) => void, changePage: (newPage: number) => void, _textLabels: Partial<MUIDataTableTextLabels>) => {
+            return (
+                <Box display="flex" justifyContent="flex-end" marginTop={2} marginBottom={2}>
+                    <Pagination
+                        showFirstButton showLastButton
+                        count={Math.floor(rowCount / rowsPerPage)}
+                        page={page + 1}
+                        onChange={(_e, index) => changePage(index - 1)}
+                    />
+                </Box>
+            );
+        },
     };
 
     return (
