@@ -15,7 +15,7 @@ import DetailProduct from "./product.detail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteProduct from "./delete";
 import Sidenav from "../../navigation/sidebar";
-import Notification from "../../../components/notification";
+import { notification } from "../../../components/notification";
 
 const TabMenu: React.FC<{ children: React.ReactNode; value: number, index: number }> = ({ children, value, index }) => (
     <div hidden={value !== index} style={{ width: '100%' }}>
@@ -29,8 +29,6 @@ export default function ProductManagement()
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [openDetail, setopenDetail] = useState(false);
-    const [openNotif, setOpenNotif] = useState(false);
-    const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string; status: string;});
     const [products, setProduct] = useState([] as Product[]);
     const [prod, setProd] = useState({} as Product);
     const [index, setIndex] = useState('');
@@ -242,10 +240,10 @@ export default function ProductManagement()
                             <Tab label="8IC Progress" wrapped/>
                         </Tabs>
                         <TabMenu value={value} index={0}>
-                            <AddProduct callback={() => {setNotifMessage({title: 'Add Product', message: 'You have successfully add product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenAdd(false)}}/>
+                            <AddProduct callback={() => { notification.success('Add Product', 'You have successfully add product'); loadProduct(); setOpenAdd(false)}}/>
                         </TabMenu>
                         <TabMenu value={value} index={1}>
-                        <AddProduct callback={() => {setNotifMessage({title: 'Add Product', message: 'You have successfully add product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenAdd(false)}}/>
+                            <AddProduct callback={() => { notification.success('Add Product', 'You have successfully add product'); loadProduct(); setOpenAdd(false)}}/>
                         </TabMenu>
                     </Modals>
                     <Modals title={"Edit Product"} open={openEdit} callback={() => setOpenEdit(false)}>
@@ -258,17 +256,16 @@ export default function ProductManagement()
                             <Tab label="8IC Progress" wrapped/>
                         </Tabs>
                         <TabMenu value={value} index={0}>
-                            <EditProduct products={prod} callback={() => {setNotifMessage({title: 'Update Product', message: 'You have successfully update product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenEdit(false)}}/>
+                            <EditProduct products={prod} callback={() => {notification.success('Update Product', 'You have successfully update product'); loadProduct(); setOpenEdit(false)}}/>
                         </TabMenu>
                         <TabMenu value={value} index={1}>
-                            <EditProduct products={prod} callback={() => {setNotifMessage({title: 'Update Product', message: 'You have successfully update product', status: 'success'}); setOpenNotif(true); loadProduct(); setOpenEdit(false)}}/>
+                            <EditProduct products={prod} callback={() => {notification.success('Update Product', 'You have successfully update product'); loadProduct(); setOpenEdit(false)}}/>
                         </TabMenu>
                     </Modals>
-                    <DeleteProduct open={openDelete} agree={ () => { setNotifMessage({title: 'Delete Product', message: 'You have successfully delete product', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => { setOpenDelete(false) }}/>
+                    <DeleteProduct open={openDelete} agree={ () => { notification.success('Delete Product', 'You have successfully delete product'); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => { setOpenDelete(false) }}/>
                     <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)}>
                         <DetailProduct products={prod}/>
                     </Modals>
-                    <Notification id={notifMessage.status} title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
                 </Box>
             </Box>
             </>

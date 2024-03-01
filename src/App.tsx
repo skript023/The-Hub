@@ -10,6 +10,7 @@ import { AuthProvider } from './context/authentication'
 import Authorized from './util/authrorization'
 import Unauthorized from './util/unauthorized'
 import Loading from './components/backdrop'
+import Notification from './components/notification'
 
 function App() 
 {
@@ -30,6 +31,7 @@ function App()
                     </Routes>
                 </AuthProvider>
                 <Toast/>
+                <Notification/>
                 <Loading/>
         	</BrowserRouter>
         </>

@@ -12,7 +12,7 @@ import EditUser from "./edit";
 import Sidenav from "../../navigation/sidebar";
 import { toast } from "../../../components/snackbar";
 import DeleteUser from "./delete";
-import Notification from "../../../components/notification";
+import { notification } from "../../../components/notification";
 import { loading } from "../../../components/backdrop";
 
 export default function User() 
@@ -24,9 +24,6 @@ export default function User()
 
     const [users, setUsers] = useState([] as any);
     const [usr, setUser] = useState({} as any);
-
-    const [openNotif, setOpenNotif] = useState(false);
-    const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string; status: string;});
     
     const loadUser = () => { 
         loading.start();
@@ -59,8 +56,7 @@ export default function User()
 
                 const deletedUser = users.filter((item: any) => item._id != index);
                 setUsers(deletedUser);
-
-                setNotifMessage({title: 'Delete User', message: 'You have successfully delete user', status: 'success'}); setOpenNotif(true); 
+                notification.success('Delete User', 'You have successfully delete user');
             }
         })
         .catch((error) => {
@@ -191,13 +187,12 @@ export default function User()
                         </Box>
                     </Box>
                     <Modals  title="Add User" open={openAdd} callback={() => setOpenAdd(false)}>
-                        <AddUser callback={() => { setNotifMessage({title: 'Add User', message: 'You have successfully add user', status: 'success'}); setOpenNotif(true); loadUser(); setOpenAdd(false); }}/>
+                        <AddUser callback={() => { notification.success('Add User', 'You have successfully add user'); loadUser(); setOpenAdd(false); }}/>
                     </Modals>
                     <Modals  title="Edit User" open={openEdit} callback={() => { setOpenEdit(false); }}>
-                        <EditUser users={usr} callback={() => { setNotifMessage({title: 'Update User', message: 'You have successfully update user', status: 'success'}); setOpenNotif(true); loadUser(); setOpenEdit(false); }}/>
+                        <EditUser users={usr} callback={() => { notification.success('Update User', 'You have successfully update user'); loadUser(); setOpenEdit(false); }}/>
                     </Modals>
-                    <DeleteUser open={openDelete} agree={ () => { handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
-                    <Notification id={notifMessage.status} title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
+                    <DeleteUser open={openDelete} agree={ () => { notification.success('Delete User', 'You have successfully delete user'); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
                 </Box>
             </Box>
         </Box>

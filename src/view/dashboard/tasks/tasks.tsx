@@ -14,9 +14,9 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Task from "../../../interfaces/task.dto";
 import { toast } from "../../../components/snackbar";
 import DeleteTask from "./delete";
-import Notification from "../../../components/notification";
 import Sidenav from "../../navigation/sidebar";
 import MarkAsCompleted from "./completion";
+import { notification } from "../../../components/notification";
 
 export default function WorkerTask() 
 {
@@ -24,8 +24,6 @@ export default function WorkerTask()
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [openCompletion, setOpenCompletion] = useState(false);
-    const [openNotif, setOpenNotif] = useState(false);
-    const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string; status: string;});
     const [index, setIndex] = useState('');
     const [activities, setActivities] = useState([] as Task[]);
     const [task, setTask] = useState({} as Task);
@@ -246,14 +244,13 @@ export default function WorkerTask()
                         </Box>
                     </Box>
                     <Modals open={openAdd} callback={() => setOpenAdd(false)} title={"Add Task"}>
-                        <AddTask callback={() => { setNotifMessage({title: 'Add Task', message: 'You have successfully add task', status: 'success'}); setOpenNotif(true); loadTask(); setOpenAdd(false); }}/>
+                        <AddTask callback={() => { notification.success('Add Task', 'You have successfully add task'); loadTask(); setOpenAdd(false); }}/>
                     </Modals>
                     <Modals open={openEdit} callback={() => setOpenEdit(false)} title={"Edit Task"}>
-                        <EditTask task={task} callback={loadTask}/>
+                        <EditTask task={task} callback={() => { notification.success('Update Task', 'You have successfully update task'); loadTask(); setOpenEdit(false); }}/>
                     </Modals>
-                    <DeleteTask open={openDelete} agree={ () => { setNotifMessage({title: 'Delete Task', message: 'You have successfully delete task', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
-                    <MarkAsCompleted open={openCompletion} agree={ () => { setNotifMessage({title: 'Task Completed', message: 'You have successfully mark task as completed', status: 'success'}); setOpenNotif(true); handleComplete(index); setOpenCompletion(false); } } disagree={ () => setOpenDelete(false)}/>
-                    <Notification id={notifMessage.status} title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
+                        <DeleteTask open={openDelete} agree={ () => { notification.success('Update Task', 'You have successfully update task'); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
+                    <MarkAsCompleted open={openCompletion} agree={ () => { notification.success('Task Completed', 'You have successfully mark task as completed'); handleComplete(index); setOpenCompletion(false); } } disagree={ () => setOpenDelete(false)}/>
                 </Box>
             </Box>
         </Box>
