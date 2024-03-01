@@ -9,7 +9,7 @@ import Modals from "../../../components/modal";
 import AddTask from "./add";
 import EditTask from "./edit";
 import tasks from "../../../api/tasks";
-import Loading from "../../../components/backdrop";
+import { loading } from "../../../components/backdrop";
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Task from "../../../interfaces/task.dto";
 import { toast } from "../../../components/snackbar";
@@ -27,7 +27,6 @@ export default function WorkerTask()
     const [openNotif, setOpenNotif] = useState(false);
     const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string; status: string;});
     const [index, setIndex] = useState('');
-    const [loading, setLoading] = useState(false);
     const [activities, setActivities] = useState([] as Task[]);
     const [task, setTask] = useState({} as Task);
 
@@ -35,14 +34,14 @@ export default function WorkerTask()
         tasks.findAll().then((data : any) =>{
             setActivities(data);
             
-            setLoading(false);
+            loading.stop();
         }).catch((error : any) => {
             toast.error('Task Load', error.message)
         })
     }
 
     useEffect(() => {
-        setLoading(true);
+        loading.start();
 
         loadTask();
     }, []);
@@ -223,57 +222,40 @@ export default function WorkerTask()
 
     return (
         <Box height={70}>
-        { (() => {
-            if (loading)
-            {
-                return (
-                    <>
-                        <Loading open={loading}/>
-                    </>
-                )
-            }
-            else
-            {
-                return (
-                    <>
-                        <Box sx={{ display: "flex" }}>
-                            <Sidenav/>
-                            <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-                                <Box m="20px">
-                                    <Grid container justifyContent="center">
-                                        <Typography variant="h4" component="div">
-                                            Tasks
-                                        </Typography>
-                                    </Grid>
-                                    <Box
-                                        m="40px 0 0 0"
-                                        height="75vh"
-                                        display={'contents'}
-                                    >
-                                        <Box height={10}/>
-                                        <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
-                                            Add
-                                        </Button>
-                                        <Box height={10}/>
-                                        
-                                        <MUIDataTable title={""} data={activities} columns={columns} options={options}/>
-                                    </Box>
-                                </Box>
-                                <Modals open={openAdd} callback={() => setOpenAdd(false)} title={"Add Task"}>
-                                    <AddTask callback={() => { setNotifMessage({title: 'Add Task', message: 'You have successfully add task', status: 'success'}); setOpenNotif(true); loadTask(); setOpenAdd(false); }}/>
-                                </Modals>
-                                <Modals open={openEdit} callback={() => setOpenEdit(false)} title={"Edit Task"}>
-                                    <EditTask task={task} callback={loadTask}/>
-                                </Modals>
-                                <DeleteTask open={openDelete} agree={ () => { setNotifMessage({title: 'Delete Task', message: 'You have successfully delete task', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
-                                <MarkAsCompleted open={openCompletion} agree={ () => { setNotifMessage({title: 'Task Completed', message: 'You have successfully mark task as completed', status: 'success'}); setOpenNotif(true); handleComplete(index); setOpenCompletion(false); } } disagree={ () => setOpenDelete(false)}/>
-                                <Notification id={notifMessage.status} title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
-                            </Box>
+            <Box sx={{ display: "flex" }}>
+                <Sidenav/>
+                <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                    <Box m="20px">
+                        <Grid container justifyContent="center">
+                            <Typography variant="h4" component="div">
+                                Tasks
+                            </Typography>
+                        </Grid>
+                        <Box
+                            m="40px 0 0 0"
+                            height="75vh"
+                            display={'contents'}
+                        >
+                            <Box height={10}/>
+                            <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
+                                Add
+                            </Button>
+                            <Box height={10}/>
+                            
+                            <MUIDataTable title={""} data={activities} columns={columns} options={options}/>
                         </Box>
-                    </>
-                )
-            }
-        })() }
+                    </Box>
+                    <Modals open={openAdd} callback={() => setOpenAdd(false)} title={"Add Task"}>
+                        <AddTask callback={() => { setNotifMessage({title: 'Add Task', message: 'You have successfully add task', status: 'success'}); setOpenNotif(true); loadTask(); setOpenAdd(false); }}/>
+                    </Modals>
+                    <Modals open={openEdit} callback={() => setOpenEdit(false)} title={"Edit Task"}>
+                        <EditTask task={task} callback={loadTask}/>
+                    </Modals>
+                    <DeleteTask open={openDelete} agree={ () => { setNotifMessage({title: 'Delete Task', message: 'You have successfully delete task', status: 'success'}); setOpenNotif(true); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
+                    <MarkAsCompleted open={openCompletion} agree={ () => { setNotifMessage({title: 'Task Completed', message: 'You have successfully mark task as completed', status: 'success'}); setOpenNotif(true); handleComplete(index); setOpenCompletion(false); } } disagree={ () => setOpenDelete(false)}/>
+                    <Notification id={notifMessage.status} title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
+                </Box>
+            </Box>
         </Box>
     );
 }

@@ -9,11 +9,11 @@ import Modals from "../../../components/modal";
 import user from "../../../api/user";
 import AddUser from "./add";
 import EditUser from "./edit";
-import Loading from "../../../components/backdrop";
 import Sidenav from "../../navigation/sidebar";
 import { toast } from "../../../components/snackbar";
 import DeleteUser from "./delete";
 import Notification from "../../../components/notification";
+import { loading } from "../../../components/backdrop";
 
 export default function User() 
 {
@@ -21,7 +21,6 @@ export default function User()
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [index, setIndex] = useState('');
-    const [loading, setLoading] = useState(false);
 
     const [users, setUsers] = useState([] as any);
     const [usr, setUser] = useState({} as any);
@@ -30,10 +29,10 @@ export default function User()
     const [notifMessage, setNotifMessage] = useState({} as {title: string; message: string; status: string;});
     
     const loadUser = () => { 
-        setLoading(true);
+        loading.start();
         user.findAll().then((data) => {
             setUsers(data);
-            setLoading(false);
+            loading.stop();
         }).catch((error) => {
             toast.error('Load Users', error.message);
         });
@@ -169,56 +168,38 @@ export default function User()
 
     return (
         <Box height={70}>
-            
-            { (() => {
-                if (loading)
-                {
-                    return (
-                        <>
-                        <Loading open={loading}/>
-                        </>
-                    )
-                }
-                else
-                {
-                    return (
-                        <>
-                        <Box sx={{ display: "flex" }}>
-                            <Sidenav/>
-                            <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-                                <Box m="20px">
-                                    <Grid container justifyContent="center">
-                                        <Typography variant="h4" component="div">
-                                            Users
-                                        </Typography>
-                                    </Grid>
-                                    <Box
-                                        m="40px 0 0 0"
-                                        height="75vh"
-                                        display={'contents'}
-                                    >
-                                        <Box height={10}/>
-                                        <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
-                                            Add
-                                        </Button>
-                                        <Box height={10}/>
-                                        <MUIDataTable title={""} data={users} columns={columns} options={options}/>
-                                    </Box>
-                                </Box>
-                                <Modals  title="Add User" open={openAdd} callback={() => setOpenAdd(false)}>
-                                    <AddUser callback={() => { setNotifMessage({title: 'Add User', message: 'You have successfully add user', status: 'success'}); setOpenNotif(true); loadUser(); setOpenAdd(false); }}/>
-                                </Modals>
-                                <Modals  title="Edit User" open={openEdit} callback={() => { setOpenEdit(false); }}>
-                                    <EditUser users={usr} callback={() => { setNotifMessage({title: 'Update User', message: 'You have successfully update user', status: 'success'}); setOpenNotif(true); loadUser(); setOpenEdit(false); }}/>
-                                </Modals>
-                                <DeleteUser open={openDelete} agree={ () => { handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
-                                <Notification id={notifMessage.status} title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
-                            </Box>
+            <Box sx={{ display: "flex" }}>
+                <Sidenav/>
+                <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                    <Box m="20px">
+                        <Grid container justifyContent="center">
+                            <Typography variant="h4" component="div">
+                                Users
+                            </Typography>
+                        </Grid>
+                        <Box
+                            m="40px 0 0 0"
+                            height="75vh"
+                            display={'contents'}
+                        >
+                            <Box height={10}/>
+                            <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
+                                Add
+                            </Button>
+                            <Box height={10}/>
+                            <MUIDataTable title={""} data={users} columns={columns} options={options}/>
                         </Box>
-                        </>
-                    )
-                }
-            })() }
+                    </Box>
+                    <Modals  title="Add User" open={openAdd} callback={() => setOpenAdd(false)}>
+                        <AddUser callback={() => { setNotifMessage({title: 'Add User', message: 'You have successfully add user', status: 'success'}); setOpenNotif(true); loadUser(); setOpenAdd(false); }}/>
+                    </Modals>
+                    <Modals  title="Edit User" open={openEdit} callback={() => { setOpenEdit(false); }}>
+                        <EditUser users={usr} callback={() => { setNotifMessage({title: 'Update User', message: 'You have successfully update user', status: 'success'}); setOpenNotif(true); loadUser(); setOpenEdit(false); }}/>
+                    </Modals>
+                    <DeleteUser open={openDelete} agree={ () => { handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
+                    <Notification id={notifMessage.status} title={ notifMessage.title } message={ notifMessage.message } open={openNotif} callback={() => {setOpenNotif(false)}}/>
+                </Box>
+            </Box>
         </Box>
     );
 }

@@ -9,7 +9,6 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import Loading from "../../../components/backdrop";
 
 export default function AddUser({ callback } : { callback: () => void })
 {
@@ -96,9 +95,9 @@ export default function AddUser({ callback } : { callback: () => void })
 
     return (
         <form onSubmit={handleFormSubmit}>
-            <DialogContent dividers>
+            <DialogContent dividers >
                 <Box sx={{ m: 1 }}/>
-                { loading ? <Loading open={loading}/> : <></> }
+                { loading ? <CircularProgress size={50} sx={{ position: 'absolute', top: '50%', left: '50%', marginTop: '-12px', marginLeft: '-12px'}}/> : <></> }
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Box display="flex" justifyContent="center">
@@ -111,7 +110,7 @@ export default function AddUser({ callback } : { callback: () => void })
                                 onChange={handleImageChange}
                             />
                             <label htmlFor={`avatar`}>
-                                <Button variant="outlined" color="primary" component="span" startIcon={<CloudUploadIcon />}>
+                                <Button disabled={loading} variant="outlined" color="primary" component="span" startIcon={<CloudUploadIcon />}>
                                     {formData.image ? formData.image : `Upload avatar`}
                                 </Button>
                             </label>
@@ -121,7 +120,8 @@ export default function AddUser({ callback } : { callback: () => void })
                         <Box display="flex" justifyContent="center">
                             <FormControl sx={{ m: 1, minWidth: 500 }} size="small">
                                 <InputLabel id="demo-select-small-label">Role</InputLabel>
-                                <Select
+                                <Select 
+                                    disabled={loading}
                                     labelId="demo-select-small-label"
                                     id="demo-select-small"
                                     value={selectedRole._id}
@@ -152,6 +152,7 @@ export default function AddUser({ callback } : { callback: () => void })
                             name="fullname"
                             size="small"
                             sx={{ minWidth: "100%" }}
+                            disabled={loading}
                         />
                     </Grid>
                     <Grid item xs={6}>
@@ -165,6 +166,7 @@ export default function AddUser({ callback } : { callback: () => void })
                             name="username"
                             size="small"
                             sx={{ minWidth: "100%" }}
+                            disabled={loading}
                         />
                     </Grid>
                     <Grid item xs={6}>
@@ -178,6 +180,7 @@ export default function AddUser({ callback } : { callback: () => void })
                             name="email"
                             size="small"
                             sx={{ minWidth: "100%" }}
+                            disabled={loading}
                         />
                     </Grid>
                     <Grid item xs={6}>
@@ -192,6 +195,7 @@ export default function AddUser({ callback } : { callback: () => void })
                             error={formData.password.length < 8}
                             size="small"
                             sx={{ minWidth: "100%" }}
+                            disabled={loading}
                         />
                     </Grid>
                     <Grid item xs={6}>
@@ -202,6 +206,7 @@ export default function AddUser({ callback } : { callback: () => void })
                                 value={expiredDate}
                                 onChange={value => setExpiredDate(value as Dayjs)}
                                 defaultValue={expiredDate}
+                                disabled={loading}
                             />
                         </LocalizationProvider>
                         <div hidden>
@@ -227,6 +232,7 @@ export default function AddUser({ callback } : { callback: () => void })
                                 value={recentLogin}
                                 onChange={value => setRecentLogin(value as Dayjs)}
                                 defaultValue={recentLogin}
+                                disabled={loading}
                             />
                         </LocalizationProvider>
                         <div hidden>

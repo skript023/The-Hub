@@ -9,6 +9,7 @@ import Toast from './components/snackbar'
 import { AuthProvider } from './context/authentication'
 import Authorized from './util/authrorization'
 import Unauthorized from './util/unauthorized'
+import Loading from './components/backdrop'
 
 function App() 
 {
@@ -29,6 +30,7 @@ function App()
                     </Routes>
                 </AuthProvider>
                 <Toast/>
+                <Loading/>
         	</BrowserRouter>
         </>
     )
