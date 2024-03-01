@@ -3,14 +3,6 @@ import { styled } from '@mui/system';
 import './style/anim.css'
 import { useEffect, useState } from 'react';
 
-interface StatusModalProps {
-    title: string;
-    message: string;
-    open: boolean;
-    agree: () => void;
-    disagree: () => void;
-}
-
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -63,47 +55,87 @@ const Svg = styled('svg')({
     margin: '0 auto',
 });
 
-export default function Confirmation({ title, message, open, agree, disagree }: StatusModalProps) 
+class confirmationHandle
 {
-    const [toggle, setToggle] = useState('warning');
+    constructor()
+    {
+        this.message = '';
+        this.title = '';
+        this.open = false;
+        this.setOpen = () => {};
+        this.agree = () => {};
+    }
 
-    useEffect(() => {open ? setToggle('warning toggle') : setToggle('warning'); }, [open])
+    show(title: string, msg: string, agree: () => void)
+    {
+        this.title = title;
+        this.message = msg;
+        this.open = true;
+        this.setOpen(true);
+        this.agree = agree;
+    }
 
-    return (
-        <Modal
-            open={open}
-            slotProps={{ backdrop: { invisible: false } }}
-            aria-labelledby={`confirm-title`}
-            aria-describedby={`confirm-description`}
-        >
-            <Box sx={style}>
-                <ModalContent>
-                    <Svg style={{ width: '100px', display: 'block', margin: '0 auto' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className={toggle}>
-                        <circle className="solid" fill="none" stroke-linecap="round" stroke-width="4" stroke-miterlimit="10" cx="32" cy="32" r="30"/>
-                        <circle className="animation" fill="none" stroke-linecap="round" stroke-width="4" stroke-miterlimit="10" cx="32" cy="32" r="30"/>
-                        <path fill="none" stroke="#000" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" d="M32 15v20"/>
-                        <line fill="none" stroke="#000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="32" y1="46" x2="32" y2="46"/>
-                    </Svg>
-                    <Box height={20}/>
-                    <Typography variant="h4" color={'error'} id={`confirm-title`} gutterBottom>
-                        {title}
-                    </Typography>
-                    <Typography id={`confirm-description`} gutterBottom>
-                        {message}
-                    </Typography>
-                    <Box height={20}/>
-                    <Box display={'flex'} justifyContent={'center'}>
-                        <Stack spacing={2} direction={'row'}>
-                            <Button variant="contained" color={'error'} onClick={disagree}>
-                                No
-                            </Button>
-                            <Button variant="contained" color={'success'} onClick={agree}>
-                                Ok
-                            </Button>
-                        </Stack>
-                    </Box>
-                </ModalContent>
-            </Box>
-        </Modal>
-    );
+    render(): JSX.Element
+    {
+        const [toggle, setToggle] = useState('warning');
+        const handleClose = () => { this.open = false; this.setOpen(false); }
+
+        useEffect(() => {this.open ? setToggle('warning toggle') : setToggle('warning'); }, [this.open])
+    
+        return (
+            <Modal
+                open={this.open}
+                slotProps={{ backdrop: { invisible: false } }}
+                aria-labelledby={`confirm-title`}
+                aria-describedby={`confirm-description`}
+            >
+                <Box sx={style}>
+                    <ModalContent>
+                        <Svg style={{ width: '100px', display: 'block', margin: '0 auto' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" className={toggle}>
+                            <circle className="solid" fill="none" stroke-linecap="round" stroke-width="4" stroke-miterlimit="10" cx="32" cy="32" r="30"/>
+                            <circle className="animation" fill="none" stroke-linecap="round" stroke-width="4" stroke-miterlimit="10" cx="32" cy="32" r="30"/>
+                            <path fill="none" stroke="#000" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" d="M32 15v20"/>
+                            <line fill="none" stroke="#000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="32" y1="46" x2="32" y2="46"/>
+                        </Svg>
+                        <Box height={20}/>
+                        <Typography variant="h4" color={'error'} id={`confirm-title`} gutterBottom>
+                            {this.title}
+                        </Typography>
+                        <Typography id={`confirm-description`} gutterBottom>
+                            {this.message}
+                        </Typography>
+                        <Box height={20}/>
+                        <Box display={'flex'} justifyContent={'center'}>
+                            <Stack spacing={2} direction={'row'}>
+                                <Button variant="contained" color={'error'} onClick={handleClose}>
+                                    No
+                                </Button>
+                                <Button variant="contained" color={'success'} onClick={() => {this.agree(); handleClose();}}>
+                                    Ok
+                                </Button>
+                            </Stack>
+                        </Box>
+                    </ModalContent>
+                </Box>
+            </Modal>
+        );
+    }
+
+    private title: string;
+    private message: string;
+    private open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    private agree: () => void;
+}
+
+const confirm = new confirmationHandle();
+
+export default function Confirmation() 
+{
+    const [_open, setOpen] = useState(false);
+    confirm.setOpen = setOpen;
+
+    return confirm.render();
 };
+
+export { confirm };

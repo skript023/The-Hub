@@ -13,18 +13,14 @@ import { loading } from "../../../components/backdrop";
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Task from "../../../interfaces/task.dto";
 import { toast } from "../../../components/snackbar";
-import DeleteTask from "./delete";
 import Sidenav from "../../navigation/sidebar";
-import MarkAsCompleted from "./completion";
 import { notification } from "../../../components/notification";
+import { confirm } from "../../../components/confirmation";
 
 export default function WorkerTask() 
 {
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
-    const [openDelete, setOpenDelete] = useState(false);
-    const [openCompletion, setOpenCompletion] = useState(false);
-    const [index, setIndex] = useState('');
     const [activities, setActivities] = useState([] as Task[]);
     const [task, setTask] = useState({} as Task);
 
@@ -68,6 +64,8 @@ export default function WorkerTask()
                 });
 
                 setActivities(newTask);
+
+                notification.success('Task Completed', 'You have successfully mark task as completed');
             }
             else
             {
@@ -87,6 +85,8 @@ export default function WorkerTask()
 
                 const deletedTask = activities.filter((item: any) => item._id != index);
                 setActivities(deletedTask);
+
+                notification.success('Update Task', 'You have successfully update task');
             }
         })
         .catch((error) => {
@@ -173,7 +173,7 @@ export default function WorkerTask()
                     <Stack spacing={2} direction={"row"}>
                         <Tooltip title="Set as Completed">
                             <TaskAltIcon style={{ fontSize: "20px", color: "green", cursor: "pointer" }}
-                                onClick={() => { setOpenCompletion(true); setIndex(value); } }/>
+                                onClick={() => { confirm.show('Mark Task as Completed', `Are you sure want to mark this task as completed?`, () => handleComplete(value)) } }/>
                         </Tooltip>
                         <Tooltip title="Edit Task">
                             <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
@@ -181,7 +181,7 @@ export default function WorkerTask()
                         </Tooltip>
                         <Tooltip title="Delete Task">
                             <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
-                                onClick={() => { setIndex(value); setOpenDelete(true) }}/>
+                                onClick={() => { confirm.show('Task Delete', `Are you sure want to delete this record?`, () => handleDeleteClick(value)) }}/>
                         </Tooltip>
                     </Stack>
                 ),
@@ -249,8 +249,6 @@ export default function WorkerTask()
                     <Modals open={openEdit} callback={() => setOpenEdit(false)} title={"Edit Task"}>
                         <EditTask task={task} callback={() => { notification.success('Update Task', 'You have successfully update task'); loadTask(); setOpenEdit(false); }}/>
                     </Modals>
-                        <DeleteTask open={openDelete} agree={ () => { notification.success('Update Task', 'You have successfully update task'); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
-                    <MarkAsCompleted open={openCompletion} agree={ () => { notification.success('Task Completed', 'You have successfully mark task as completed'); handleComplete(index); setOpenCompletion(false); } } disagree={ () => setOpenDelete(false)}/>
                 </Box>
             </Box>
         </Box>

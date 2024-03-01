@@ -13,9 +13,9 @@ import { toast } from "../../../components/snackbar";
 import Product from "../../../interfaces/product.dto";
 import DetailProduct from "./product.detail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import DeleteProduct from "./delete";
 import Sidenav from "../../navigation/sidebar";
 import { notification } from "../../../components/notification";
+import { confirm } from "../../../components/confirmation";
 
 const TabMenu: React.FC<{ children: React.ReactNode; value: number, index: number }> = ({ children, value, index }) => (
     <div hidden={value !== index} style={{ width: '100%' }}>
@@ -27,11 +27,9 @@ export default function ProductManagement()
 {
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
-    const [openDelete, setOpenDelete] = useState(false);
     const [openDetail, setopenDetail] = useState(false);
     const [products, setProduct] = useState([] as Product[]);
     const [prod, setProd] = useState({} as Product);
-    const [index, setIndex] = useState('');
     const [value, setValue] = useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -81,6 +79,8 @@ export default function ProductManagement()
 
                 const deleted = products.filter((item: any) => item._id != index);
                 setProduct(deleted);
+
+                notification.success('Delete Product', 'You have successfully delete product');
             }
         })
         .catch((error) => {
@@ -166,11 +166,11 @@ export default function ProductManagement()
                 customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
                     <Stack spacing={2} direction={"row"}>
                         <MoreVertIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
-                            onClick={() => {handleDetailClick(value); setopenDetail(true);} }/>
+                            onClick={() => { handleDetailClick(value); setopenDetail(true);} }/>
                         <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
-                            onClick={() => {handleEditClick(value); setOpenEdit(true);} }/>
+                            onClick={() => { handleEditClick(value); setOpenEdit(true);} }/>
                         <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
-                            onClick={() => {setOpenDelete(true); setIndex(value); }}/>
+                            onClick={() => { confirm.show('Product Delete', `Are you sure want to delete this record?`, () => handleDeleteClick(value)) }}/>
                     </Stack>
                 ),
             },
@@ -262,7 +262,6 @@ export default function ProductManagement()
                             <EditProduct products={prod} callback={() => {notification.success('Update Product', 'You have successfully update product'); loadProduct(); setOpenEdit(false)}}/>
                         </TabMenu>
                     </Modals>
-                    <DeleteProduct open={openDelete} agree={ () => { notification.success('Delete Product', 'You have successfully delete product'); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => { setOpenDelete(false) }}/>
                     <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)}>
                         <DetailProduct products={prod}/>
                     </Modals>

@@ -9,6 +9,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import dayjs, { Dayjs } from "dayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { notification } from "../../../components/notification";
 
 export default function EditUser({ users, callback }: { users: User, callback: () => void})
 {
@@ -64,10 +65,12 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                 if (response?.success)
                 {
                     toast.success('Setting', response.message);
+                    notification.success('Update User', 'You have successfully update user'); 
                 }
                 else
                 {
                     toast.error('Setting', response?.message);
+                    notification.error('Update User', response?.message as string); 
                 }
 
                 callback();

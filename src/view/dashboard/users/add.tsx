@@ -9,6 +9,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
+import { notification } from "../../../components/notification";
 
 export default function AddUser({ callback } : { callback: () => void })
 {
@@ -79,9 +80,15 @@ export default function AddUser({ callback } : { callback: () => void })
             
             user.create(formData).then((response) => {
                 if (response?.success)
+                {
                     toast.success('Registeration', response.message);
+                    notification.success('Add User', 'You have successfully add user');
+                }
                 else
+                {
                     toast.error('Registeration', response?.message);
+                    notification.error('Add User', response?.message as string);
+                }
 
                 callback();
                 setLoadingSubmit(false);

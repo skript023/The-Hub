@@ -11,6 +11,7 @@ import Authorized from './util/authrorization'
 import Unauthorized from './util/unauthorized'
 import Loading from './components/backdrop'
 import Notification from './components/notification'
+import Confirmation from './components/confirmation'
 
 function App() 
 {
@@ -32,6 +33,7 @@ function App()
                 </AuthProvider>
                 <Toast/>
                 <Notification/>
+                <Confirmation/>
                 <Loading/>
         	</BrowserRouter>
         </>

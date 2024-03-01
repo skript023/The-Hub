@@ -11,16 +11,14 @@ import AddUser from "./add";
 import EditUser from "./edit";
 import Sidenav from "../../navigation/sidebar";
 import { toast } from "../../../components/snackbar";
-import DeleteUser from "./delete";
 import { notification } from "../../../components/notification";
 import { loading } from "../../../components/backdrop";
+import { confirm } from "../../../components/confirmation";
 
 export default function User() 
 {
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
-    const [openDelete, setOpenDelete] = useState(false);
-    const [index, setIndex] = useState('');
 
     const [users, setUsers] = useState([] as any);
     const [usr, setUser] = useState({} as any);
@@ -132,7 +130,7 @@ export default function User()
                         <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
                             onClick={() => {handleEditClick(value); setOpenEdit(true)} }/>
                         <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
-                            onClick={() => { setOpenDelete(true); setIndex(value); } }/>
+                            onClick={() => { confirm.show('User Delete', 'Are you sure want to delete this record?', () => handleDeleteClick(value)) } }/>
                     </Stack>
                 ),
             },
@@ -187,12 +185,11 @@ export default function User()
                         </Box>
                     </Box>
                     <Modals  title="Add User" open={openAdd} callback={() => setOpenAdd(false)}>
-                        <AddUser callback={() => { notification.success('Add User', 'You have successfully add user'); loadUser(); setOpenAdd(false); }}/>
+                        <AddUser callback={() => { loadUser(); setOpenAdd(false); }}/>
                     </Modals>
                     <Modals  title="Edit User" open={openEdit} callback={() => { setOpenEdit(false); }}>
-                        <EditUser users={usr} callback={() => { notification.success('Update User', 'You have successfully update user'); loadUser(); setOpenEdit(false); }}/>
+                        <EditUser users={usr} callback={() => { loadUser(); setOpenEdit(false); }}/>
                     </Modals>
-                    <DeleteUser open={openDelete} agree={ () => { notification.success('Delete User', 'You have successfully delete user'); handleDeleteClick(index); setOpenDelete(false); } } disagree={ () => setOpenDelete(false)}/>
                 </Box>
             </Box>
         </Box>
