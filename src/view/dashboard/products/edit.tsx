@@ -10,6 +10,7 @@ import product from "../../../api/product";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { confirm } from "../../../components/confirmation";
 
 interface Edit
 {
@@ -139,32 +140,35 @@ export default function EditProduct({products, callback}: Edit)
     
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        setLoading(true);
-
         e.preventDefault();
 
-        formData.start_date = startDate.toDate().toLocaleDateString();
-        formData.end_date = endDate.toDate().toLocaleDateString();
-        
-        setFormData(formData);
+        confirm.show('Update Product', 'Are you sure want to update this product?', () => {
+            setLoading(true);
 
-        product.update(products._id as string, formData as Product).then((response) => {
-            if (response?.success)
-            {
-                toast.success("Product Update", response.message)
-                setAlert(() => (<Alert severity="success">{response.message}</Alert>));
-            }
-            else
-            {
-                setAlert(() => (<Alert severity="error">{response?.message}</Alert>));
-                toast.error("Product Update", `${response?.message}`);
-            }
+            formData.start_date = startDate.toDate().toLocaleDateString();
+            formData.end_date = endDate.toDate().toLocaleDateString();
+            
+            setFormData(formData);
 
-            setLoading(false);
+            product.update(products._id as string, formData as Product).then((response) => {
+                if (response?.success)
+                {
+                    toast.success("Product Update", response.message)
+                    setAlert(() => (<Alert severity="success">{response.message}</Alert>));
+                }
+                else
+                {
+                    setAlert(() => (<Alert severity="error">{response?.message}</Alert>));
+                    toast.error("Product Update", `${response?.message}`);
+                }
 
-            callback();
-        }).catch((error: any) => {
-            toast.error("Product Update", error.message);
+                setLoading(false);
+
+                callback();
+            }).catch((error: any) => {
+                toast.error("Product Update", error.message);
+            });
+            
         });
     };
 

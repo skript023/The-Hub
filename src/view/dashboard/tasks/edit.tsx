@@ -7,6 +7,7 @@ import { FormEvent, useState } from "react";
 import authentication from "../../../api/authentication";
 import dayjs, { Dayjs } from "dayjs";
 import { toast } from "../../../components/snackbar";
+import { confirm } from "../../../components/confirmation";
 
 interface Edit
 {
@@ -36,33 +37,34 @@ export default function EditTask({task, callback}: Edit)
     };
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        setLoading(true);
-
         e.preventDefault();
+        confirm.show('Update Task', 'Are you sure want to update this task?', () => {
+            setLoading(true);
 
-        formData.start_date = startDate.toDate().toLocaleDateString();
-        formData.end_date = endDate.toDate().toLocaleDateString();
-        
-        setFormData(formData);
+            formData.start_date = startDate.toDate().toLocaleDateString();
+            formData.end_date = endDate.toDate().toLocaleDateString();
+            
+            setFormData(formData);
 
-        tasks.update(task._id as string, formData as Task).then((response) => {
-            if (response?.success)
-            {
-                toast.success("Task Update", response.message)
-                setAlert(() => (<Alert severity="success">{response.message}</Alert>));
-            }
-            else
-            {
-                setAlert(() => (<Alert severity="error">{response?.message}</Alert>));
-                toast.error("Task Update", `${response?.message}`);
-            }
+            tasks.update(task._id as string, formData as Task).then((response) => {
+                if (response?.success)
+                {
+                    toast.success("Task Update", response.message)
+                    setAlert(() => (<Alert severity="success">{response.message}</Alert>));
+                }
+                else
+                {
+                    setAlert(() => (<Alert severity="error">{response?.message}</Alert>));
+                    toast.error("Task Update", `${response?.message}`);
+                }
 
-            setLoading(false);
+                setLoading(false);
 
-            callback();
-        }).catch((error: any) => {
-            toast.error("Task Update", error.message);
-        });
+                callback();
+            }).catch((error: any) => {
+                toast.error("Task Update", error.message);
+            });
+        })
     };
 
     return (

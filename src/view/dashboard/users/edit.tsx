@@ -10,10 +10,12 @@ import dayjs, { Dayjs } from "dayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { notification } from "../../../components/notification";
+import { confirm } from "../../../components/confirmation";
 
 export default function EditUser({ users, callback }: { users: User, callback: () => void})
 {
     const [loading, setLoading] = useState(false);
+    const [loadingSubmit, setLoadingSubmit] = useState(false);
     const [roles, setRoles] = useState([] as Role[]);
     const [selectedRole, setSelectedRole] = useState({} as Role);
     
@@ -22,10 +24,13 @@ export default function EditUser({ users, callback }: { users: User, callback: (
     const [formData, setFormData] = useState<User>(users);
 
     useEffect(() => {
+        setLoading(true);
         role.findAll().then((response) => {
             if (response?.success)
                 setRoles(response.data);
-        })
+            
+            setLoading(false);
+        }).catch((_error: any) => setLoading(false));
     }, []);
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -51,11 +56,10 @@ export default function EditUser({ users, callback }: { users: User, callback: (
     };
 
     const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-        try 
-        {
-            setLoading(true);
+        e.preventDefault();
+        confirm.show('Update User', 'Are you sure want to update this user?', () => {
+            setLoadingSubmit(true);
 
-            e.preventDefault();
             formData.expired = expiredDate.toDate().toLocaleDateString();
             formData.recent_login = recentLogin.toDate().toLocaleDateString();
             
@@ -64,33 +68,35 @@ export default function EditUser({ users, callback }: { users: User, callback: (
             user.update(users._id, formData).then((response) => {
                 if (response?.success)
                 {
-                    toast.success('Setting', response.message);
+                    toast.success('Update User', response.message);
                     notification.success('Update User', 'You have successfully update user'); 
                 }
                 else
                 {
-                    toast.error('Setting', response?.message);
+                    toast.error('Update User', response?.message);
                     notification.error('Update User', response?.message as string); 
                 }
 
                 callback();
-                setLoading(false);
+                setLoadingSubmit(false);
+            }).catch((error: any) => {
+                toast.error('Update User', error.message);
+                notification.error('Update User', error.message);
+                setLoadingSubmit(false);
             })
-        } 
-        catch (error: any) 
-        {
-            setLoading(false);
-        }
+        });
     };
 
     return (
         <form onSubmit={handleFormSubmit}>
             <DialogContent dividers>
                 <Box sx={{ m: 1 }}/>
+                { loading ? <CircularProgress size={50} sx={{ position: 'absolute', top: '50%', left: '50%', marginTop: '-12px', marginLeft: '-12px'}}/> : <></> }
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Box display="flex" justifyContent="center">
                             <Input
+                                disabled={loading}
                                 style={{ display: 'none' }}
                                 id={`avatar`}
                                 type="file"
@@ -110,6 +116,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                             <FormControl sx={{ m: 1, minWidth: 500 }} size="small">
                                 <InputLabel id="demo-select-small-label">Role</InputLabel>
                                 <Select
+                                    disabled={loading}
                                     labelId="demo-select-small-label"
                                     id="demo-select-small"
                                     value={selectedRole._id}
@@ -131,6 +138,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
+                            disabled={loading}
                             variant="standard"
                             type="text"
                             label="Fullname"
@@ -143,6 +151,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
+                            disabled={loading}
                             variant="standard"
                             type="text"
                             label="Username"
@@ -155,6 +164,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
+                            disabled={loading}
                             variant="standard"
                             type="text"
                             label="Email"
@@ -167,6 +177,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
+                            disabled={loading}
                             variant="standard"
                             type="password"
                             label="Password"
@@ -180,6 +191,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                     <Grid item xs={6}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
+                                disabled={loading}
                                 autoFocus
                                 label="Expired Date"
                                 value={expiredDate}
@@ -205,6 +217,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                     <Grid item xs={6}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
+                                disabled={loading}
                                 autoFocus
                                 label="Recent Login"
                                 value={recentLogin}
@@ -231,10 +244,10 @@ export default function EditUser({ users, callback }: { users: User, callback: (
             </DialogContent>
             <DialogActions>
                 <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
-                    <Button autoFocus type="submit" disabled={loading}>
+                    <Button autoFocus type="submit" disabled={loading || loadingSubmit}>
                     Update
                     </Button>
-                    {loading && (
+                    {loadingSubmit && (
                         <CircularProgress
                             size={24}
                             sx={{

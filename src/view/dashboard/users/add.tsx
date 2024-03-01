@@ -109,6 +109,7 @@ export default function AddUser({ callback } : { callback: () => void })
                     <Grid item xs={12}>
                         <Box display="flex" justifyContent="center">
                             <Input
+                                disabled={loading}
                                 style={{ display: 'none' }}
                                 id={`avatar`}
                                 type="file"
@@ -261,7 +262,7 @@ export default function AddUser({ callback } : { callback: () => void })
             </DialogContent>
             <DialogActions>
                 <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
-                    <Button autoFocus type="submit" disabled={loadingSubmit}>
+                    <Button autoFocus type="submit" disabled={loadingSubmit || loading}>
                     Add
                     </Button>
                     {loadingSubmit && (
