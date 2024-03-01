@@ -56,6 +56,8 @@ class authentication
 
                 return true;
             }
+
+            toast.success('Logout', json.message)
         } 
         catch (error: any) 
         {
@@ -78,7 +80,10 @@ class authentication
         {
             const json = await response.json() as Profile;
 
-            this.user = json;
+            if (!this.user)
+            {
+                this.setUser(json);
+            }
 
             return json;
         }
@@ -96,7 +101,12 @@ class authentication
         if (!this.data())
             return 'https://via.placeholder.com/800x500';
 
-        return `${api.server()}/user/avatar/${this.data()?.image}`;
+        return `${api.server()}/user/avatar/${this.user?.image}`;
+    }
+
+    private setUser(user: Profile)
+    {
+        this.user = user;
     }
 
     private user: Profile | undefined;

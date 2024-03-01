@@ -4,12 +4,8 @@ import Product from "../../../interfaces/product.dto";
 import { useState } from "react";
 import product from "../../../api/product";
 import { toast } from "../../../components/snackbar";
-interface Edit
-{
-    products: Product
-}
 
-export default function DetailProduct({products}: Edit)
+export default function DetailProduct({products}: {products: Product})
 {
     const [formData, _setFormData] = useState<Product>({
         _id: products._id,

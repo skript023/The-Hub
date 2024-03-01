@@ -9,10 +9,12 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
+import Loading from "../../../components/backdrop";
 
 export default function AddUser({ callback } : { callback: () => void })
 {
     const [loading, setLoading] = useState(false);
+    const [loadingSubmit, setLoadingSubmit] = useState(false);
     const [roles, setRoles] = useState([] as Role[]);
     const [selectedRole, setSelectedRole] = useState({} as Role);
     
@@ -34,9 +36,12 @@ export default function AddUser({ callback } : { callback: () => void })
     });
 
     useEffect(() => {
+        setLoading(true);
         role.findAll().then((response) => {
             if (response?.success)
                 setRoles(response.data);
+
+            setLoading(false);
         })
     }, []);
 
@@ -65,7 +70,7 @@ export default function AddUser({ callback } : { callback: () => void })
     const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
         try 
         {
-            setLoading(true);
+            setLoadingSubmit(true);
 
             e.preventDefault();
             formData.expired = expiredDate.toDate().toLocaleDateString();
@@ -80,12 +85,12 @@ export default function AddUser({ callback } : { callback: () => void })
                     toast.error('Registeration', response?.message);
 
                 callback();
-                setLoading(false);
+                setLoadingSubmit(false);
             })
         } 
         catch (error: any) 
         {
-            setLoading(false);
+            setLoadingSubmit(false);
         }
     };
 
@@ -93,6 +98,7 @@ export default function AddUser({ callback } : { callback: () => void })
         <form onSubmit={handleFormSubmit}>
             <DialogContent dividers>
                 <Box sx={{ m: 1 }}/>
+                { loading ? <Loading open={loading}/> : <></> }
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Box display="flex" justifyContent="center">
@@ -242,10 +248,10 @@ export default function AddUser({ callback } : { callback: () => void })
             </DialogContent>
             <DialogActions>
                 <Box display="flex" justifyContent="center" mt="20px" m={1} position="relative">
-                    <Button autoFocus type="submit" disabled={loading}>
+                    <Button autoFocus type="submit" disabled={loadingSubmit}>
                     Add
                     </Button>
-                    {loading && (
+                    {loadingSubmit && (
                         <CircularProgress
                             size={24}
                             sx={{

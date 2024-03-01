@@ -5,6 +5,7 @@ import AvatarIcon from "../../../components/avatar";
 import authentication from "../../../api/authentication";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../components/backdrop";
+import { base } from "../../../util/base";
 
 
 export default function AccountMenu({menuId, isMenuOpen, handleMenuClose}: any)
@@ -13,6 +14,16 @@ export default function AccountMenu({menuId, isMenuOpen, handleMenuClose}: any)
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
+
+    const SignOut = async () => {
+        setLoading(true); 
+        if (await authentication.logout())
+        {
+            navigate(`${base}`); 
+            setLoading(false);  
+        }
+        handleMenuClose();
+    }
 
     return (() => {
         if (loading)
@@ -57,7 +68,7 @@ export default function AccountMenu({menuId, isMenuOpen, handleMenuClose}: any)
                         </ListItemIcon>
                         Settings
                     </MenuItem>
-                    <MenuItem onClick={() => { setLoading(true); authentication.logout().then((success) => { success ?? navigate('/'); setLoading(false); } ); handleMenuClose(); }}>
+                    <MenuItem onClick={SignOut}>
                         <ListItemIcon>
                             <Logout fontSize="small" />
                         </ListItemIcon>

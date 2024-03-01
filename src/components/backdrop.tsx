@@ -1,6 +1,6 @@
 import { Backdrop, Box, CircularProgress, Typography } from "@mui/material";
 
-export default function Loading({open}: any)
+export default function Loading({ open }: { open: boolean; })
 {
     return (
         <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
