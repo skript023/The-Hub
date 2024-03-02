@@ -5,6 +5,10 @@ const Svg = styled('svg')({
     height: '150px',
     display: 'block',
     margin: '0 auto',
+    '@media (max-width: 768px)': { // Change max-width to match your desired mobile breakpoint
+        width: '100px',
+        height: '100px',
+    },
 });
 
 export default function SpinningDot()
