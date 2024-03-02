@@ -133,7 +133,7 @@ export default function Navbar({open, isLoaded, callback} : any)
                         edge="start"
                         sx={{
                             marginRight: 5,
-                            ...(open && { display: 'none' }),
+                            // ...(open && { display: 'none' }),
                         }}
                     >
                         <MenuIcon />

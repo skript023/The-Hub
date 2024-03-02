@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -16,6 +13,8 @@ import Navbar from './navbar';
 import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
 import { SidebarMenu } from './menu/sidebar_menu';
+import { Avatar, Typography } from '@mui/material';
+import authentication from '../../api/authentication';
 
 const drawerWidth = 240;
 
@@ -68,7 +67,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function Sidenav() 
 {
-    const theme = useTheme();
     const [isLoaded, setLoaded] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -82,23 +80,28 @@ export default function Sidenav()
     }
     , [])
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    const handleDrawerToggle = () => {
+        open ? setOpen(false) : setOpen(true);
+    }
 
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <Navbar open={open} isLoaded={isLoaded} callback={handleDrawerOpen}/>
-            <Drawer variant="permanent" open={open}>
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
+            <Navbar open={open} isLoaded={isLoaded} callback={handleDrawerToggle}/>
+            <Drawer variant="permanent" open={open} sx={{ ...(!open && {'@media (max-width: 768px)': {  display: 'none'}}) }}>
+                <DrawerHeader sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    { open && (
+                        <>
+                        <Box height={20}/>
+                        <Avatar alt="User Avatar" src={authentication.avatar()} sx={{ width: 140, height: 140, marginBottom: 1 }}/>
+                        <Typography variant="subtitle1" gutterBottom>
+                            {authentication.data()?.fullname}
+                        </Typography>
+                        <Typography variant="subtitle1" color="green" sx={{ fontWeight: 'bold' }}>
+                            {authentication.data()?.role?.name}
+                        </Typography>
+                        </>
+                    ) }
                 </DrawerHeader>
                 <Divider />
                 <List>
