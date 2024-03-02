@@ -1,5 +1,6 @@
-import { Backdrop, Box, CircularProgress, Typography } from "@mui/material";
+import { Backdrop, Box, Typography } from "@mui/material";
 import { useState } from "react";
+import SpinningDot from "./spinningdot";
 
 class loadingHandle
 {
@@ -39,9 +40,10 @@ class loadingHandle
                     justifyContent: 'center',
                     minHeight: '100vh', // Optionally, set a minimum height to center vertically
                 }}>
-                    <CircularProgress  color="inherit" size={70}/>
+                    {/* <CircularProgress  color="inherit" size={70}/> */}
+                    <SpinningDot/>
                     <Typography variant="h6" component="div" sx={{ mt: 3 }}>
-                        Loading, please wait...
+                        Just a moment, we're getting things ready...
                     </Typography>
                 </Box>
             </Backdrop>
