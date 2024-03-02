@@ -42,7 +42,15 @@ class loadingHandle
                 }}>
                     {/* <CircularProgress  color="inherit" size={70}/> */}
                     <SpinningDot/>
-                    <Typography variant="h6" component="div" sx={{ mt: 3 }}>
+                    <Typography 
+                    variant="h6" 
+                    component="div" 
+                    sx={{
+                        mt: 3,
+                        '@media (max-width: 768px)': { // Change max-width to match your desired mobile breakpoint
+                            display: 'none', // Hide Typography on mobile
+                        },
+                    }}>
                         Just a moment, we're getting things ready...
                     </Typography>
                 </Box>
