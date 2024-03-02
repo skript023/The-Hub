@@ -12,12 +12,16 @@ export default function Unauthorized()
     const from = location.state?.from?.pathname || `${base}home`;
 
     useEffect(() => {
-        authentication.userProfile()
-        .then((success) => { 
-            setAuth(success);
-        })
-        .catch((_e: any)=> {
-        });
+        if (!auth)
+        {
+            authentication.userProfile()
+            .then((success) => { 
+                setAuth(success);
+            })
+            .catch((_e: any)=> {
+                setAuth(null);
+            });
+        }
     });
 
     return (

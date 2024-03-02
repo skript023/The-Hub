@@ -3,22 +3,22 @@ import { Divider, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material
 import { useRef } from "react";
 import AvatarIcon from "../../../components/avatar";
 import authentication from "../../../api/authentication";
-import { useNavigate } from "react-router-dom";
 import { loading } from "../../../components/backdrop";
-import { base } from "../../../util/base";
+import useAuth from "../../../hooks/authentication";
 
 
 export default function AccountMenu({menuId, isMenuOpen, handleMenuClose}: any)
 {
     const anchorRef = useRef<HTMLElement>();
-    const navigate = useNavigate();
+    const { setAuth } = useAuth();
 
     const SignOut = async () => {
         loading.start();
         if (await authentication.logout())
         {
-            navigate(`${base}`); 
+            setAuth(null);
             loading.stop();
+            window.location.reload();
         }
         handleMenuClose();
     }

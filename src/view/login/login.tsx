@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import authentication from '../../api/authentication';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { base } from '../../util/base';
@@ -36,8 +36,11 @@ const defaultTheme = createTheme();
 export default function Login() 
 {
     const { setAuth } = useAuth();
+    const location = useLocation();
     const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
+
+    const from = location.state?.from?.pathname || `${base}home`;
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -47,9 +50,10 @@ export default function Login()
         setLoading(true);
         if (await authentication.login(username, password))
         {
+            const user = await authentication.userProfile();
             setLoading(false);
-            setAuth(await authentication.userProfile());
-            navigate(`${base}home`, {replace: true});
+            setAuth(user);
+            navigate(from, {replace: true});
         }
 
         setLoading(false);

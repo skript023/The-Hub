@@ -10,12 +10,16 @@ export default function Authorized()
     const location = useLocation();
 
     useEffect(() => {
-        authentication.userProfile()
-        .then((success) => { 
-            setAuth(success);
-        })
-        .catch((_e: any)=> {
-        });
+        if (!auth)
+        {
+            authentication.userProfile()
+            .then((success) => { 
+                setAuth(success);
+            })
+            .catch((_e: any)=> {
+                setAuth(null);
+            });
+        }
     });
     
     return (

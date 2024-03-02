@@ -3,14 +3,24 @@ import authentication from "../../../api/authentication";
 import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 import { useRef } from "react";
 import { loading } from "../../../components/backdrop";
-import { base } from "../../../util/base";
-import { useNavigate } from "react-router-dom";
+import useAuth from "../../../hooks/authentication";
 
 
 export default function AccountMenuMobile({mobileMenuId, isMobileMenuOpen, handleMobileMenuClose, handleMenuClose}: any)
 {
     const anchorRef = useRef<HTMLElement>();
-    const navigate = useNavigate();
+    const { setAuth } = useAuth();
+
+    const SignOut = async () => {
+        loading.start();
+        if (await authentication.logout())
+        {
+            setAuth(null);
+            loading.stop();
+            window.location.reload();
+        }
+        handleMenuClose();
+    }
 
     return (
         <Menu
@@ -44,7 +54,7 @@ export default function AccountMenuMobile({mobileMenuId, isMobileMenuOpen, handl
                 </ListItemIcon>
                 Settings
             </MenuItem>
-            <MenuItem onClick={() => { loading.start(); authentication.logout().then((success) => { success ?? navigate(`${base}`); loading.stop();  } ); handleMenuClose(); }}>
+            <MenuItem onClick={SignOut}>
                 <ListItemIcon>
                     <Logout fontSize="small" />
                 </ListItemIcon>
