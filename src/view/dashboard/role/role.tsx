@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Pagination, Typography } from "@mui/material";
+import { Box, Button, Chip, Grid, Pagination, Typography } from "@mui/material";
 import Sidenav from "../../navigation/sidebar";
 import MUIDataTable, { MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import Modals from "../../../components/modal";
@@ -8,6 +8,7 @@ import Role from "../../../interfaces/role.dto";
 import role from "../../../api/role";
 import { loading } from "../../../components/backdrop";
 import { toast } from "../../../components/snackbar";
+import AddRole from "./add";
 
 export default function Roles()
 {
@@ -56,7 +57,7 @@ export default function Roles()
         },
         { 
             name: "level", 
-            label: "Name",
+            label: "Level",
             options: {
                 filter: true,
                 sort: true,
@@ -68,6 +69,76 @@ export default function Roles()
             options: {
                 filter: true,
                 sort: false,
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
+                    <span style={{ color: value ? 'green' : 'red' }}>
+                        <Chip label={value ? 'yes' : 'no'} color={value ? "success" : "error"} />
+                    </span>
+                )
+            },
+        },
+        { 
+            name: "access.read", 
+            label: "Read",
+            options: {
+                filter: true,
+                sort: false,
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
+                    <span style={{ color: value ? 'green' : 'red' }}>
+                        <Chip label={value ? 'yes' : 'no'} color={value ? "success" : "error"} />
+                    </span>
+                )
+            }
+        },
+        { 
+            name: "access.update", 
+            label: "Update",
+            options: {
+                filter: true,
+                sort: false,
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
+                    <span style={{ color: value ? 'green' : 'red' }}>
+                        <Chip label={value ? 'yes' : 'no'} color={value ? "success" : "error"} />
+                    </span>
+                )
+            }
+        },
+        { 
+            name: "access.delete", 
+            label: "Delete",
+            options: {
+                filter: true,
+                sort: false,
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
+                    <span style={{ color: value ? 'green' : 'red' }}>
+                        <Chip label={value ? 'yes' : 'no'} color={value ? "success" : "error"} />
+                    </span>
+                )
+            }
+        },
+        { 
+            name: "access.system", 
+            label: "System",
+            options: {
+                filter: true,
+                sort: false,
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
+                    <span style={{ color: value ? 'green' : 'red' }}>
+                        <Chip label={value ? 'yes' : 'no'} color={value ? "success" : "error"} />
+                    </span>
+                )
+            }
+        },
+        { 
+            name: "access.suspend", 
+            label: "Suspend",
+            options: {
+                filter: true,
+                sort: false,
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
+                    <span style={{ color: value ? 'green' : 'red' }}>
+                        <Chip label={value ? 'yes' : 'no'} color={value ? "success" : "error"} />
+                    </span>
+                )
             }
         },
     ]
@@ -121,7 +192,7 @@ export default function Roles()
                         </Box>
                     </Box>
                     <Modals  title="Add Role" open={openAdd} callback={() => setOpenAdd(false)}>
-                        <></>{/* <AddUser callback={() => { loadUser(); setOpenAdd(false); }}/> */}
+                        <AddRole callback={() => { loadRole(); setOpenAdd(false); }}/>
                     </Modals>
                     <Modals  title="Edit Role" open={openEdit} callback={() => { setOpenEdit(false); }}>
                         <></>{/* <EditUser users={usr} callback={() => { loadUser(); setOpenEdit(false); }}/> */}

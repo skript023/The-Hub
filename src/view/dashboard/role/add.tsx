@@ -5,7 +5,7 @@ import role from "../../../api/role";
 import Role from "../../../interfaces/role.dto";
 import { notification } from "../../../components/notification";
 
-export default function AddRple({ callback } : { callback: () => void })
+export default function AddRole({ callback } : { callback: () => void })
 {
     const [loadingSubmit, setLoadingSubmit] = useState(false);
     

@@ -12,6 +12,7 @@ import Unauthorized from './util/unauthorized'
 import Loading from './components/backdrop'
 import Notification from './components/notification'
 import Confirmation from './components/confirmation'
+import Roles from './view/dashboard/role/role'
 
 function App() 
 {
@@ -28,6 +29,7 @@ function App()
                             <Route path={`${base}products`} element={< Product />}/>
                             <Route path={`${base}activity`} element={< WorkerTask />}/>
                             <Route path={`${base}users`} element={< User />}/>
+                            <Route path={`${base}roles`} element={< Roles />}/>
                         </Route>
                     </Routes>
                 </AuthProvider>
