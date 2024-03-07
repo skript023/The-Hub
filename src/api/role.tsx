@@ -5,6 +5,28 @@ import api from "./api";
 
 class role
 {
+    async create(role: Role): Promise<ServerResponse<Role[]> | undefined>
+    {
+        try 
+        {
+            const response = await api.post('role', {
+                credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(role)
+            });
+
+            return response.json();
+        } 
+        catch (error: any) 
+        {
+            toast.error('Exception', error.message);
+
+            return undefined;
+        }
+    }
+
     async findAll(): Promise<ServerResponse<Role[]> | undefined>
     {
         try 

@@ -20,22 +20,22 @@ export default function Roles()
         role.findAll().then((response) => {
             if (response?.success)
             {
-                setRoles(response.data)
+                setRoles(response.data);
             }
             else
             {
-                toast.error('Role', response?.message)
+                toast.error('Role', response?.message);
             }
             loading.stop()
         }).catch((err: any) => {
-            toast.error('Exception Role', err.message)
-            loading.stop()
+            toast.error('Exception Role', err.message);
+            loading.stop();
         })
     }
 
     useEffect(() => {
-        loadRole()
-    }, [])
+        loadRole();
+    }, []);
 
     const columns = [
         { 
@@ -104,7 +104,7 @@ export default function Roles()
                     <Box m="20px">
                         <Grid container justifyContent="center">
                             <Typography variant="h4" component="div">
-                                Users
+                                Roles
                             </Typography>
                         </Grid>
                         <Box
@@ -120,10 +120,10 @@ export default function Roles()
                             <MUIDataTable title={""} data={roles} columns={columns} options={options}/>
                         </Box>
                     </Box>
-                    <Modals  title="Add User" open={openAdd} callback={() => setOpenAdd(false)}>
+                    <Modals  title="Add Role" open={openAdd} callback={() => setOpenAdd(false)}>
                         <></>{/* <AddUser callback={() => { loadUser(); setOpenAdd(false); }}/> */}
                     </Modals>
-                    <Modals  title="Edit User" open={openEdit} callback={() => { setOpenEdit(false); }}>
+                    <Modals  title="Edit Role" open={openEdit} callback={() => { setOpenEdit(false); }}>
                         <></>{/* <EditUser users={usr} callback={() => { loadUser(); setOpenEdit(false); }}/> */}
                     </Modals>
                 </Box>
