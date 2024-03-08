@@ -44,6 +44,24 @@ class role
             return undefined;
         }
     }
+
+    async remove(id:string) : Promise<ServerResponse<Role[]> | undefined>
+    {
+        try 
+        {
+            const response = await api.delete(`role/${id}`, {
+                credentials: 'include'
+            });
+
+            return response.json();
+        } 
+        catch (error: any) 
+        {
+            toast.error('Role Deletion', error.message);
+
+            return undefined;
+        }    
+    }
 }
 
 export default new role();

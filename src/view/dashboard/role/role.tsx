@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Grid, Pagination, Typography } from "@mui/material";
+import { Box, Button, Chip, Grid, Pagination, Stack, Typography } from "@mui/material";
 import Sidenav from "../../navigation/sidebar";
 import MUIDataTable, { MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import Modals from "../../../components/modal";
@@ -9,12 +9,17 @@ import role from "../../../api/role";
 import { loading } from "../../../components/backdrop";
 import { toast } from "../../../components/snackbar";
 import AddRole from "./add";
+import { confirm } from "../../../components/confirmation";
+import DeleteIcon from "@mui/icons-material/Delete"
+import EditIcon from "@mui/icons-material/Edit"
+import { notification } from "../../../components/notification";
 
 export default function Roles()
 {
-    const [openAdd, setOpenAdd] = useState(false)
-    const [openEdit, setOpenEdit] = useState(false)
-    const [roles, setRoles] = useState([] as Role[])
+    const [openAdd, setOpenAdd] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [roles, setRoles] = useState([] as Role[]);
+    const [selectedRole, setSelectedRole] = useState({} as Role);
     
     const loadRole = () => {
         loading.start()
@@ -37,6 +42,32 @@ export default function Roles()
     useEffect(() => {
         loadRole();
     }, []);
+
+    const handleEditClick = (index: string) => {
+        roles.map((obj: any) => {
+            if (obj._id == index)
+            {
+                setSelectedRole(obj);
+            }
+        });
+    };
+
+    const handleDeleteClick = (index: string) => {
+        role.remove(index)
+        .then((response) => {
+            if (response?.success)
+            {
+                toast.success('Role Delete', response.message);
+
+                const deletedUser = roles.filter((item: any) => item._id != index);
+                setRoles(deletedUser);
+                notification.success('Delete Role', 'You have successfully delete role');
+            }
+        })
+        .catch((error) => {
+            toast.error('Role Delete', error.message);
+        });
+    };
 
     const columns = [
         { 
@@ -140,6 +171,22 @@ export default function Roles()
                     </span>
                 )
             }
+        },
+        {
+            name: "id",
+            label: "Action",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
+                    <Stack spacing={2} direction={"row"}>
+                        <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
+                            onClick={() => { handleEditClick(value); setOpenEdit(true)} }/>
+                        <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
+                            onClick={() => { confirm.show('User Delete', 'Are you sure want to delete this record?', () => handleDeleteClick(value) ) } }/>
+                    </Stack>
+                ),
+            },
         },
     ]
 
