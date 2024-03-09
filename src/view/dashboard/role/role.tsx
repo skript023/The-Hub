@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Grid, Pagination, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, Grid, LinearProgress, Pagination, Stack, Typography } from "@mui/material";
 import Sidenav from "../../navigation/sidebar";
 import MUIDataTable, { MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import Modals from "../../../components/modal";
@@ -13,6 +13,7 @@ import { confirm } from "../../../components/confirmation";
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import { notification } from "../../../components/notification";
+import EditRole from "./edit";
 
 export default function Roles()
 {
@@ -92,6 +93,11 @@ export default function Roles()
             options: {
                 filter: true,
                 sort: true,
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => {
+                    const maxLevel = 6;
+                    const percentage = (value * 100) / maxLevel;
+                    return <LinearProgress variant="determinate" value={percentage} color={percentage > 70 ? 'success' : percentage < 50 ? 'error' : 'warning'}/>
+                }
             }
         },
         { 
@@ -241,8 +247,8 @@ export default function Roles()
                     <Modals  title="Add Role" open={openAdd} callback={() => setOpenAdd(false)}>
                         <AddRole callback={() => { loadRole(); setOpenAdd(false); }}/>
                     </Modals>
-                    <Modals  title="Edit Role" open={openEdit} callback={() => { setOpenEdit(false); }}>
-                        <></>{/* <EditUser users={usr} callback={() => { loadUser(); setOpenEdit(false); }}/> */}
+                    <Modals title="Edit Role" open={openEdit} callback={() => { setOpenEdit(false); }}>
+                        <EditRole selectedRole={selectedRole} callback={() => { loadRole(); setOpenEdit(false); }}/>
                     </Modals>
                 </Box>
             </Box>

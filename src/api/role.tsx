@@ -45,6 +45,28 @@ class role
         }
     }
 
+    async update(id: string, role: Role): Promise<ServerResponse<Role[]> | undefined>
+    {
+        try 
+        {
+            const response = await api.patch(`role/${id}`, {
+                credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(role)
+            });
+
+            return response.json();
+        } 
+        catch (error: any) 
+        {
+            toast.error('Role Update', error.message);
+
+            return undefined;
+        }   
+    }
+
     async remove(id:string) : Promise<ServerResponse<Role[]> | undefined>
     {
         try 
