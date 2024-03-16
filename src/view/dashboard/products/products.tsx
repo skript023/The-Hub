@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Pagination, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Button, Grid, Pagination, Stack, Tab, Tabs, Typography, useMediaQuery, useTheme } from "@mui/material";
 import MUIDataTable, { MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
 import AddCircleIcon from "@mui/icons-material/AddCircle"
@@ -31,6 +31,8 @@ export default function ProductManagement()
     const [products, setProduct] = useState([] as Product[]);
     const [prod, setProd] = useState({} as Product);
     const [value, setValue] = useState(0);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -180,6 +182,7 @@ export default function ProductManagement()
     const options = {
         responsive: 'vertical' as Responsive,
         enableNestedDataAccess: ".",
+        selectableRowsHideCheckboxes: isMobile ? true : false,
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
@@ -210,7 +213,7 @@ export default function ProductManagement()
             <>
             <Box sx={{ display: "flex" }}>
                 <Sidenav/>
-                <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                <Box component={"main"} sx={{ flexGrow: 1, mt: 8, ...(!isMobile && { p: 3 }) }}>
                     <Box m="20px">
                         <Grid container justifyContent="center">
                             <Typography variant="h4" component="div">

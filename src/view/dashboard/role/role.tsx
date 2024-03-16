@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Grid, LinearProgress, Pagination, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, Grid, LinearProgress, Pagination, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Sidenav from "../../navigation/sidebar";
 import MUIDataTable, { MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import Modals from "../../../components/modal";
@@ -21,6 +21,8 @@ export default function Roles()
     const [openEdit, setOpenEdit] = useState(false);
     const [roles, setRoles] = useState([] as Role[]);
     const [selectedRole, setSelectedRole] = useState({} as Role);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     
     const loadRole = () => {
         loading.start()
@@ -199,6 +201,7 @@ export default function Roles()
     const options = {
         responsive: 'vertical' as Responsive,
         enableNestedDataAccess: ".",
+        selectableRowsHideCheckboxes: isMobile ? true : false,
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
@@ -224,7 +227,7 @@ export default function Roles()
         <Box height={70}>
             <Box sx={{ display: "flex" }}>
                 <Sidenav/>
-                <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                <Box component={"main"} sx={{ flexGrow: 1, mt: 8, ...(!isMobile && { p: 3 })  }}>
                     <Box m="20px">
                         <Grid container justifyContent="center">
                             <Typography variant="h4" component="div">

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, Tooltip, Typography, Pagination } from "@mui/material";
+import { Box, Button, Grid, Stack, Tooltip, Typography, Pagination, useTheme, useMediaQuery } from "@mui/material";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
 import AddCircleIcon from "@mui/icons-material/AddCircle"
@@ -23,6 +23,8 @@ export default function WorkerTask()
     const [openEdit, setOpenEdit] = useState(false);
     const [activities, setActivities] = useState([] as Task[]);
     const [task, setTask] = useState({} as Task);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const loadTask = () => {
         tasks.findAll().then((data : any) =>{
@@ -192,6 +194,7 @@ export default function WorkerTask()
     const options: MUIDataTableOptions = {
         responsive: 'vertical' as Responsive,
         enableNestedDataAccess: ".",
+        selectableRowsHideCheckboxes: isMobile ? true : false,
         onRowsDelete: (rowsDeleted: any) => {
             // console.log(JSON.stringify(rowsDeleted));
             rowsDeleted.data.map((data : any) => {
@@ -222,7 +225,7 @@ export default function WorkerTask()
         <Box height={70}>
             <Box sx={{ display: "flex" }}>
                 <Sidenav/>
-                <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                <Box component={"main"} sx={{ flexGrow: 1, mt: 8, ...(!isMobile && { p: 3 }) }}>
                     <Box m="20px">
                         <Grid container justifyContent="center">
                             <Typography variant="h4" component="div">

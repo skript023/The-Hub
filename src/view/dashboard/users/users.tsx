@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Pagination, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Pagination, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import MUIDataTable, { MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
 import AddCircleIcon from "@mui/icons-material/AddCircle"
@@ -22,6 +22,8 @@ export default function User()
 
     const [users, setUsers] = useState([] as any);
     const [usr, setUser] = useState({} as any);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     
     const loadUser = () => { 
         loading.start();
@@ -140,6 +142,7 @@ export default function User()
     const options = {
         responsive: 'vertical' as Responsive,
         enableNestedDataAccess: ".",
+        selectableRowsHideCheckboxes: isMobile ? true : false,
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
@@ -164,7 +167,7 @@ export default function User()
         <Box height={70}>
             <Box sx={{ display: "flex" }}>
                 <Sidenav/>
-                <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                <Box component={"main"} sx={{ flexGrow: 1, mt: 8, ...(!isMobile && { p: 3 }) }}>
                     <Box m="20px">
                         <Grid container justifyContent="center">
                             <Typography variant="h4" component="div">
