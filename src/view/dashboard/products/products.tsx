@@ -213,7 +213,7 @@ export default function ProductManagement()
             <>
             <Box sx={{ display: "flex" }}>
                 <Sidenav/>
-                <Box component={"main"} sx={{ flexGrow: 1, mt: 8, ...(!isMobile && { p: 3 }) }}>
+                <Box component={"main"} sx={{ flexGrow: 1, mt: 8, ...(!isMobile && { p: 3 }), ...(isMobile && { mb: 8 }) }}>
                     <Box m="20px">
                         <Grid container justifyContent="center">
                             <Typography variant="h4" component="div">
