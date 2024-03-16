@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, Theme, CSSObject } from '@mui/material/styles';
+import { styled, Theme, CSSObject, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -9,11 +9,13 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Navbar from './navbar';
 import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
 import { SidebarMenu } from './menu/sidebar_menu';
-import { Avatar, Typography } from '@mui/material';
+import { Avatar, Typography, useMediaQuery } from '@mui/material';
 import authentication from '../../api/authentication';
 
 const drawerWidth = 240;
@@ -69,7 +71,10 @@ export default function Sidenav()
 {
     const [isLoaded, setLoaded] = React.useState(false);
     const [open, setOpen] = React.useState(false);
+    const [selected, setSelected] = React.useState(0);
     const navigate = useNavigate();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const ref = React.useRef(null) as any;
     
@@ -77,58 +82,81 @@ export default function Sidenav()
         ref.current.staticStart();
         setLoaded(true);
         ref.current.complete();
-    }
-    , [])
+
+        const currentRoute = window.location.pathname;
+        const menuIndex = SidebarMenu.findIndex(menu => menu.route === currentRoute);
+        setSelected(menuIndex);
+    }, []);
 
     const handleDrawerToggle = () => {
-        open ? setOpen(false) : setOpen(true);
-    }
+        setOpen(!open);
+    };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <CssBaseline />
             <Navbar open={open} isLoaded={isLoaded} callback={handleDrawerToggle}/>
-            <Drawer variant="permanent" open={open} sx={{ ...(!open && {'@media (max-width: 768px)': {  display: 'none'}}) }}>
-                <DrawerHeader sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    { open && (
-                        <>
-                        <Box height={20}/>
-                        <Avatar alt="User Avatar" src={authentication.avatar()} sx={{ width: 140, height: 140, marginBottom: 1 }}/>
-                        <Typography variant="subtitle1" gutterBottom>
-                            {authentication.data()?.fullname}
-                        </Typography>
-                        <Typography variant="subtitle1" color="green" sx={{ fontWeight: 'bold' }}>
-                            {authentication.data()?.role?.name}
-                        </Typography>
-                        </>
-                    ) }
-                </DrawerHeader>
-                <Divider />
-                <List>
+            {isMobile ? (
+                <BottomNavigation
+                    showLabels
+                    sx={{ width: '100%', position: 'fixed', bottom: 0, zIndex: 1000 }}
+                    value={selected}
+                    onChange={(_event, newValue) => {
+                        setSelected(newValue);
+                    }}
+                >
                     {SidebarMenu.map((menu) => (
-                        <ListItem key={menu.name} disablePadding sx={{ display: 'block' }} onClick={() => navigate(menu.route)}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                }}
-                            >
-                                <ListItemIcon
+                        <BottomNavigationAction
+                            key={menu.name}
+                            label={menu.name}
+                            icon={menu.icon}
+                            onClick={() => navigate(menu.route)}
+                        />
+                    ))}
+                </BottomNavigation>
+            ) : (
+                <Drawer variant="permanent" open={open}>
+                    <DrawerHeader sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        {open && (
+                            <>
+                                <Box height={20}/>
+                                <Avatar alt="User Avatar" src={authentication.avatar()} sx={{ width: 140, height: 140, marginBottom: 1 }}/>
+                                <Typography variant="subtitle1" gutterBottom>
+                                    {authentication.data()?.fullname}
+                                </Typography>
+                                <Typography variant="subtitle1" color="green" sx={{ fontWeight: 'bold' }}>
+                                    {authentication.data()?.role?.name}
+                                </Typography>
+                            </>
+                        )}
+                    </DrawerHeader>
+                    <Divider />
+                    <List>
+                        {SidebarMenu.map((menu) => (
+                            <ListItem key={menu.name} disablePadding sx={{ display: 'block' }} onClick={() => navigate(menu.route)}>
+                                <ListItemButton
                                     sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
                                     }}
                                 >
-                                    {menu.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={menu.name} sx={{ opacity: open ? 1 : 0 }} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-            </Drawer>
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        {menu.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={menu.name} sx={{ opacity: open ? 1 : 0 }} />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Drawer>
+            )}
             <LoadingBar color={'#f11946'} ref={ref} />
         </Box>
     );

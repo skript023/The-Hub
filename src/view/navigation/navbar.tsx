@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { styled, alpha, useTheme } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,7 +11,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, useMediaQuery } from '@mui/material';
 import AvatarIcon from '../../components/avatar';
 import authentication from '../../api/authentication';
 import AccountMenuMobile from './menu/account_menu_mobile';
@@ -63,6 +63,9 @@ export default function Navbar({open, isLoaded, callback} : any)
 {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -126,18 +129,23 @@ export default function Navbar({open, isLoaded, callback} : any)
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="fixed" open={open}>
                 <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={callback}
-                        edge="start"
-                        sx={{
-                            marginRight: 5,
-                            // ...(open && { display: 'none' }),
-                        }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                    {
+                        (!isMobile &&
+                            <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={callback}
+                            edge="start"
+                            sx={{
+                                marginRight: 5,
+                                // ...(open && { display: 'none' }),
+                            }}
+                            >
+                                <MenuIcon />
+                            </IconButton>    
+                        )
+                    }
+                    
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
