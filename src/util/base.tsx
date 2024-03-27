@@ -1,1 +1,1 @@
-export const base = '/The-Hub/'
+export const base = '/'
