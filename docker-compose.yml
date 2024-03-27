@@ -1,0 +1,11 @@
+version: "3.5"
+services:
+  rena-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rena-client-container
+    init: true
+    ports:
+      - 8001:80
+      - 8443:443
