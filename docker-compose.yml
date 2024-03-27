@@ -11,4 +11,4 @@ services:
       # - 8443:443
     volumes:
       - ./dist:/usr/share/nginx/html/
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/default:/etc/nginx/sites-available/default
