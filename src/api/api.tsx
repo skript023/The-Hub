@@ -1,7 +1,7 @@
 
 export class api
 {
-    private url = import.meta.env.VITE_ENVIRONMENT === 'prod' ? 'https://crm-backend.glitch.me' : 'http://http://103.127.97.223/:82';
+    private url = import.meta.env.VITE_ENVIRONMENT === 'prod' ? 'https://crm-backend.glitch.me' : 'http://103.127.97.223:82';
     // private url = 'https://the-worker-hub.glitch.me';
 
     server(): string { return this.url; }
