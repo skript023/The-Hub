@@ -9,3 +9,6 @@ services:
     ports:
       - 8001:80
       - 8443:443
+    volumes:
+      - ./dist:/usr/share/nginx/html/
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
