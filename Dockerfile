@@ -16,16 +16,9 @@ COPY . .
 # Build the React app for production
 RUN npm run build
 
-# Use Nginx as the production server
-FROM nginx:alpine
-
-# Copy the built React app to Nginx's web server directory
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY default.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80 for the Nginx server
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install nginx -y
+COPY --from=build /app/dist /var/www/html/
 EXPOSE 80
-# EXPOSE 443
-
-# Start Nginx when the container runs
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx","-g","daemon off;"]
