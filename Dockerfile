@@ -20,6 +20,7 @@ FROM ubuntu
 RUN apt-get update
 RUN apt-get install nginx -y
 COPY --from=build /app/dist /var/www/html/
-RUN cp /var/www/html/index.html /var/www/html/404.html
+RUN rm /etc/nginx/sites-available/default
+COPY default /etc/nginx/sites-available/
 EXPOSE 80
 CMD ["nginx","-g","daemon off;"]
