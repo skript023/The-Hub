@@ -4,7 +4,7 @@ import { toast } from "../components/snackbar";
 
 class authentication 
 {
-    async login(username: string, password: string) : Promise<boolean>
+    async login(identity: string, password: string) : Promise<boolean>
     {
         try 
         {
@@ -14,9 +14,38 @@ class authentication
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    username,
+                    identity,
                     password
                 })
+            });
+
+            const json = await response.json();
+
+            if (response.status === 200)
+            {
+                toast.success('Authentication', json.message);
+
+                return true;
+            }
+            else
+            {
+                toast.error('Authentication', json.message);
+            }
+        } 
+        catch (error: any) 
+        {
+            toast.error('Authentication', error.message);
+        }
+
+        return false
+    }
+
+    async loginWithGoogle() : Promise<boolean>
+    {
+        try 
+        {
+            const response = await api.get('auth/google', {
+                credentials: 'include',
             });
 
             const json = await response.json();

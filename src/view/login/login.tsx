@@ -16,6 +16,7 @@ import { CircularProgress } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { base } from '../../util/base';
 import useAuth from '../../hooks/authentication';
+import SignInWithGoogleButton from '../../components/google_signin';
 
 function Copyright(props: any) {
     return (
@@ -125,6 +126,22 @@ export default function Login()
                                 >
                                     Sign In
                                 </Button>
+                                {loading && (
+                                <CircularProgress
+                                    size={24}
+                                    sx={{
+                                    color: green[500],
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    marginTop: '-12px',
+                                    marginLeft: '-12px',
+                                    }}
+                                />
+                            )}
+                            </Box>
+                            <Box sx={{ m: 1, position: 'relative' }}>
+                                <SignInWithGoogleButton disabled={loading}/>
                                 {loading && (
                                 <CircularProgress
                                     size={24}
