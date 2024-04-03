@@ -103,22 +103,6 @@ export default function Attendances()
             }
         },
         { 
-            name: "type", 
-            label: "Type",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        { 
-            name: "type", 
-            label: "Type",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        { 
             name: "jenis", 
             label: "Jenis",
             options: {
