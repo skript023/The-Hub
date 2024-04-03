@@ -13,6 +13,7 @@ import Loading from './components/backdrop'
 import Notification from './components/notification'
 import Confirmation from './components/confirmation'
 import Roles from './view/dashboard/role/role'
+import Attendances from './view/dashboard/attendance/attendance'
 
 function App() 
 {
@@ -30,6 +31,7 @@ function App()
                             <Route path={`${base}activity`} element={< WorkerTask />}/>
                             <Route path={`${base}users`} element={< User />}/>
                             <Route path={`${base}roles`} element={< Roles />}/>
+                            <Route path={`${base}attendance`} element={< Attendances />}/>
                         </Route>
                     </Routes>
                 </AuthProvider>
