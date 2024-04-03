@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: rena-client-container
+    restart: unless-stopped
     init: true
     ports:
       - 8001:80
