@@ -22,6 +22,13 @@ class product
                 credentials: 'include',
                 body: forms,
             });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
             
             return response.json();
         } 
@@ -37,6 +44,13 @@ class product
         try 
         {
             const response = await api.get('product', {credentials: 'include'});
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             const json = await response.json() as ServerResponse<Product[]>;
 
@@ -59,6 +73,13 @@ class product
         try 
         {
             const response = await api.get(`product/${id}`, {credentials: 'include'});
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             const json = await response.json() as ServerResponse<Product>;
 
@@ -91,6 +112,13 @@ class product
                 body: forms
             });
 
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
+
             return response.json();
         } 
         catch (error: any) 
@@ -105,6 +133,13 @@ class product
         try 
         {
             const response = await api.delete(`product/${id}`, { credentials: 'include' });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             return response.json();
         } 

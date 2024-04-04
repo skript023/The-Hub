@@ -17,6 +17,13 @@ class role
                 body: JSON.stringify(role)
             });
 
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
+
             return response.json();
         } 
         catch (error: any) 
@@ -34,6 +41,13 @@ class role
             const response = await api.get('role', {
                 credentials: 'include'
             });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             return response.json();
         } 
@@ -57,6 +71,13 @@ class role
                 body: JSON.stringify(role)
             });
 
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
+
             return response.json();
         } 
         catch (error: any) 
@@ -74,6 +95,13 @@ class role
             const response = await api.delete(`role/${id}`, {
                 credentials: 'include'
             });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             return response.json();
         } 

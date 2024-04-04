@@ -17,12 +17,14 @@ class task
                 }
             });
 
-            if (response.status == 200)
+            if (response.status == 401)
             {
-                return response.json();
+                location.reload();
+
+                return undefined
             }
 
-            return undefined;
+            return response.json();
         } 
         catch (error: any) 
         {
@@ -43,12 +45,14 @@ class task
                 }
             });
 
-            if (response.status == 201)
+            if (response.status == 401)
             {
-                return response.json();
+                location.reload();
+
+                return undefined
             }
 
-            return undefined;
+            return response.json();
         } 
         catch (error: any) 
         {
@@ -62,6 +66,13 @@ class task
         try 
         {
             const response = await api.get('activity', { credentials: 'include' });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             const json = await response.json() as ServerResponse<Task[]>;
             
@@ -85,6 +96,13 @@ class task
         try 
         {
             const response = await api.get(`activity/${id}`, { credentials: 'include' });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             const json = await response.json() as ServerResponse<Task>;
 
@@ -113,6 +131,13 @@ class task
                 }
             });
 
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
+
             return response.json();
         } 
         catch (error: any) 
@@ -127,6 +152,13 @@ class task
         try 
         {
             const response = await api.delete(`activity/${id}`, { credentials: 'include' });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             return response.json();
         } 

@@ -21,6 +21,13 @@ class user
                 body: forms
             });
 
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
+
             return response.json();
         } 
         catch (error: any) 
@@ -35,6 +42,13 @@ class user
         try 
         {
             const response = await api.get('user', { credentials: 'include' });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             const json = await response.json() as ServerResponse<User[]>;
 
@@ -67,6 +81,13 @@ class user
                 body: forms
             });
 
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
+
             return response.json();
         } 
         catch (error: any) 
@@ -81,6 +102,13 @@ class user
         try 
         {
             const response = await api.delete(`user/${id}`, {  credentials: 'include' });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             return response.json();
         } 

@@ -17,6 +17,13 @@ class attendance
                 body: JSON.stringify(attendance)
             });
 
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
+
             return response.json();
         } 
         catch (error: any) 
@@ -34,6 +41,13 @@ class attendance
             const response = await api.get('attendance', {
                 credentials: 'include'
             });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             return response.json();
         } 
@@ -57,6 +71,13 @@ class attendance
                 body: JSON.stringify(attendance)
             });
 
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
+
             return response.json();
         } 
         catch (error: any) 
@@ -74,6 +95,13 @@ class attendance
             const response = await api.delete(`attendance/${id}`, {
                 credentials: 'include',
             });
+
+            if (response.status == 401)
+            {
+                location.reload();
+
+                return undefined
+            }
 
             return response.json();
         } 
