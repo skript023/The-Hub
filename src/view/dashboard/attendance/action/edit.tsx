@@ -179,7 +179,6 @@ export default function EditAttendance({ selectedAttendance, callback }: { selec
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            required
                             multiline
                             rows={4}
                             variant="standard"

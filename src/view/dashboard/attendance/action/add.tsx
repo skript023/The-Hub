@@ -180,7 +180,6 @@ export default function AddAttendance({ callback } : { callback: () => void })
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            required
                             multiline
                             rows={4}
                             variant="standard"
