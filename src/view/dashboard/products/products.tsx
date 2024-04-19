@@ -199,7 +199,7 @@ export default function ProductManagement()
                 <Box display="flex" justifyContent="flex-end" marginTop={2} marginBottom={2}>
                     <Pagination
                         showFirstButton showLastButton
-                        count={Math.floor(rowCount / rowsPerPage)}
+                        count={Math.floor(rowCount / rowsPerPage) + 1}
                         page={page + 1}
                         onChange={(_e, index) => changePage(index - 1)}
                     />
