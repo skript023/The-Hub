@@ -11,8 +11,6 @@ COPY package*.json ./
 RUN npm ci --no-audit
 
 # Copy the entire application code to the container
-COPY env.production .env
-
 COPY . .
 
 # Build the React app for production
