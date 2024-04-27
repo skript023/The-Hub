@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci --no-audit
 
 # Copy the entire application code to the container
 COPY env.production .env
