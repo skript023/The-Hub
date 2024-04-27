@@ -11,6 +11,8 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the entire application code to the container
+COPY env.production .env
+
 COPY . .
 
 # Build the React app for production

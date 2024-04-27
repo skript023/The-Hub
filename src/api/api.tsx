@@ -1,8 +1,8 @@
 
 export class api
 {
-    private url = import.meta.env.VITE_ENVIRONMENT === 'dev' ? 'http://localhost:3000' : 'https://server.rena.my.id';
-    // private url = 'https://the-worker-hub.glitch.me';
+    private url = import.meta.env.VITE_ENVIRONMENT === 'dev' ? import.meta.env.VITE_BASE_URL_DEV : import.meta.env.VITE_BASE_URL_PROD;
+    // private url = import.meta.env.VITE_BASE_URL_OLD;
 
     server(): string { return this.url; }
 

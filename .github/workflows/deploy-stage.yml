@@ -42,11 +42,8 @@ jobs:
       - name: Set safe directory
         run: ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "git config --global --add safe.directory /var/www/rena.telkom.co.id/frontend"
 
-      - name: Stop existing Docker containers
-        run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd /var/www/rena.telkom.co.id/frontend && sudo docker-compose down"
-
       - name: Build and start Docker containers
-        run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd /var/www/rena.telkom.co.id/frontend && sudo docker-compose up --build -d"
+        run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd /var/www/rena.telkom.co.id/frontend && sudo docker compose up --build -d"
       
       - name: Create nginx setting and restart nginx
         run: |
