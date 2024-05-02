@@ -20,9 +20,6 @@ class product
         {
             const response = await api.post('product', { 
                 credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                },
                 body: forms,
             });
 
@@ -46,12 +43,7 @@ class product
     {
         try 
         {
-            const response = await api.get('product', { 
-                credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                }
-            });
+            const response = await api.get('product', {credentials: 'include'});
 
             if (response.status == 401)
             {
@@ -80,12 +72,7 @@ class product
     {
         try 
         {
-            const response = await api.get(`product/${id}`, {
-                credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                }
-            });
+            const response = await api.get(`product/${id}`, {credentials: 'include'});
 
             if (response.status == 401)
             {
@@ -122,9 +109,6 @@ class product
             const response = await api.patch(`product/${id}`, 
             { 
                 credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                },
                 body: forms
             });
 
@@ -148,12 +132,7 @@ class product
     {
         try 
         {
-            const response = await api.delete(`product/${id}`, { 
-                credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                }
-            });
+            const response = await api.delete(`product/${id}`, { credentials: 'include' });
 
             if (response.status == 401)
             {
@@ -178,9 +157,6 @@ class product
             const response = await api.put(`product/uploads/detail/captures/${id}`, 
             { 
                 credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                },
                 body: product,
             });
 
@@ -201,9 +177,6 @@ class product
             const response = await api.get(`product/doc/${id}`, 
             {
                 credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                }
             });
 
             if (response.status == 200)
