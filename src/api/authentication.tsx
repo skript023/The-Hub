@@ -11,8 +11,7 @@ class authentication
             const response = await api.post('auth/login', {
                 credentials: 'include',
                 headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": '*',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     identity,
@@ -47,9 +46,6 @@ class authentication
         {
             const response = await api.get('auth/google', {
                 credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                }
             });
 
             const json = await response.json();
@@ -104,8 +100,7 @@ class authentication
     {
         const response = await api.get('user/profile/detail', {
             headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": '*',
+                "Content-Type": "application/json"
             },
             credentials: 'include'
         });

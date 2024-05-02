@@ -13,8 +13,7 @@ class task
             const response = await api.patch(`activity/complete/${id}`, { 
                 credentials: 'include',
                 headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": '*',
+                    "Content-Type": "application/json"
                 }
             });
 
@@ -42,8 +41,7 @@ class task
                 credentials: 'include',
                 body: JSON.stringify(task),
                 headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": '*',
+                    "Content-Type": "application/json"
                 }
             });
 
@@ -67,12 +65,7 @@ class task
     {
         try 
         {
-            const response = await api.get('activity', { 
-                credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                }
-            });
+            const response = await api.get('activity', { credentials: 'include' });
 
             if (response.status == 401)
             {
@@ -102,12 +95,7 @@ class task
     {
         try 
         {
-            const response = await api.get(`activity/${id}`, { 
-                credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                }
-            });
+            const response = await api.get(`activity/${id}`, { credentials: 'include' });
 
             if (response.status == 401)
             {
@@ -139,8 +127,7 @@ class task
                 credentials: 'include',
                 body: JSON.stringify(task),
                 headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": '*',
+                    "Content-Type": "application/json"
                 }
             });
 
@@ -164,12 +151,7 @@ class task
     {
         try 
         {
-            const response = await api.delete(`activity/${id}`, { 
-                credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                }
-            });
+            const response = await api.delete(`activity/${id}`, { credentials: 'include' });
 
             if (response.status == 401)
             {
