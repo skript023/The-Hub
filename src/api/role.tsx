@@ -12,7 +12,8 @@ class role
             const response = await api.post('role', {
                 credentials: 'include',
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": '*',
                 },
                 body: JSON.stringify(role)
             });
@@ -39,7 +40,10 @@ class role
         try 
         {
             const response = await api.get('role', {
-                credentials: 'include'
+                credentials: 'include',
+                headers: {
+                    "Access-Control-Allow-Origin": '*',
+                }
             });
 
             if (response.status == 401)
@@ -66,7 +70,8 @@ class role
             const response = await api.patch(`role/${id}`, {
                 credentials: 'include',
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": '*',
                 },
                 body: JSON.stringify(role)
             });
@@ -93,7 +98,10 @@ class role
         try 
         {
             const response = await api.delete(`role/${id}`, {
-                credentials: 'include'
+                credentials: 'include',
+                headers: {
+                    "Access-Control-Allow-Origin": '*',
+                }
             });
 
             if (response.status == 401)
