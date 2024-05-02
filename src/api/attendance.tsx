@@ -12,8 +12,7 @@ class attendance
             const response = await api.post('attendance', {
                 credentials: 'include',
                 headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": '*',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(attendance)
             });
@@ -40,10 +39,7 @@ class attendance
         try 
         {
             const response = await api.get('attendance', {
-                credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                }
+                credentials: 'include'
             });
 
             if (response.status == 401)
@@ -70,8 +66,7 @@ class attendance
             const response = await api.patch(`attendance/${id}`, {
                 credentials: 'include',
                 headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": '*',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(attendance)
             });
@@ -99,9 +94,6 @@ class attendance
         {
             const response = await api.delete(`attendance/${id}`, {
                 credentials: 'include',
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                }
             });
 
             if (response.status == 401)
