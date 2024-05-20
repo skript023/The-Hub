@@ -19,6 +19,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
     const [roles, setRoles] = useState([] as Role[]);
     const [selectedRole, setSelectedRole] = useState({} as Role);
     
+    const [image, setImage] = useState<string>(users.image);
     const [expiredDate, setExpiredDate] = useState<Dayjs>(dayjs(new Date(users.expired)));
     const [recentLogin, setRecentLogin] = useState<Dayjs>(dayjs(new Date(users.recent_login)));
     const [formData, setFormData] = useState<User>(users);
@@ -37,10 +38,11 @@ export default function EditUser({ users, callback }: { users: User, callback: (
         const file = e.target.files?.[0];
         if (file) {
             // Update formData with the image file name
-            const imageName = file;
+            const imageName = file.name;
+            setImage(imageName);
             setFormData(prevState => ({
                 ...prevState,
-                image: imageName
+                image: file
             }));
         }
     };
@@ -106,7 +108,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                             />
                             <label htmlFor={`avatar`}>
                                 <Button variant="outlined" color="primary" component="span" startIcon={<CloudUploadIcon />}>
-                                    {formData.image ? formData.image : `Upload avatar`}
+                                    {image ? image : `Upload avatar`}
                                 </Button>
                             </label>
                         </Box>

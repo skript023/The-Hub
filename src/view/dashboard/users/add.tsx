@@ -18,6 +18,7 @@ export default function AddUser({ callback } : { callback: () => void })
     const [roles, setRoles] = useState([] as Role[]);
     const [selectedRole, setSelectedRole] = useState({} as Role);
     
+    const [image, setImage] = useState<string>('');
     const [expiredDate, setExpiredDate] = useState<Dayjs>(dayjs(new Date()));
     const [recentLogin, setRecentLogin] = useState<Dayjs>(dayjs(new Date()));
     const [formData, setFormData] = useState<User>({
@@ -49,10 +50,11 @@ export default function AddUser({ callback } : { callback: () => void })
         const file = e.target.files?.[0];
         if (file) {
             // Update formData with the image file name
-            const imageName = file;
+            const imageName = file.name;
+            setImage(imageName);
             setFormData(prevState => ({
                 ...prevState,
-                image: imageName
+                image: file
             }));
         }
     };
@@ -119,7 +121,7 @@ export default function AddUser({ callback } : { callback: () => void })
                             />
                             <label htmlFor={`avatar`}>
                                 <Button disabled={loading} variant="outlined" color="primary" component="span" startIcon={<CloudUploadIcon />}>
-                                    {formData.image ? formData.image : `Upload avatar`}
+                                    {image ? image : `Upload avatar`}
                                 </Button>
                             </label>
                         </Box>
