@@ -4,6 +4,7 @@ import ServerResponse from "../interfaces/response.dto";
 import { toast } from "../components/snackbar";
 import formatter from "../util/formatter";
 import form from "../util/form";
+import MsaOrderData from "../interfaces/msa_order.dto";
 
 class product
 {
@@ -185,6 +186,25 @@ class product
             }
             
             return undefined;
+        } 
+        catch (error: any)
+        {
+            toast.error('Document Generate', error.message);
+
+            return undefined;
+        }
+    }
+
+    async getOrderDataById(id: string): Promise<ServerResponse<MsaOrderData> | undefined>
+    {
+        try 
+        {
+            const response = await api.get(`product/siebel/getMasterDataOrder?orderNum=${id}`, 
+            {
+                credentials: 'include',
+            });
+
+            return response.json();
         } 
         catch (error: any)
         {

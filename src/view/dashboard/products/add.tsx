@@ -38,11 +38,15 @@ export default function AddProduct({callback}: any)
 
     const handleDetailChange = (index: number, key: string, value: string) => {
         setFormData((prevData) => {
-          const newDetail = [...prevData.detail];
-          newDetail[index] = { ...newDetail[index], [key]: value };
-          return { ...prevData, detail: newDetail };
+            const newDetail = [...prevData.detail];
+            newDetail[index] = { ...newDetail[index], [key]: value };
+            return { ...prevData, detail: newDetail };
         });
     };
+
+    const handleStatusOrder = (value: string) => {
+        product.getOrderDataById(value);
+    }
     
     const addDetail = () => {
         setFormData((prevData) => ({
@@ -248,7 +252,7 @@ export default function AddProduct({callback}: any)
                                     variant="standard"
                                     type="text"
                                     label="Order#"
-                                    onChange={(e) => handleDetailChange(index, 'order_num', e.target.value)}
+                                    onChange={(e) => { handleDetailChange(index, 'order_num', e.target.value); handleStatusOrder(e.target.value) }}
                                     value={detail.order_num}
                                     name={`detail[${index}].order_num`}
                                     size="small"

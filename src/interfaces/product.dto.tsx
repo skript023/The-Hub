@@ -19,7 +19,6 @@ export interface ProductDetail
     images: FileList | null;
 };
 
-
 export default interface Product
 {
     _id: string | undefined;
