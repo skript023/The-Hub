@@ -37,7 +37,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
         const file = e.target.files?.[0];
         if (file) {
             // Update formData with the image file name
-            const imageName = file.name;
+            const imageName = file;
             setFormData(prevState => ({
                 ...prevState,
                 image: imageName

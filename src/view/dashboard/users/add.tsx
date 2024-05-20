@@ -49,7 +49,7 @@ export default function AddUser({ callback } : { callback: () => void })
         const file = e.target.files?.[0];
         if (file) {
             // Update formData with the image file name
-            const imageName = file.name;
+            const imageName = file;
             setFormData(prevState => ({
                 ...prevState,
                 image: imageName

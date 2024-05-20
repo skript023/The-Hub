@@ -9,7 +9,7 @@ export default interface User {
     password: string;
     hardware_id: string;
     computer_name: string;
-    image: string;
+    image: any;
     expired: string;
     recent_login: string;
     remember_token: string;
