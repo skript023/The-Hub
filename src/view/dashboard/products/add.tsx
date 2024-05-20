@@ -10,6 +10,8 @@ import { toast } from "../../../components/snackbar";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import ServerResponse from "../../../interfaces/response.dto";
+import MsaOrderData from "../../../interfaces/msa_order.dto";
 
 export default function AddProduct({callback}: any)
 {
@@ -44,8 +46,11 @@ export default function AddProduct({callback}: any)
         });
     };
 
-    const handleStatusOrder = (value: string) => {
-        product.getOrderDataById(value);
+    const handleStatusOrder = (index: number, id: string) => {
+        product.getOrderDataById(id).
+        then((value: ServerResponse<MsaOrderData[]> | undefined) => {
+            handleDetailChange(index, 'status', value?.data[0].statusorder as string)
+        });
     }
     
     const addDetail = () => {
@@ -252,7 +257,7 @@ export default function AddProduct({callback}: any)
                                     variant="standard"
                                     type="text"
                                     label="Order#"
-                                    onChange={(e) => { handleDetailChange(index, 'order_num', e.target.value); handleStatusOrder(e.target.value) }}
+                                    onChange={(e) => { handleDetailChange(index, 'order_num', e.target.value); handleStatusOrder(index, e.target.value) }}
                                     value={detail.order_num}
                                     name={`detail[${index}].order_num`}
                                     size="small"

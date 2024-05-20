@@ -11,6 +11,8 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { confirm } from "../../../components/confirmation";
+import MsaOrderData from "../../../interfaces/msa_order.dto";
+import ServerResponse from "../../../interfaces/response.dto";
 
 interface Edit
 {
@@ -51,6 +53,13 @@ export default function EditProduct({products, callback}: Edit)
         });
     };
     
+    const handleStatusOrder = (index: number, id: string) => {
+        product.getOrderDataById(id).
+        then((value: ServerResponse<MsaOrderData[]> | undefined) => {
+            handleDetailChange(index, 'status', value?.data[0].statusorder as string)
+        });
+    }
+
     const addDetail = () => {
         setFormData((prevData) => ({
             ...prevData,
@@ -281,7 +290,7 @@ export default function EditProduct({products, callback}: Edit)
                                         variant="standard"
                                         type="text"
                                         label="Order#"
-                                        onChange={(e) => handleDetailChange(index, 'order_num', e.target.value)}
+                                        onChange={(e) => { handleDetailChange(index, 'order_num', e.target.value); handleStatusOrder(index, e.target.value)}}
                                         value={detail.order_num}
                                         name={`detail[${index}].order_num`}
                                         size="small"

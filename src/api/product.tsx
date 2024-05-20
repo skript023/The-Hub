@@ -195,7 +195,7 @@ class product
         }
     }
 
-    async getOrderDataById(id: string): Promise<ServerResponse<MsaOrderData> | undefined>
+    async getOrderDataById(id: string): Promise<ServerResponse<MsaOrderData[]> | undefined>
     {
         try 
         {
