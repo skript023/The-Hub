@@ -16,7 +16,6 @@ export default function AddUser({ callback } : { callback: () => void })
     const [loading, setLoading] = useState(false);
     const [loadingSubmit, setLoadingSubmit] = useState(false);
     const [roles, setRoles] = useState([] as Role[]);
-    const [selectedRole, setSelectedRole] = useState({} as Role);
     
     const [image, setImage] = useState<string>('');
     const [expiredDate, setExpiredDate] = useState<Dayjs>(dayjs(new Date()));
@@ -61,7 +60,7 @@ export default function AddUser({ callback } : { callback: () => void })
 
     const handleChange = (event: SelectChangeEvent) => {
         const { name, value } = event.target;
-        setSelectedRole({ ...selectedRole, [name]: value, });
+        setFormData({ ...formData, [name]: value, });
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
@@ -134,7 +133,7 @@ export default function AddUser({ callback } : { callback: () => void })
                                     disabled={loading}
                                     labelId="demo-select-small-label"
                                     id="demo-select-small"
-                                    value={selectedRole._id}
+                                    value={formData.role_id}
                                     label="Role"
                                     name="role_id"
                                     onChange={handleChange}

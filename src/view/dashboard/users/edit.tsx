@@ -17,7 +17,6 @@ export default function EditUser({ users, callback }: { users: User, callback: (
     const [loading, setLoading] = useState(false);
     const [loadingSubmit, setLoadingSubmit] = useState(false);
     const [roles, setRoles] = useState([] as Role[]);
-    const [selectedRole, setSelectedRole] = useState({} as Role);
     
     const [image, setImage] = useState<string>(users.image);
     const [expiredDate, setExpiredDate] = useState<Dayjs>(dayjs(new Date(users.expired)));
@@ -49,7 +48,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
 
     const handleChange = (event: SelectChangeEvent) => {
         const { name, value } = event.target;
-        setSelectedRole({ ...selectedRole, [name]: value, });
+        setFormData({ ...formData, [name]: value, });
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
@@ -121,7 +120,7 @@ export default function EditUser({ users, callback }: { users: User, callback: (
                                     disabled={loading}
                                     labelId="demo-select-small-label"
                                     id="demo-select-small"
-                                    value={selectedRole._id}
+                                    value={formData.role_id}
                                     label="Role"
                                     name="role_id"
                                     onChange={handleChange}
