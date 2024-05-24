@@ -17,6 +17,7 @@ import { green } from '@mui/material/colors';
 import { base } from '../../util/base';
 import useAuth from '../../hooks/authentication';
 import SignInWithGoogleButton from '../../components/google_signin';
+import useRoute from '../../hooks/route';
 
 function Copyright(props: any) {
     return (
@@ -37,6 +38,7 @@ const defaultTheme = createTheme();
 export default function Login() 
 {
     const { setAuth } = useAuth();
+    const { setRoute } = useRoute();
     const location = useLocation();
     const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
@@ -52,8 +54,9 @@ export default function Login()
         if (await authentication.login(username, password))
         {
             const user = await authentication.userProfile();
-            setLoading(false);
+            const access = user?.route.some(route => route.frontend === from) as boolean;
             setAuth(user);
+            setRoute(access);
             navigate(from, {replace: true});
         }
 

@@ -22,7 +22,7 @@ export default function Unauthorized()
                 setAuth(null);
             });
         }
-    });
+    }, []);
 
     return (
         !auth ? <Outlet/> : <Navigate to={ from } state={{ from: location }} replace/>

@@ -7,6 +7,8 @@ import Loading from './components/backdrop'
 import Notification from './components/notification'
 import Confirmation from './components/confirmation'
 import { AuthorizedRoutes, UnauthorizedRoutes } from './routes/routes'
+import ForbiddenPage from './view/navigation/forbidden/forbidden'
+import { RouteProvider } from './context/route'
 
 function App() 
 {
@@ -14,18 +16,21 @@ function App()
         <>
             <BrowserRouter>
                 <AuthProvider>
-                    <Routes>
-                        { UnauthorizedRoutes.map((route) => (
-                            <Route element={<Unauthorized/>}>
-                                <Route path={route.path} element={route.element}/>
-                            </Route> 
-                        )) }
-                        { AuthorizedRoutes.map((route) => (
-                            <Route element={<Authorized/>}>
-                                <Route path={route.path} element={route.element}/>
-                            </Route>
-                        )) }
-                    </Routes>
+                    <RouteProvider>
+                        <Routes>
+                            { UnauthorizedRoutes.map((route) => (
+                                <Route element={<Unauthorized/>}>
+                                    <Route path={route.path} element={route.element}/>
+                                </Route> 
+                            )) }
+                            { AuthorizedRoutes.map((route) => (
+                                <Route element={<Authorized/>}>
+                                    <Route path={route.path} element={route.element}/>
+                                </Route>
+                            )) }
+                            <Route path="/forbidden" element={<ForbiddenPage/>}/>
+                        </Routes>
+                    </RouteProvider>
                 </AuthProvider>
                 <Toast/>
                 <Notification/>

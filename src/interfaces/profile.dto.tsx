@@ -1,4 +1,5 @@
 import Role from "./role.dto";
+import Route from "./route";
 
 export default interface Profile
 {
@@ -15,4 +16,5 @@ export default interface Profile
     recent_login: string;
     remember_token: string;
     role: Role
+    route: Route[]
 }
