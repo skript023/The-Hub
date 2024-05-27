@@ -1,4 +1,4 @@
-export const base = '/'
+export const base = '/rena'
 
 export default function Route(location: string)
 {
