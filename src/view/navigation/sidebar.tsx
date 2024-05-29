@@ -108,6 +108,7 @@ export default function Sidenav()
                 key={index + 4}
                 onClick={() => {
                     setSelected(index + 4);
+                    navigate(item.route);
                     handleClose();
                 }}
             >
