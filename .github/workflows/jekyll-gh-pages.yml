@@ -39,6 +39,11 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+        env:
+          VITE_ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+          VITE_ENCRPYPT_KEY: ${{ secrets.ENCRPYPT_KEY }}
+          VITE_BASE_URL_PROD: ${{ secrets.BASE_URL_PROD }}
+          VITE_BASE_URL_DEV: ${{ secrets.BASE_URL_DEV }}
       - name: copy as 404
         run: cp ./dist/index.html ./dist/404.html
       - name: Setup Pages
