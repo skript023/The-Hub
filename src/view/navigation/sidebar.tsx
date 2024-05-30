@@ -15,8 +15,9 @@ import Navbar from './navbar';
 import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
 import { SidebarMenu } from './menu/sidebar_menu';
-import { Avatar, Typography, useMediaQuery } from '@mui/material';
+import { Avatar, Menu, MenuItem, Typography, useMediaQuery } from '@mui/material';
 import authentication from '../../api/authentication';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const drawerWidth = 240;
 
@@ -77,6 +78,7 @@ export default function Sidenav()
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const ref = React.useRef(null) as any;
+    const [anchorEl, setAnchorEl] = React.useState<any>(null);
     
     React.useEffect(() => {
         ref.current.staticStart();
@@ -92,11 +94,35 @@ export default function Sidenav()
         setOpen(!open);
     };
 
+    const handleClick = (event: any) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const renderMenuItems = () => {
+        return SidebarMenu.slice(4).map((item, index) => (
+            <MenuItem
+                key={index + 4}
+                onClick={() => {
+                    setSelected(index + 4);
+                    navigate(item.route);
+                    handleClose();
+                }}
+            >
+                {item.name}
+            </MenuItem>
+        ));
+    };
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <CssBaseline />
             <Navbar open={open} isLoaded={isLoaded} callback={handleDrawerToggle}/>
             {isMobile ? (
+                <>
                 <BottomNavigation
                     showLabels
                     sx={{ width: '100%', position: 'fixed', bottom: 0, zIndex: 1000 }}
@@ -105,7 +131,7 @@ export default function Sidenav()
                         setSelected(newValue);
                     }}
                 >
-                    {SidebarMenu.map((menu) => (
+                    {SidebarMenu.slice(0, 4).map((menu) => (
                         <BottomNavigationAction
                             key={menu.name}
                             label={menu.name}
@@ -113,7 +139,22 @@ export default function Sidenav()
                             onClick={() => navigate(menu.route)}
                         />
                     ))}
+                    {SidebarMenu.length > 4 && (
+                        <BottomNavigationAction
+                            label="More"
+                            icon={<MoreVertIcon />}
+                            onClick={handleClick}
+                        />
+                    )}
                 </BottomNavigation>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    {renderMenuItems()}
+                </Menu>
+                </>
             ) : (
                 <Drawer variant="permanent" open={open}>
                     <DrawerHeader sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
