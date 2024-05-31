@@ -26,10 +26,10 @@ export default function Roles()
     
     const loadRole = () => {
         loading.start()
-        role.findAll().then((response) => {
+        role.get().then((response) => {
             if (response?.success)
             {
-                setRoles(response.data);
+                setRoles(response.data as Role[]);
             }
             else
             {

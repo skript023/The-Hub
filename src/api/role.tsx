@@ -34,11 +34,12 @@ class role
         }
     }
 
-    async findAll(): Promise<ServerResponse<Role[]> | undefined>
+    async get(id?: string): Promise<ServerResponse<Role[]> | ServerResponse<Role> | undefined>
     {
         try 
         {
-            const response = await api.get('role', {
+            const endpoint = id ? `role/${id}` : 'role'
+            const response = await api.get(endpoint, {
                 credentials: 'include'
             });
 

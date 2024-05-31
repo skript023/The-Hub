@@ -37,9 +37,9 @@ export default function AddUser({ callback } : { callback: () => void })
 
     useEffect(() => {
         setLoading(true);
-        role.findAll().then((response) => {
+        role.get().then((response) => {
             if (response?.success)
-                setRoles(response.data);
+                setRoles(response.data as Role[]);
 
             setLoading(false);
         })
