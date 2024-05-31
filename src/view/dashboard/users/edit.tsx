@@ -25,9 +25,9 @@ export default function EditUser({ users, callback }: { users: User, callback: (
 
     useEffect(() => {
         setLoading(true);
-        role.findAll().then((response) => {
+        role.get().then((response) => {
             if (response?.success)
-                setRoles(response.data);
+                setRoles(response.data as Role[]);
             
             setLoading(false);
         }).catch((_error: any) => setLoading(false));
