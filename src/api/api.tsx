@@ -1,20 +1,20 @@
+import { base } from "../util/base";
 
 export class api
 {
     private url = import.meta.env.VITE_ENVIRONMENT === 'dev' ? import.meta.env.VITE_BASE_URL_DEV : import.meta.env.VITE_BASE_URL_PROD;
-    // private url = import.meta.env.VITE_BASE_URL_OLD;
 
     server(): string { return this.url; }
 
-    async post(route: string, init : RequestInit | undefined)
+    async post(route: string, init? : RequestInit | undefined)
     {
-        return fetch(`${this.url}/${route}`, {
+        const response = await fetch(`${this.url}/${route}`, {
             method: 'POST',
-            credentials: init?.credentials,
+            credentials: 'include',
             headers: init?.headers,
             mode: init?.mode,
             body: init?.body,
-            cache: init?.cache,
+            cache: 'default',
             integrity: init?.integrity,
             keepalive: init?.keepalive,
             redirect: init?.redirect,
@@ -23,16 +23,24 @@ export class api
             signal: init?.signal,
             window: init?.window
         });
+
+            if (response.status == 401)
+            {
+                location.replace(base);
+                localStorage.clear();
+            }
+
+        return response;
     }
-    async patch(route: string, init : RequestInit | undefined)
+    async patch(route: string, init? : RequestInit | undefined)
     {
-        return fetch(`${this.url}/${route}`, {
+        const response = await fetch(`${this.url}/${route}`, {
             method: 'PATCH',
-            credentials: init?.credentials,
+            credentials: 'include',
             headers: init?.headers,
             mode: init?.mode,
             body: init?.body,
-            cache: init?.cache,
+            cache: 'default',
             integrity: init?.integrity,
             keepalive: init?.keepalive,
             redirect: init?.redirect,
@@ -41,16 +49,24 @@ export class api
             signal: init?.signal,
             window: init?.window
         });
+
+        if (response.status == 401)
+        {
+            location.replace(base);
+            localStorage.clear();
+        }
+
+        return response;
     }
-    async put(route: string, init : RequestInit | undefined)
+    async put(route: string, init? : RequestInit | undefined)
     {
-        return fetch(`${this.url}/${route}`, {
+        const response = await fetch(`${this.url}/${route}`, {
             method: 'PUT',
-            credentials: init?.credentials,
+            credentials: 'include',
             headers: init?.headers,
             mode: init?.mode,
             body: init?.body,
-            cache: init?.cache,
+            cache: 'default',
             integrity: init?.integrity,
             keepalive: init?.keepalive,
             redirect: init?.redirect,
@@ -59,16 +75,24 @@ export class api
             signal: init?.signal,
             window: init?.window
         });
+
+        if (response.status == 401)
+        {
+            location.replace(base);
+            localStorage.clear();
+        }
+
+        return response;
     }
-    async delete(route: string, init : RequestInit | undefined)
+    async delete(route: string, init? : RequestInit | undefined)
     {
-        return fetch(`${this.url}/${route}`, {
+        const response = await fetch(`${this.url}/${route}`, {
             method: 'DELETE',
-            credentials: init?.credentials,
+            credentials: 'include',
             headers: init?.headers,
             mode: init?.mode,
             body: init?.body,
-            cache: init?.cache,
+            cache: 'default',
             integrity: init?.integrity,
             keepalive: init?.keepalive,
             redirect: init?.redirect,
@@ -77,16 +101,24 @@ export class api
             signal: init?.signal,
             window: init?.window
         });
+
+        if (response.status == 401)
+        {
+            location.replace(base);
+            localStorage.clear();
+        }
+
+        return response;
     }
-    async get(route: string, init : RequestInit | undefined)
+    async get(route: string, init? : RequestInit | undefined)
     {
-        return fetch(`${this.url}/${route}`, {
+        const response = await fetch(`${this.url}/${route}`, {
             method: 'GET',
-            credentials: init?.credentials,
+            credentials: 'include',
             headers: init?.headers,
             mode: init?.mode,
             body: init?.body,
-            cache: init?.cache,
+            cache: 'default',
             integrity: init?.integrity,
             keepalive: init?.keepalive,
             redirect: init?.redirect,
@@ -95,6 +127,14 @@ export class api
             signal: init?.signal,
             window: init?.window
         });
+
+        if (response.status == 401)
+        {
+            location.replace(base);
+            localStorage.clear();
+        }
+
+        return response;
     }
 }
 

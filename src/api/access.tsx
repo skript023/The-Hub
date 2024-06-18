@@ -10,19 +10,11 @@ export default class access
         try 
         {
             const response = await api.post('route', {
-                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(access)
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 
@@ -39,16 +31,7 @@ export default class access
         try 
         {
             const endpoint = id ? `route/${id}` : 'route'
-            const response = await api.get(endpoint, {
-                credentials: 'include'
-            });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined;
-            }
+            const response = await api.get(endpoint);
 
             return response.json();
         } 
@@ -65,19 +48,11 @@ export default class access
         try 
         {
             const response = await api.patch(`route/${id}`, {
-                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(access)
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 
@@ -94,18 +69,10 @@ export default class access
         try 
         {
             const response = await api.delete(`route/${id}`, {
-                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 

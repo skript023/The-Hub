@@ -1,18 +1,17 @@
 import { createContext, useState } from "react";
-import Profile from "../interfaces/profile.dto";
 
 interface AuthContextType {
-    auth: Profile | null;
-    setAuth: React.Dispatch<React.SetStateAction<Profile | null>>;
+    auth: boolean;
+    setAuth: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AuthContext = createContext<AuthContextType>({
-    auth: null,
+    auth: false,
     setAuth: () => {}
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [auth, setAuth] = useState<Profile | null>(null);
+    const [auth, setAuth] = useState<boolean>(false);
 
     return (
         <AuthContext.Provider value={{ auth, setAuth }}>

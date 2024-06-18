@@ -12,25 +12,29 @@ export default function Authorized()
     const { route, setRoute } = useRoute();
 
     useEffect(() => {
-        authentication.userProfile()
-        .then((success) => { 
-            const access = success?.route.some(route => route.frontend === location.pathname) as boolean;
-            setAuth(success);
+        const user = authentication.data();
+
+        if (user) 
+        {
+            const access = user.route.some(route => route.frontend === location.pathname || location.pathname === base);
+            setAuth(authentication.is_auth());
             setRoute(access);
-        })
-        .catch((_e: any)=> {
-            setAuth(null);
-        });
-    }, [location, route]);
+        } 
+        else 
+        {
+            setAuth(false);
+        }
+    }, [location.pathname, setAuth, setRoute]);
     
-    if (auth)
+    if (!auth) 
     {
-        return (
-            route ? <Outlet/> : <Navigate to="/forbidden" state={{ from: location }} replace/>
-        );
+        return <Navigate to={base} state={{ from: location }} replace />;
+    }
+
+    if (auth && !route) 
+    {
+        return <Navigate to="/forbidden" state={{ from: location }} replace />;
     }
     
-    return (
-        <Navigate to={ base } state={{ from: location }} replace/>
-    );
+    return <Outlet />;
 }

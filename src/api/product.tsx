@@ -20,16 +20,8 @@ class product
         try 
         {
             const response = await api.post('product', { 
-                credentials: 'include',
                 body: forms,
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
             
             return response.json();
         } 
@@ -44,14 +36,7 @@ class product
     {
         try 
         {
-            const response = await api.get('product', {credentials: 'include'});
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
+            const response = await api.get('product');
 
             const json = await response.json() as ServerResponse<Product[]>;
 
@@ -73,14 +58,7 @@ class product
     {
         try 
         {
-            const response = await api.get(`product/${id}`, {credentials: 'include'});
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
+            const response = await api.get(`product/${id}`);
 
             const json = await response.json() as ServerResponse<Product>;
 
@@ -108,17 +86,9 @@ class product
             forms.delete('user');
             
             const response = await api.patch(`product/${id}`, 
-            { 
-                credentials: 'include',
+            {
                 body: forms
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 
@@ -133,14 +103,7 @@ class product
     {
         try 
         {
-            const response = await api.delete(`product/${id}`, { credentials: 'include' });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
+            const response = await api.delete(`product/${id}`);
 
             return response.json();
         } 
@@ -156,8 +119,7 @@ class product
         try 
         {
             const response = await api.put(`product/uploads/detail/captures/${id}`, 
-            { 
-                credentials: 'include',
+            {
                 body: product,
             });
 
@@ -175,10 +137,7 @@ class product
     {
         try 
         {
-            const response = await api.get(`product/doc/${id}`, 
-            {
-                credentials: 'include',
-            });
+            const response = await api.get(`product/doc/${id}`);
 
             if (response.status == 200)
             {
@@ -199,10 +158,7 @@ class product
     {
         try 
         {
-            const response = await api.get(`product/siebel/getMasterDataOrder?orderNum=${id}`, 
-            {
-                credentials: 'include',
-            });
+            const response = await api.get(`product/siebel/getMasterDataOrder?orderNum=${id}`);
 
             return response.json();
         } 

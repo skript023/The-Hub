@@ -11,18 +11,10 @@ class task
         try 
         {
             const response = await api.patch(`activity/complete/${id}`, { 
-                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 
@@ -38,19 +30,11 @@ class task
         try 
         {
             const response = await api.post('activity', { 
-                credentials: 'include',
                 body: JSON.stringify(task),
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 
@@ -65,14 +49,7 @@ class task
     {
         try 
         {
-            const response = await api.get('activity', { credentials: 'include' });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
+            const response = await api.get('activity');
 
             const json = await response.json() as ServerResponse<Task[]>;
             
@@ -95,14 +72,7 @@ class task
     {
         try 
         {
-            const response = await api.get(`activity/${id}`, { credentials: 'include' });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
+            const response = await api.get(`activity/${id}`);
 
             const json = await response.json() as ServerResponse<Task>;
 
@@ -123,20 +93,12 @@ class task
         try 
         {
             const response = await api.patch(`activity/${id}`, 
-            { 
-                credentials: 'include',
+            {
                 body: JSON.stringify(task),
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 
@@ -151,14 +113,7 @@ class task
     {
         try 
         {
-            const response = await api.delete(`activity/${id}`, { credentials: 'include' });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
+            const response = await api.delete(`activity/${id}`);
 
             return response.json();
         } 

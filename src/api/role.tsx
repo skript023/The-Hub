@@ -10,19 +10,11 @@ class role
         try 
         {
             const response = await api.post('role', {
-                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(role)
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 
@@ -39,16 +31,7 @@ class role
         try 
         {
             const endpoint = id ? `role/${id}` : 'role'
-            const response = await api.get(endpoint, {
-                credentials: 'include'
-            });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
+            const response = await api.get(endpoint);
 
             return response.json();
         } 
@@ -65,19 +48,11 @@ class role
         try 
         {
             const response = await api.patch(`role/${id}`, {
-                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(role)
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 
@@ -93,16 +68,7 @@ class role
     {
         try 
         {
-            const response = await api.delete(`role/${id}`, {
-                credentials: 'include'
-            });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
+            const response = await api.delete(`role/${id}`);
 
             return response.json();
         } 

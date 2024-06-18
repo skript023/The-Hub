@@ -1,15 +1,15 @@
 import api from "./api";
-import Profile from "../interfaces/profile.dto";
-import { toast } from "../components/snackbar";
+import Profile from "@/interfaces/profile.dto";
+import { toast } from "@/components/snackbar";
+import storage from "@/util/storage";
 
-class authentication 
+class authentication extends(storage)
 {
     async login(identity: string, password: string) : Promise<boolean>
     {
         try 
         {
             const response = await api.post('auth/login', {
-                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -44,9 +44,7 @@ class authentication
     {
         try 
         {
-            const response = await api.get('auth/google', {
-                credentials: 'include',
-            });
+            const response = await api.get('auth/google');
 
             const json = await response.json();
 
@@ -73,9 +71,7 @@ class authentication
     {
         try 
         {
-            const response = await api.get('auth/logout', {
-                credentials: 'include'
-            });
+            const response = await api.get('auth/logout');
     
             const json = await response.json();
     
@@ -101,15 +97,14 @@ class authentication
         const response = await api.get('user/profile/detail', {
             headers: {
                 "Content-Type": "application/json"
-            },
-            credentials: 'include'
+            }
         });
 
         if (response.status == 200)
         {
             const json = await response.json() as Profile;
 
-            if (!this.user)
+            if (!this.isAuth)
             {
                 this.setUser(json);
             }
@@ -119,10 +114,40 @@ class authentication
 
         return null;
     }
-    
-    data(): Profile | undefined
+
+    async checkAuth(): Promise<boolean>
     {
-        return this.user;
+        const response = await api.get('auth/check', {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (response.status == 200)
+        {
+            const json = await response.json() as {message: string; success: boolean};
+
+            return json.success;
+        }
+
+        this.clearData();
+
+        return false;
+    }
+    
+    data(): Profile | null
+    {
+        const data = this.getData('USER');
+        if (data)
+            return JSON.parse(data) as Profile | null;
+        
+        return null;
+    }
+
+    is_auth(): boolean 
+    {
+        this.isAuth = !!this.getData('USER');
+        return this.isAuth as boolean;
     }
 
     avatar()
@@ -130,15 +155,16 @@ class authentication
         if (!this.data())
             return 'https://via.placeholder.com/800x500';
 
-        return `${api.server()}/user/avatar/${this.user?.image}`;
+        return `${api.server()}/user/avatar/${this.data()?.image}`;
     }
 
     private setUser(user: Profile)
     {
-        this.user = user;
+        this.setData('USER', JSON.stringify(user));
+        this.isAuth = true;
     }
 
-    private user: Profile | undefined;
+    private isAuth: boolean | undefined;
 }
 
 export default new authentication()

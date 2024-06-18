@@ -17,16 +17,8 @@ class user
             forms.delete('_id');
 
             const response = await api.post('user', { 
-                credentials: 'include',
                 body: forms
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 
@@ -41,14 +33,7 @@ class user
     {
         try 
         {
-            const response = await api.get('user', { credentials: 'include' });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
+            const response = await api.get('user');
 
             const json = await response.json() as ServerResponse<User[]>;
 
@@ -77,16 +62,8 @@ class user
             forms.delete('_id');
 
             const response = await api.patch(`user/${id}`, { 
-                credentials: 'include',
                 body: forms
             });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
 
             return response.json();
         } 
@@ -101,14 +78,7 @@ class user
     {
         try 
         {
-            const response = await api.delete(`user/${id}`, {  credentials: 'include' });
-
-            if (response.status == 401)
-            {
-                location.reload();
-
-                return undefined
-            }
+            const response = await api.delete(`user/${id}`);
 
             return response.json();
         } 
