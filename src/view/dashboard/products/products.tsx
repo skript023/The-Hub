@@ -6,16 +6,16 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import AddProduct from "./add";
 import EditProduct from "./edit";
-import Modals from "../../../components/modal";
-import product from "../../../api/product";
-import { loading } from "../../../components/backdrop";
-import { toast } from "../../../components/snackbar";
-import Product from "../../../interfaces/product.dto";
+import Modals from "@/components/modal";
+import product from "@/api/product";
+import { loading } from "@/components/backdrop";
+import { toast } from "@/components/snackbar";
+import Product from "@/interfaces/product.dto";
 import DetailProduct from "./product.detail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Sidenav from "../../navigation/sidebar";
-import { notification } from "../../../components/notification";
-import { confirm } from "../../../components/confirmation";
+import Sidenav from "@/view/navigation/sidebar";
+import { notification } from "@/components/notification";
+import { confirm } from "@/components/confirmation";
 
 const TabMenu: React.FC<{ children: React.ReactNode; value: number, index: number }> = ({ children, value, index }) => (
     <div hidden={value !== index} style={{ width: '100%' }}>
