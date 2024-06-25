@@ -78,6 +78,7 @@ class authentication extends(storage)
             if (response.status === 200)
             {
                 toast.success('Logout', json.message);
+                this.clearData();
 
                 return true;
             }

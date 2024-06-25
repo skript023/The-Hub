@@ -1,10 +1,10 @@
 import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 import { Divider, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
 import { useRef } from "react";
-import AvatarIcon from "../../../components/avatar";
-import authentication from "../../../api/authentication";
-import { loading } from "../../../components/backdrop";
-import useAuth from "../../../hooks/authentication";
+import AvatarIcon from "@/components/avatar";
+import authentication from "@/api/authentication";
+import { loading } from "@/components/backdrop";
+import useAuth from "@/hooks/authentication";
 
 
 export default function AccountMenu({menuId, isMenuOpen, handleMenuClose}: any)
@@ -16,7 +16,7 @@ export default function AccountMenu({menuId, isMenuOpen, handleMenuClose}: any)
         loading.start();
         if (await authentication.logout())
         {
-            setAuth(null);
+            setAuth(false);
             loading.stop();
             window.location.reload();
         }
