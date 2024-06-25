@@ -55,7 +55,7 @@ export default function Login()
         {
             const user = await authentication.userProfile();
             const access = user?.route.some(route => route.frontend === from) as boolean;
-            setAuth(user);
+            setAuth(true);
             setRoute(access);
             navigate(from, {replace: true});
         }
