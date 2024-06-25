@@ -15,7 +15,7 @@ export default function AccountMenuMobile({mobileMenuId, isMobileMenuOpen, handl
         loading.start();
         if (await authentication.logout())
         {
-            setAuth(null);
+            setAuth(false);
             loading.stop();
             window.location.reload();
         }
