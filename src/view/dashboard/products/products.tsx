@@ -19,9 +19,9 @@ import { confirm } from "@/components/confirmation";
 
 const TabMenu: React.FC<{ children: React.ReactNode; value: number, index: number }> = ({ children, value, index }) => (
     <div hidden={value !== index} style={{ width: '100%' }}>
-      {value === index && <Box p={3}>{children}</Box>}
+        {value === index && <Box p={3}>{children}</Box>}
     </div>
-  );
+);
 
 export default function ProductManagement() 
 {
@@ -34,9 +34,9 @@ export default function ProductManagement()
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+    const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    };
 
     function loadProduct()
     {
