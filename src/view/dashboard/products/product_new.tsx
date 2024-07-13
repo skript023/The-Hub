@@ -50,9 +50,25 @@ const columns = [
 ];
 
 const data = [
-	{ product: 'Origin Dependent Routing Non-Recurring Charge', unit: 'Per Month', productLine: 'Origin Dependent Routing PS', productClass: 'Customizable', structureType: '', lockedBy: '', eligibility: false },
-	{ product: 'Call Distribution', unit: 'Month', productLine: 'Call Distribution PS', productClass: 'Customizable', structureType: '', lockedBy: '', eligibility: false },
-	// Add more rows here
+	{ product: 'Origin Dependent Routing Non-Recurring Charge', unit: 'Per Month', productLine: 'Origin Dependent Routing PS', productClass: 'Customizable', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Call Distribution', unit: 'Month', productLine: 'Call Distribution PS', productClass: 'Customizable', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Special Request Translation Number', unit: '', productLine: 'Total Trans Number PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Recurring Charge', unit: '', productLine: 'TPremium Type PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Package and VAS', unit: '', productLine: 'TPremium Package PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '38', eligibility: 'No' },
+	{ product: 'Originating User Prompter', unit: '', productLine: 'Originating User Prompter PS', productClass: 'Product', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Statistical Page Printing - With Image', unit: '', productLine: 'Total Image Page PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Statistical Page Printing - Next Page', unit: '', productLine: 'Total Next Page PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Origin Dependent Routing', unit: '', productLine: 'Origin Dependent Routing PS', productClass: 'TiBs IDD/VOIP', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Installation NRC', unit: '', productLine: 'TPremium NRC PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Installation NRC', unit: '', productLine: 'TPremium NRC PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Installation NRC', unit: '', productLine: 'TPremium NRC PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Installation NRC', unit: '', productLine: 'TPremium NRC PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Installation NRC', unit: '', productLine: 'TPremium NRC PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Installation NRC', unit: '', productLine: 'TPremium NRC PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Installation NRC', unit: '', productLine: 'TPremium NRC PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Installation NRC', unit: '', productLine: 'TPremium NRC PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Installation NRC', unit: '', productLine: 'TPremium NRC PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
+	{ product: 'Telkom Premium Installation NRC', unit: '', productLine: 'TPremium NRC PS', productClass: 'TiBs NTS', structureType: '', lockedBy: '', eligibility: 'No' },
 ];
 
 const versionColumns = [
@@ -89,16 +105,16 @@ const ProductNew: React.FC = () => {
                             </Typography>
                         </Grid>
 						<MUIDataTable
-								title={"Product List"}
-								data={data}
-								columns={columns}
-								options={{
-								selectableRows: 'none',
-								rowsPerPage: 5,
-								rowsPerPageOptions: [5, 10, 15],
-								responsive: 'standard',
-								}}
-							/>
+							title={"Product List"}
+							data={data}
+							columns={columns}
+							options={{
+							selectableRows: 'single',
+							rowsPerPage: 5,
+							rowsPerPageOptions: [5, 10, 15],
+							responsive: 'vertical',
+							}}
+						/>
 						<Tabs
 						value={value}
 						onChange={handleChange}
@@ -130,10 +146,15 @@ const ProductNew: React.FC = () => {
 									data={versionData}
 									columns={versionColumns}
 									options={{
-										selectableRows: 'none',
+										selectableRows: 'single',
+										rowsSelected: [0], // Initially selected row (index 0)
 										rowsPerPage: 5,
 										rowsPerPageOptions: [5, 10, 15],
 										responsive: 'vertical',
+										selectableRowsOnClick: true,
+										onRowSelectionChange: (currentRowsSelected: any[], allRowsSelected: any[], _rowsSelected?: any[]) => {
+											console.log('Current:', currentRowsSelected, 'All:', allRowsSelected)
+										}
 									}}
 								/>
 							</Box>
