@@ -7,6 +7,7 @@ import User from '../view/dashboard/users/users'
 import Roles from '../view/dashboard/role/role'
 import Attendances from '../view/dashboard/attendance/attendance'
 import AccessManager from '../view/dashboard/access/access';
+import ProductNew from "@/view/dashboard/products/product_new";
 
 export const AuthorizedRoutes = [
     { path: Route('home'), element: <Home/> },
@@ -16,6 +17,7 @@ export const AuthorizedRoutes = [
     { path: Route('roles'), element: <Roles/> },
     { path: Route('attendance'), element: <Attendances/> },
     { path: Route('access'), element: <AccessManager/> },
+    { path: Route('debug'), element: <ProductNew/> },
 ];
 
 export const UnauthorizedRoutes = [

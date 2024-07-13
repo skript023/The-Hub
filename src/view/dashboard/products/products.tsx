@@ -210,7 +210,6 @@ export default function ProductManagement()
 
     return (
         <Box height={70}>
-            <>
             <Box sx={{ display: "flex" }}>
                 <Sidenav/>
                 <Box component={"main"} sx={{ flexGrow: 1, mt: 8, ...(!isMobile && { p: 3 }), ...(isMobile && { mb: 8 }) }}>
@@ -270,7 +269,6 @@ export default function ProductManagement()
                     </Modals>
                 </Box>
             </Box>
-            </>
         </Box>
         
     );

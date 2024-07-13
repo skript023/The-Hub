@@ -118,12 +118,11 @@ export default function AddAccess({ callback } : { callback: () => void })
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
-                            required
                             variant="standard"
                             type="text"
                             label="Frontend"
                             onChange={handleInputChange}
-                            value={formData.type}
+                            value={formData.frontend}
                             name="frontend"
                             size="small"
                             sx={{ minWidth: "100%" }}
@@ -131,12 +130,11 @@ export default function AddAccess({ callback } : { callback: () => void })
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
-                            required
                             variant="standard"
                             type="text"
                             label="Backend"
                             onChange={handleInputChange}
-                            value={formData.type}
+                            value={formData.backend}
                             name="backend"
                             size="small"
                             sx={{ minWidth: "100%" }}
