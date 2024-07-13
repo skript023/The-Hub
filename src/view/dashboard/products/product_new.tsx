@@ -113,6 +113,9 @@ const ProductNew: React.FC = () => {
 							rowsPerPage: 5,
 							rowsPerPageOptions: [5, 10, 15],
 							responsive: 'vertical',
+							selectableRowsHideCheckboxes: true,
+							selectableRowsOnClick: true,
+							selectToolbarPlacement: 'none'
 							}}
 						/>
 						<Tabs
