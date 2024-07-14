@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Pagination, Stack, Tab, Tabs, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Grid, Pagination, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import MUIDataTable, { MUIDataTableTextLabels, Responsive } from "mui-datatables";
 import {useEffect, useState} from 'react'
 import AddCircleIcon from "@mui/icons-material/AddCircle"
@@ -17,11 +17,11 @@ import Sidenav from "@/view/navigation/sidebar";
 import { notification } from "@/components/notification";
 import { confirm } from "@/components/confirmation";
 
-const TabMenu: React.FC<{ children: React.ReactNode; value: number, index: number }> = ({ children, value, index }) => (
-    <div hidden={value !== index} style={{ width: '100%' }}>
-        {value === index && <Box p={3}>{children}</Box>}
-    </div>
-);
+// const TabMenu: React.FC<{ children: React.ReactNode; value: number, index: number }> = ({ children, value, index }) => (
+//     <div hidden={value !== index} style={{ width: '100%' }}>
+//         {value === index && <Box p={3}>{children}</Box>}
+//     </div>
+// );
 
 export default function ProductManagement() 
 {
@@ -30,13 +30,13 @@ export default function ProductManagement()
     const [openDetail, setopenDetail] = useState(false);
     const [products, setProduct] = useState([] as Product[]);
     const [prod, setProd] = useState({} as Product);
-    const [value, setValue] = useState(0);
+    // const [value, setValue] = useState(0);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+    // const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    //     setValue(newValue);
+    // };
 
     function loadProduct()
     {
@@ -233,36 +233,10 @@ export default function ProductManagement()
                         </Box>
                     </Box>
                     <Modals title={"Add Product"} open={openAdd} callback={() => setOpenAdd(false)}>
-                        <Tabs
-                            value={value}
-                            onChange={handleChange}
-                            aria-label="wrapped label tabs example"
-                        >
-                            <Tab label="UAT Progress" wrapped/>
-                            <Tab label="8IC Progress" wrapped/>
-                        </Tabs>
-                        <TabMenu value={value} index={0}>
-                            <AddProduct callback={() => { notification.success('Add Product', 'You have successfully add product'); loadProduct(); setOpenAdd(false)}}/>
-                        </TabMenu>
-                        <TabMenu value={value} index={1}>
-                            <AddProduct callback={() => { notification.success('Add Product', 'You have successfully add product'); loadProduct(); setOpenAdd(false)}}/>
-                        </TabMenu>
+                        <AddProduct callback={() => { notification.success('Add Product', 'You have successfully add product'); loadProduct(); setOpenAdd(false)}}/>
                     </Modals>
                     <Modals title={"Edit Product"} open={openEdit} callback={() => setOpenEdit(false)}>
-                        <Tabs
-                            value={value}
-                            onChange={handleChange}
-                            aria-label="wrapped label tabs example"
-                        >
-                            <Tab label="UAT Progress" wrapped/>
-                            <Tab label="8IC Progress" wrapped/>
-                        </Tabs>
-                        <TabMenu value={value} index={0}>
-                            <EditProduct products={prod} callback={() => {notification.success('Update Product', 'You have successfully update product'); loadProduct(); setOpenEdit(false)}}/>
-                        </TabMenu>
-                        <TabMenu value={value} index={1}>
-                            <EditProduct products={prod} callback={() => {notification.success('Update Product', 'You have successfully update product'); loadProduct(); setOpenEdit(false)}}/>
-                        </TabMenu>
+                        <EditProduct products={prod} callback={() => {notification.success('Update Product', 'You have successfully update product'); loadProduct(); setOpenEdit(false)}}/>
                     </Modals>
                     <Modals title={"Product Detail"} open={openDetail} callback={() => setopenDetail(false)}>
                         <DetailProduct products={prod}/>

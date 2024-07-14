@@ -1,10 +1,8 @@
 import React from 'react';
 import {
-	AppBar,
 	Tabs,
 	Tab,
 	Box,
-	Container,
 	Typography,
 	useMediaQuery,
 	Grid,
@@ -97,9 +95,9 @@ const ProductNew: React.FC = () => {
 		<Box height={70}>
 			<Box sx={{ display: 'flex' }}>
 				<Sidenav />
-				<Box component={"main"} sx={{ flexGrow: 1, mt: 5, ...(!isMobile && { p: 3 }), ...(isMobile && { mb: 8 }) }}>
+				<Box component={"main"} sx={{ flexGrow: 1, mt: 8, ...(!isMobile && { p: 3 }), ...(isMobile && { mb: 8 }) }}>
 					<Box m="20px">
-						<Grid container justifyContent="center" sx={{ mb: 1 }}>
+						<Grid container justifyContent="center">
                             <Typography variant="h4" component="div">
                                 Products
                             </Typography>
@@ -109,20 +107,22 @@ const ProductNew: React.FC = () => {
 							data={data}
 							columns={columns}
 							options={{
-							selectableRows: 'single',
-							rowsPerPage: 5,
-							rowsPerPageOptions: [5, 10, 15],
-							responsive: 'vertical',
-							selectableRowsHideCheckboxes: true,
-							selectableRowsOnClick: true,
-							selectToolbarPlacement: 'none'
+								selectableRows: 'single',
+								rowsPerPage: 5,
+								rowsPerPageOptions: [5, 10, 15],
+								responsive: 'vertical',
+								selectableRowsHideCheckboxes: true,
+								selectableRowsOnClick: true,
+								selectToolbarPlacement: 'none'
 							}}
 						/>
+						<hr/>
 						<Tabs
 						value={value}
 						onChange={handleChange}
 						variant={isMobile ? 'scrollable' : 'standard'}
 						scrollButtons={isMobile}
+						sx={{ mt: 3 }}
 						>
 							<Tab label="Products" />
 							<Tab label="Versions" />
@@ -150,14 +150,12 @@ const ProductNew: React.FC = () => {
 									columns={versionColumns}
 									options={{
 										selectableRows: 'single',
-										rowsSelected: [0], // Initially selected row (index 0)
 										rowsPerPage: 5,
 										rowsPerPageOptions: [5, 10, 15],
 										responsive: 'vertical',
+										selectableRowsHideCheckboxes: true,
 										selectableRowsOnClick: true,
-										onRowSelectionChange: (currentRowsSelected: any[], allRowsSelected: any[], _rowsSelected?: any[]) => {
-											console.log('Current:', currentRowsSelected, 'All:', allRowsSelected)
-										}
+										selectToolbarPlacement: 'none'
 									}}
 								/>
 							</Box>
