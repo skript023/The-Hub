@@ -1,13 +1,11 @@
-import * as CryptoJS from 'crypto-js';
-
-
+import CryptoJS from 'crypto-js';
 
 export default class storage
 {
     private key = CryptoJS.enc.Utf8.parse(import.meta.env.VITE_ENCRPYPT_KEY); // 16 bytes key for AES-128
     private iv = CryptoJS.enc.Utf8.parse(import.meta.env.VITE_INITIALIZATION_VECTOR); // Initialization vector
 
-    getData(key: string) 
+    getData(key: string): string | null
     {
         const enc = this.encrypt(key);
         const value = localStorage.getItem(enc) as string;
@@ -30,6 +28,11 @@ export default class storage
     clearData() 
     {
         localStorage.clear();
+    }
+
+    isDataExist(key: string): boolean
+    {
+        return this.getData(key) ? true : false;
     }
 
     private encrypt(text: string): string 

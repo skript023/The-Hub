@@ -147,7 +147,7 @@ class authentication extends(storage)
 
     is_auth(): boolean 
     {
-        this.isAuth = !!this.getData('USER');
+        this.isAuth = !!this.isDataExist('USER');
         return this.isAuth as boolean;
     }
 
