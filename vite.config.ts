@@ -11,6 +11,7 @@ export default defineConfig({
       options: {
 				// Your javascript-obfuscator options here
 				// See what's allowed: https://github.com/javascript-obfuscator/javascript-obfuscator
+        apply: "build",
         transformObjectKeys: true,
         unicodeEscapeSequence: true,
         numbersToExpressions: true,
