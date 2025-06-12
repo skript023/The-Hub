@@ -23,16 +23,6 @@ export default defineConfig({
 			},
     })
   ],
-  build: {
-    minify: 'terser',
-    terserOptions: {
-      mangle: true,
-      compress: true,
-      format: {
-        comments: false,
-      },
-    },
-  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
