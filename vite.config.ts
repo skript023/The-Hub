@@ -23,6 +23,15 @@ export default defineConfig({
 			},
     })
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames: 'bundle-[hash].js',
+        chunkFileNames: 'chunk-[hash].js',
+        assetFileNames: 'assets/[hash].[ext]',
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
