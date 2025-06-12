@@ -18,10 +18,21 @@ export default defineConfig({
         shuffleStringArray: true,
         splitStrings: true,
         stringArrayThreshold: 1,
-        identifierNamesGenerator: 'hexadecimal'
+        identifierNamesGenerator: 'hexadecimal',
+        stringArrayEncoding: ['base64'],
 			},
     })
   ],
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      mangle: true,
+      compress: true,
+      format: {
+        comments: false,
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
