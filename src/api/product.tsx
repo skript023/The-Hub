@@ -154,6 +154,51 @@ class product
         }
     }
 
+    async generateDocument2(id: string, onProgress?: (percent: number) => void) 
+    {
+        try 
+        {
+            const response = await api.get(`product/doc/${id}`);
+
+            if (response.status !== 200) 
+            {
+                return undefined;
+            }
+
+            const contentLength = response.headers.get("Content-Length");
+            const total = contentLength ? parseInt(contentLength, 10) : 0;
+
+            const reader = response.body?.getReader();
+            if (!reader) return undefined;
+
+            let received = 0;
+            const chunks: any[] = [];
+
+            while (true) 
+            {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                chunks.push(value);
+                received += value.length;
+
+                if (total && onProgress) {
+                    const percent = Math.floor((received / total) * 100);
+                    onProgress(percent);
+                }
+            }
+
+            return new Blob(chunks);
+
+        } 
+        catch (error: any) 
+        {
+            toast.error('Document Generate', error.message);
+            return undefined;
+        }
+    }
+
+
     async getOrderDataById(id: string): Promise<ServerResponse<MsaOrderData[]> | undefined>
     {
         try 

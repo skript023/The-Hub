@@ -1,9 +1,36 @@
-import { Box, Button, CircularProgress, DialogActions, DialogContent, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, BoxProps, Button, CircularProgress, CircularProgressProps, DialogActions, DialogContent, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
 import authentication from "../../../api/authentication";
 import Product from "../../../interfaces/product.dto";
 import { useState } from "react";
 import product from "../../../api/product";
-import { toast } from "../../../components/snackbar";
+
+function CircularProgressWithLabel(
+  props: CircularProgressProps & { value: number; sx?: BoxProps['sx'] },
+) {
+  return (
+    <Box sx={{ ...props.sx }}>
+      <CircularProgress variant="determinate" {...props} />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: 'absolute',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography
+          variant="caption"
+          component="div"
+          sx={{ color: 'text.secondary' }}
+        >{`${Math.round(props.value)}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 export default function DetailProduct({products}: {products: Product})
 {
@@ -19,38 +46,63 @@ export default function DetailProduct({products}: {products: Product})
     });
 
     const [loading, setLoading] = useState(false);
+    const [progress, setProgress] = useState(0);
 
     function handleGenerate()
     {
         setLoading(true);
 
-        product.generateDocument(products._id as string).
-        then((response) => {
-            const url = window.URL.createObjectURL(response as Blob);
-            const link = document.createElement('a');
-            link.href = url;
+        // product.generateDocument(products._id as string).
+        // then((response) => {
+        //     const url = window.URL.createObjectURL(response as Blob);
+        //     const link = document.createElement('a');
+        //     link.href = url;
+
+        //     const product_split = products.name.split('UAT ');
+        //     const product_name = product_split[product_split.length - 1];
+        //     const filename = `Deployment_to_Production_${product_name.replace(' ', '_')}.docx`;
+        //     link.download = filename;
+
+        //     // Append the link to the document
+        //     document.body.appendChild(link);
+
+        //     // Trigger a click on the link to start the download
+        //     link.click();
+
+        //     // Remove the link from the document
+        //     document.body.removeChild(link);
+
+        //     // Revoke the Blob URL to free up resources
+        //     window.URL.revokeObjectURL(url);
+
+        //     setLoading(false);
+        // }).catch((error: any) => {
+        //     toast.error('Generate Error', error.message);
+        //     setLoading(false);
+        // });
+
+        product.generateDocument2(products._id as string, (percent) => setProgress(percent)).then((blob) => {
+
+            if (!blob) return;
 
             const product_split = products.name.split('UAT ');
             const product_name = product_split[product_split.length - 1];
             const filename = `Deployment_to_Production_${product_name.replace(' ', '_')}.docx`;
+
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+
+            link.href = url;
             link.download = filename;
 
-            // Append the link to the document
             document.body.appendChild(link);
-
-            // Trigger a click on the link to start the download
             link.click();
-
-            // Remove the link from the document
             document.body.removeChild(link);
 
-            // Revoke the Blob URL to free up resources
             window.URL.revokeObjectURL(url);
 
             setLoading(false);
-        }).catch((error: any) => {
-            toast.error('Generate Error', error.message);
-            setLoading(false);
+            setProgress(0);
         });
     }
 
@@ -200,15 +252,16 @@ export default function DetailProduct({products}: {products: Product})
                             Generate D2P Document
                         </Button>
                         {loading && (
-                        <CircularProgress
+                        <CircularProgressWithLabel
                             size={24}
                             sx={{
                             position: 'absolute',
-                            top: '50%',
+                            top: '80%',
                             left: '50%',
                             marginTop: '-12px',
                             marginLeft: '-12px',
                             }}
+                            value={progress} 
                         />
                         )}
                     </Box>
