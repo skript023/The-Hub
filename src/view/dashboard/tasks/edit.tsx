@@ -41,8 +41,8 @@ export default function EditTask({task, callback}: Edit)
         confirm.show('Update Task', 'Are you sure want to update this task?', () => {
             setLoading(true);
 
-            formData.start_date = startDate.toDate().toLocaleDateString();
-            formData.end_date = endDate.toDate().toLocaleDateString();
+            formData.start_date = startDate.toDate().toISOString();
+            formData.end_date = endDate.toDate().toISOString();
             
             setFormData(formData);
 

@@ -34,9 +34,9 @@ export default function AddTask({callback}: { callback: () => void})
 
         e.preventDefault();
 
-        formData.start_date = startDate.toDate().toLocaleDateString();
-        formData.end_date = endDate.toDate().toLocaleDateString();
-        
+        formData.start_date = startDate.toDate().toISOString();
+        formData.end_date = endDate.toDate().toISOString();
+
         setFormData(formData);
 
         tasks.create(formData as Task).then((response) => {
